@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chlorito – Mapa zákazníků 2025</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f6;color:#1a1a2e}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);
+  color:#fff;padding:20px 30px;display:flex;align-items:center;gap:20px;
+  box-shadow:0 2px 12px rgba(0,0,0,.25)
+}
+.header-logo{font-size:28px;font-weight:900;letter-spacing:-1px}
+.header-sub{font-size:13px;opacity:.8;margin-top:3px}
+.header-stats{margin-left:auto;display:flex;gap:24px;text-align:right}
+.stat-val{font-size:20px;font-weight:700}
+.stat-lbl{font-size:11px;opacity:.75}
+
+/* NAV */
+nav{
+  background:#fff;border-bottom:2px solid #e3e8f0;
+  display:flex;padding:0 20px;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+  position:sticky;top:0;z-index:1000;overflow-x:auto
+}
+.nav-btn{
+  padding:14px 22px;font-size:14px;font-weight:600;
+  border:none;background:none;cursor:pointer;color:#555;
+  border-bottom:3px solid transparent;white-space:nowrap;
+  transition:all .2s
+}
+.nav-btn:hover{color:#1565C0;background:#f5f8ff}
+.nav-btn.active{color:#1565C0;border-bottom-color:#1565C0;background:#f0f5ff}
+
+/* CONTENT */
+.page{display:none;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* MAP IFRAME */
+.map-wrap{margin:20px;border-radius:12px;overflow:hidden;
+           box-shadow:0 2px 16px rgba(0,0,0,.12);background:#fff}
+.map-desc{padding:8px 18px;font-size:12px;color:#666;background:#f8f9fa;
+           border-bottom:1px solid #e8edf3}
+iframe{width:100%;height:560px;border:none;display:block}
+
+/* TABULKA */
+.tbl-wrap{margin:20px;background:#fff;border-radius:12px;
+           box-shadow:0 2px 16px rgba(0,0,0,.10);overflow:hidden}
+.tbl-header{
+  padding:16px 24px;background:#1565C0;color:#fff;
+  display:flex;align-items:center;justify-content:space-between
+}
+.tbl-header h2{font-size:16px;font-weight:700}
+.sort-btns{display:flex;gap:8px}
+.sort-btn{
+  padding:5px 14px;font-size:12px;border:1.5px solid rgba(255,255,255,.5);
+  border-radius:20px;color:#fff;background:transparent;cursor:pointer;
+  transition:all .15s
+}
+.sort-btn.active,.sort-btn:hover{background:#fff;color:#1565C0;border-color:#fff}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead tr{background:#f0f5ff}
+thead th{
+  padding:12px 16px;text-align:left;font-weight:700;color:#1565C0;
+  font-size:12px;text-transform:uppercase;letter-spacing:.5px;
+  border-bottom:2px solid #d0dff5;cursor:pointer;user-select:none;white-space:nowrap
+}
+thead th:hover{background:#e0ecff}
+thead th.sorted-asc::after{content:" ↑"}
+thead th.sorted-desc::after{content:" ↓"}
+tbody tr{border-bottom:1px solid #eef1f8;transition:background .1s}
+tbody tr:hover{background:#f5f8ff}
+tbody td{padding:11px 16px;vertical-align:middle}
+.rank{
+  width:28px;height:28px;border-radius:50%;background:#1565C0;color:#fff;
+  font-size:11px;font-weight:700;display:flex;align-items:center;
+  justify-content:center;margin:auto
+}
+.rank-1{background:#F9A825}
+.rank-2{background:#90A4AE}
+.rank-3{background:#A1887F}
+.bar-wrap{width:140px;background:#e8edf3;border-radius:4px;height:8px;overflow:hidden}
+.bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#1565C0,#42A5F5);transition:width .3s}
+.bar-o{background:linear-gradient(90deg,#E65100,#FF9800)}
+.num{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.footer{text-align:center;padding:24px;color:#888;font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-logo">Chlorito.cz</div>
+    <div class="header-sub">Geografická analýza zákazníků 2025</div>
+  </div>
+  <div class="header-stats">
+    <div>
+      <div class="stat-val">17,966</div>
+      <div class="stat-lbl">unikátních zákazníků</div>
+    </div>
+    <div>
+      <div class="stat-val">40.4 M Kč</div>
+      <div class="stat-lbl">celkový obrat</div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-btn active" onclick="showPage('kraj-mapa',this)">🗺 Mapa — Kraje</button>
+  <button class="nav-btn" onclick="showPage('okres-mapa',this)">📍 Mapa — Okresy</button>
+  <button class="nav-btn" onclick="showPage('mesto-mapa',this)">⬤ Mapa — Města</button>
+  <button class="nav-btn" onclick="showPage('kraj-tabulka',this)">📊 Tabulka krajů</button>
+  <button class="nav-btn" onclick="showPage('okres-tabulka',this)">📋 Tabulka okresů</button>
+</nav>
+
+<!-- KRAJ MAPA -->
+<div id="kraj-mapa" class="page active">
+  <div class="map-wrap">
+    <div class="map-desc">Najeďte myší na kraj pro hodnoty · přepněte vrstvu vpravo nahoře v mapě</div>
+    <iframe src="mapa_kraj.html"></iframe>
+  </div>
+</div>
+
+<!-- OKRES MAPA -->
+<div id="okres-mapa" class="page">
+  <div class="map-wrap">
+    <div class="map-desc">77 okresů ČR · najeďte myší na okres pro hodnoty · přepněte vrstvu vpravo nahoře</div>
+    <iframe src="mapa_okres.html"></iframe>
+  </div>
+</div>
+
+<!-- MESTO MAPA -->
+<div id="mesto-mapa" class="page">
+  <div class="map-wrap">
+    <div class="map-desc">Velikost bubliny = počet zákazníků nebo obrat · klikněte na bublinu pro detail</div>
+    <iframe src="mapa_mesto.html"></iframe>
+  </div>
+</div>
+
+<!-- KRAJ TABULKA -->
+<div id="kraj-tabulka" class="page">
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <h2>Zákazníci a obrat podle kraje</h2>
+      <div class="sort-btns">
+        <button class="sort-btn active" onclick="sortTable('tbl-kraj','obrat',this)">Řadit: Obrat</button>
+        <button class="sort-btn" onclick="sortTable('tbl-kraj','zakaznici',this)">Řadit: Zákazníci</button>
+        <button class="sort-btn" onclick="sortTable('tbl-kraj','kosik',this)">Řadit: Košík</button>
+      </div>
+    </div>
+    <table id="tbl-kraj">
+      <thead>
+        <tr>
+          <th style="width:50px;text-align:center">#</th>
+          <th onclick="sortTableByCol('tbl-kraj',1)">Kraj</th>
+          <th onclick="sortTableByCol('tbl-kraj',2)" style="text-align:right">Zákazníci</th>
+          <th onclick="sortTableByCol('tbl-kraj',3)">Podíl zákazníků</th>
+          <th onclick="sortTableByCol('tbl-kraj',4)" style="text-align:right">Obrat (Kč)</th>
+          <th onclick="sortTableByCol('tbl-kraj',5)">Podíl obratu</th>
+          <th onclick="sortTableByCol('tbl-kraj',6)" style="text-align:right">Průměrný košík</th>
+        </tr>
+      </thead>
+      <tbody id="tbl-kraj-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- OKRES TABULKA -->
+<div id="okres-tabulka" class="page">
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <h2>Zákazníci a obrat podle okresu</h2>
+      <div class="sort-btns">
+        <button class="sort-btn active" onclick="sortTable('tbl-okres','obrat',this)">Řadit: Obrat</button>
+        <button class="sort-btn" onclick="sortTable('tbl-okres','zakaznici',this)">Řadit: Zákazníci</button>
+        <button class="sort-btn" onclick="sortTable('tbl-okres','kosik',this)">Řadit: Košík</button>
+      </div>
+    </div>
+    <table id="tbl-okres">
+      <thead>
+        <tr>
+          <th style="width:50px;text-align:center">#</th>
+          <th onclick="sortTableByCol('tbl-okres',1)">Okres</th>
+          <th onclick="sortTableByCol('tbl-okres',2)" style="text-align:right">Zákazníci</th>
+          <th onclick="sortTableByCol('tbl-okres',3)">Podíl zákazníků</th>
+          <th onclick="sortTableByCol('tbl-okres',4)" style="text-align:right">Obrat (Kč)</th>
+          <th onclick="sortTableByCol('tbl-okres',5)">Podíl obratu</th>
+          <th onclick="sortTableByCol('tbl-okres',6)" style="text-align:right">Průměrný košík</th>
+        </tr>
+      </thead>
+      <tbody id="tbl-okres-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">Chlorito.cz · Analýza zákazníků 2025 · Data: Shoptet + Open-Meteo</div>
+
+<script>
+const KRAJ_DATA  = [{"nazev": "Středočeský", "zakaznici": 4648, "obrat": 10667273.96, "kosik": 2295}, {"nazev": "Praha", "zakaznici": 2181, "obrat": 5737411.4, "kosik": 2631}, {"nazev": "Jihomoravský", "zakaznici": 2012, "obrat": 4557707.97, "kosik": 2265}, {"nazev": "Moravskoslezský", "zakaznici": 1345, "obrat": 2540769.64, "kosik": 1889}, {"nazev": "Ústecký", "zakaznici": 1193, "obrat": 2331251.57, "kosik": 1954}, {"nazev": "Jihočeský", "zakaznici": 981, "obrat": 2232150.62, "kosik": 2275}, {"nazev": "Kraj Vysočina", "zakaznici": 827, "obrat": 1991655.81, "kosik": 2408}, {"nazev": "Zlínský", "zakaznici": 835, "obrat": 1976719.32, "kosik": 2367}, {"nazev": "Královéhradecký", "zakaznici": 782, "obrat": 1820592.17, "kosik": 2328}, {"nazev": "Pardubický", "zakaznici": 806, "obrat": 1656291.05, "kosik": 2055}, {"nazev": "Olomoucký", "zakaznici": 774, "obrat": 1649827.67, "kosik": 2132}, {"nazev": "Plzeňský", "zakaznici": 806, "obrat": 1627503.38, "kosik": 2019}, {"nazev": "Liberecký", "zakaznici": 518, "obrat": 1073995.61, "kosik": 2073}, {"nazev": "Karlovarský", "zakaznici": 258, "obrat": 507599.17, "kosik": 1967}];
+const OKRES_DATA = [{"nazev": "Praha", "zakaznici": 2181, "obrat": 5737411.4, "kosik": 2631}, {"nazev": "Praha-východ", "zakaznici": 988, "obrat": 2206076.17, "kosik": 2233}, {"nazev": "Kladno", "zakaznici": 436, "obrat": 1301012.31, "kosik": 2984}, {"nazev": "Kolín", "zakaznici": 432, "obrat": 1239086.32, "kosik": 2868}, {"nazev": "Praha-západ", "zakaznici": 464, "obrat": 992438.8099999999, "kosik": 2139}, {"nazev": "Mladá Boleslav", "zakaznici": 471, "obrat": 979521.56, "kosik": 2080}, {"nazev": "Nymburk", "zakaznici": 438, "obrat": 951285.7999999999, "kosik": 2172}, {"nazev": "Brno-Venkov", "zakaznici": 412, "obrat": 892857.78, "kosik": 2167}, {"nazev": "Brno", "zakaznici": 352, "obrat": 878089.23, "kosik": 2495}, {"nazev": "Znojmo", "zakaznici": 349, "obrat": 838989.75, "kosik": 2404}, {"nazev": "České Budějovice", "zakaznici": 307, "obrat": 781689.33, "kosik": 2546}, {"nazev": "Břeclav", "zakaznici": 340, "obrat": 748169.78, "kosik": 2200}, {"nazev": "Uherské Hradiště", "zakaznici": 212, "obrat": 682057.93, "kosik": 3217}, {"nazev": "Benešov", "zakaznici": 306, "obrat": 659104.93, "kosik": 2154}, {"nazev": "Hodonín", "zakaznici": 256, "obrat": 636241.19, "kosik": 2485}, {"nazev": "Mělník", "zakaznici": 298, "obrat": 617410.6799999999, "kosik": 2072}, {"nazev": "Olomouc", "zakaznici": 323, "obrat": 609449.42, "kosik": 1887}, {"nazev": "Litoměřice", "zakaznici": 298, "obrat": 609389.77, "kosik": 2045}, {"nazev": "Pardubice", "zakaznici": 274, "obrat": 608505.74, "kosik": 2221}, {"nazev": "Zlín", "zakaznici": 256, "obrat": 579006.38, "kosik": 2262}, {"nazev": "Frýdek-Místek", "zakaznici": 306, "obrat": 555081.87, "kosik": 1814}, {"nazev": "Beroun", "zakaznici": 269, "obrat": 546811.94, "kosik": 2033}, {"nazev": "Třebíč", "zakaznici": 221, "obrat": 515339.44, "kosik": 2332}, {"nazev": "Příbram", "zakaznici": 255, "obrat": 512258.93, "kosik": 2009}, {"nazev": "Ústí nad Orlicí", "zakaznici": 264, "obrat": 509908.66, "kosik": 1931}, {"nazev": "Karviná", "zakaznici": 268, "obrat": 509188.02, "kosik": 1900}, {"nazev": "Opava", "zakaznici": 239, "obrat": 491219.35, "kosik": 2055}, {"nazev": "Hradec Králové", "zakaznici": 174, "obrat": 486608.57, "kosik": 2797}, {"nazev": "Havlíčkův Brod", "zakaznici": 163, "obrat": 470768.43, "kosik": 2888}, {"nazev": "Ostrava", "zakaznici": 228, "obrat": 466623.07, "kosik": 2047}, {"nazev": "Kutná Hora", "zakaznici": 197, "obrat": 461734.32, "kosik": 2344}, {"nazev": "Liberec", "zakaznici": 182, "obrat": 449219.72000000003, "kosik": 2468}, {"nazev": "Žďár nad Sázavou", "zakaznici": 207, "obrat": 445403.29, "kosik": 2152}, {"nazev": "Šumperk", "zakaznici": 152, "obrat": 433833.45, "kosik": 2854}, {"nazev": "Kroměříž", "zakaznici": 192, "obrat": 399551.44, "kosik": 2081}, {"nazev": "Náchod", "zakaznici": 177, "obrat": 387606.08, "kosik": 2190}, {"nazev": "Nový Jičín", "zakaznici": 220, "obrat": 378190.99, "kosik": 1719}, {"nazev": "Trutnov", "zakaznici": 175, "obrat": 376892.07, "kosik": 2154}, {"nazev": "Louny", "zakaznici": 153, "obrat": 352760.19, "kosik": 2306}, {"nazev": "Plzeň-sever", "zakaznici": 178, "obrat": 326980.39, "kosik": 1837}, {"nazev": "Blansko", "zakaznici": 165, "obrat": 321210.8, "kosik": 1947}, {"nazev": "Písek", "zakaznici": 135, "obrat": 318439.58, "kosik": 2359}, {"nazev": "Děčín", "zakaznici": 194, "obrat": 316901.1, "kosik": 1634}, {"nazev": "Klatovy", "zakaznici": 96, "obrat": 316454.07, "kosik": 3296}, {"nazev": "Vsetín", "zakaznici": 175, "obrat": 316103.57, "kosik": 1806}, {"nazev": "Přerov", "zakaznici": 141, "obrat": 315982.87, "kosik": 2241}, {"nazev": "Pelhřimov", "zakaznici": 129, "obrat": 314251.67, "kosik": 2436}, {"nazev": "Teplice", "zakaznici": 177, "obrat": 310760.87, "kosik": 1756}, {"nazev": "Jindřichův Hradec", "zakaznici": 135, "obrat": 309657.05, "kosik": 2294}, {"nazev": "Plzeň", "zakaznici": 157, "obrat": 307440.37, "kosik": 1958}, {"nazev": "Chomutov", "zakaznici": 131, "obrat": 306054.42, "kosik": 2336}, {"nazev": "Rychnov nad Kněžnou", "zakaznici": 127, "obrat": 305749.74, "kosik": 2407}, {"nazev": "Tábor", "zakaznici": 168, "obrat": 298154.16, "kosik": 1775}, {"nazev": "Chrudim", "zakaznici": 162, "obrat": 291599.58999999997, "kosik": 1800}, {"nazev": "Plzeň-jih", "zakaznici": 157, "obrat": 272653.77, "kosik": 1737}, {"nazev": "Jičín", "zakaznici": 129, "obrat": 263735.71, "kosik": 2044}, {"nazev": "Prostějov", "zakaznici": 134, "obrat": 261633.93, "kosik": 1952}, {"nazev": "Svitavy", "zakaznici": 106, "obrat": 246277.06, "kosik": 2323}, {"nazev": "Jihlava", "zakaznici": 107, "obrat": 245892.98, "kosik": 2298}, {"nazev": "Vyškov", "zakaznici": 138, "obrat": 242149.44, "kosik": 1755}, {"nazev": "Strakonice", "zakaznici": 117, "obrat": 239773.33, "kosik": 2049}, {"nazev": "Ústí nad Labem", "zakaznici": 150, "obrat": 239577.15, "kosik": 1597}, {"nazev": "Česká Lípa", "zakaznici": 140, "obrat": 238647.22, "kosik": 1705}, {"nazev": "Karlovy Vary", "zakaznici": 121, "obrat": 222930.03, "kosik": 1842}, {"nazev": "Český Krumlov", "zakaznici": 75, "obrat": 217562.52000000002, "kosik": 2901}, {"nazev": "Semily", "zakaznici": 111, "obrat": 209268.91, "kosik": 1885}, {"nazev": "Cheb", "zakaznici": 79, "obrat": 205310.5, "kosik": 2599}, {"nazev": "Rakovník", "zakaznici": 94, "obrat": 200532.19, "kosik": 2133}, {"nazev": "Most", "zakaznici": 90, "obrat": 195808.07, "kosik": 2176}, {"nazev": "Jablonec nad Nisou", "zakaznici": 85, "obrat": 176859.76, "kosik": 2081}, {"nazev": "Rokycany", "zakaznici": 76, "obrat": 145491.15, "kosik": 1914}, {"nazev": "Bruntál", "zakaznici": 84, "obrat": 140466.34, "kosik": 1672}, {"nazev": "Domažlice", "zakaznici": 93, "obrat": 131918.05, "kosik": 1418}, {"nazev": "Tachov", "zakaznici": 49, "obrat": 126565.58, "kosik": 2583}, {"nazev": "Sokolov", "zakaznici": 58, "obrat": 79358.64, "kosik": 1368}, {"nazev": "Prachatice", "zakaznici": 44, "obrat": 66874.65, "kosik": 1520}, {"nazev": "Jeseník", "zakaznici": 24, "obrat": 28928.0, "kosik": 1205}];
+
+const MAX_ZAK_K = Math.max(...KRAJ_DATA.map(r=>r.zakaznici));
+const MAX_OBR_K = Math.max(...KRAJ_DATA.map(r=>r.obrat));
+const MAX_ZAK_O = Math.max(...OKRES_DATA.map(r=>r.zakaznici));
+const MAX_OBR_O = Math.max(...OKRES_DATA.map(r=>r.obrat));
+
+function fmt(n){return n.toLocaleString('cs-CZ')}
+function fmtKc(n){return n.toLocaleString('cs-CZ') + ' Kč'}
+function pct(v,max){return (v/max*100).toFixed(1)+'%'}
+
+function buildTable(tbodyId, data, maxZ, maxO){
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  data.forEach((r,i)=>{
+    const pz = (r.zakaznici/maxZ*100).toFixed(1);
+    const po = (r.obrat/maxO*100).toFixed(1);
+    const rankCls = i===0?'rank rank-1':i===1?'rank rank-2':i===2?'rank rank-3':'rank';
+    tbody.innerHTML += `
+      <tr>
+        <td style="text-align:center"><div class="${rankCls}">${i+1}</div></td>
+        <td><b>${r.nazev}</b></td>
+        <td class="num">${fmt(r.zakaznici)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="bar-wrap"><div class="bar" style="width:${pz}%"></div></div>
+            <span style="font-size:12px;color:#666;min-width:40px">${pz}%</span>
+          </div>
+        </td>
+        <td class="num">${fmtKc(r.obrat)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="bar-wrap"><div class="bar bar-o" style="width:${po}%"></div></div>
+            <span style="font-size:12px;color:#666;min-width:40px">${po}%</span>
+          </div>
+        </td>
+        <td class="num">${fmtKc(r.kosik)}</td>
+      </tr>`;
+  });
+}
+
+let sortState = {};
+function sortTable(tblId, key, btn){
+  const isKraj = tblId === 'tbl-kraj';
+  let data = isKraj ? [...KRAJ_DATA] : [...OKRES_DATA];
+  data.sort((a,b) => b[key]-a[key]);
+  buildTable(tblId+'-body', data,
+    isKraj?MAX_ZAK_K:MAX_ZAK_O, isKraj?MAX_OBR_K:MAX_OBR_O);
+  btn.closest('.sort-btns').querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function sortTableByCol(tblId, colIdx){}  // rozšíření v budoucnu
+
+function showPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Init tabulky
+buildTable('tbl-kraj-body',  KRAJ_DATA,  MAX_ZAK_K, MAX_OBR_K);
+buildTable('tbl-okres-body', OKRES_DATA, MAX_ZAK_O, MAX_OBR_O);
+</script>
+</body>
+</html>
