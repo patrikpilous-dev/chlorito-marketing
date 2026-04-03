@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Chlorito – Mapa zákazníků 2025</title>
+<title>Chlorito – Marketing Dashboard 2025</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f6;color:#1a1a2e}
@@ -11,11 +11,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f6;color:#1a1a2e}
 /* HEADER */
 .header{
   background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);
-  color:#fff;padding:20px 30px;display:flex;align-items:center;gap:20px;
+  color:#fff;padding:16px 30px;display:flex;align-items:center;gap:20px;
   box-shadow:0 2px 12px rgba(0,0,0,.25)
 }
-.header-logo{font-size:28px;font-weight:900;letter-spacing:-1px}
-.header-sub{font-size:13px;opacity:.8;margin-top:3px}
+.header-logo img{height:52px;filter:brightness(0) invert(1);display:block}
+.header-logo .logo-fallback{font-size:26px;font-weight:900;letter-spacing:-1px;color:#fff}
+.header-sub{font-size:12px;opacity:.75;margin-top:2px}
 .header-stats{margin-left:auto;display:flex;gap:24px;text-align:right}
 .stat-val{font-size:20px;font-weight:700}
 .stat-lbl{font-size:11px;opacity:.75}
@@ -25,10 +26,10 @@ nav{
   background:#fff;border-bottom:2px solid #e3e8f0;
   display:flex;padding:0 20px;
   box-shadow:0 2px 6px rgba(0,0,0,.06);
-  position:sticky;top:0;z-index:1000;overflow-x:auto
+  position:sticky;top:0;z-index:1000;overflow-x:auto;flex-wrap:nowrap
 }
 .nav-btn{
-  padding:14px 22px;font-size:14px;font-weight:600;
+  padding:12px 18px;font-size:13px;font-weight:600;
   border:none;background:none;cursor:pointer;color:#555;
   border-bottom:3px solid transparent;white-space:nowrap;
   transition:all .2s
@@ -48,15 +49,15 @@ nav{
            border-bottom:1px solid #e8edf3}
 iframe{width:100%;height:560px;border:none;display:block}
 
-/* TABULKA */
+/* TABULKY – GEO */
 .tbl-wrap{margin:20px;background:#fff;border-radius:12px;
            box-shadow:0 2px 16px rgba(0,0,0,.10);overflow:hidden}
 .tbl-header{
   padding:16px 24px;background:#1565C0;color:#fff;
-  display:flex;align-items:center;justify-content:space-between
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px
 }
-.tbl-header h2{font-size:16px;font-weight:700}
-.sort-btns{display:flex;gap:8px}
+.tbl-header h2{font-size:15px;font-weight:700}
+.sort-btns{display:flex;gap:8px;flex-wrap:wrap}
 .sort-btn{
   padding:5px 14px;font-size:12px;border:1.5px solid rgba(255,255,255,.5);
   border-radius:20px;color:#fff;background:transparent;cursor:pointer;
@@ -67,45 +68,74 @@ iframe{width:100%;height:560px;border:none;display:block}
 table{width:100%;border-collapse:collapse;font-size:14px}
 thead tr{background:#f0f5ff}
 thead th{
-  padding:12px 16px;text-align:left;font-weight:700;color:#1565C0;
-  font-size:12px;text-transform:uppercase;letter-spacing:.5px;
+  padding:11px 14px;text-align:left;font-weight:700;color:#1565C0;
+  font-size:11px;text-transform:uppercase;letter-spacing:.5px;
   border-bottom:2px solid #d0dff5;cursor:pointer;user-select:none;white-space:nowrap
 }
 thead th:hover{background:#e0ecff}
-thead th.sorted-asc::after{content:" ↑"}
-thead th.sorted-desc::after{content:" ↓"}
 tbody tr{border-bottom:1px solid #eef1f8;transition:background .1s}
 tbody tr:hover{background:#f5f8ff}
-tbody td{padding:11px 16px;vertical-align:middle}
-.rank{
-  width:28px;height:28px;border-radius:50%;background:#1565C0;color:#fff;
-  font-size:11px;font-weight:700;display:flex;align-items:center;
-  justify-content:center;margin:auto
-}
-.rank-1{background:#F9A825}
-.rank-2{background:#90A4AE}
-.rank-3{background:#A1887F}
-.bar-wrap{width:140px;background:#e8edf3;border-radius:4px;height:8px;overflow:hidden}
-.bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#1565C0,#42A5F5);transition:width .3s}
+tbody td{padding:10px 14px;vertical-align:middle}
+.rank{width:28px;height:28px;border-radius:50%;background:#1565C0;color:#fff;
+       font-size:11px;font-weight:700;display:flex;align-items:center;
+       justify-content:center;margin:auto}
+.rank-1{background:#F9A825}.rank-2{background:#90A4AE}.rank-3{background:#A1887F}
+.bar-wrap{width:120px;background:#e8edf3;border-radius:4px;height:7px;overflow:hidden}
+.bar{height:7px;border-radius:4px;background:linear-gradient(90deg,#1565C0,#42A5F5);transition:width .3s}
 .bar-o{background:linear-gradient(90deg,#E65100,#FF9800)}
 .num{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
 .footer{text-align:center;padding:24px;color:#888;font-size:12px}
+
+/* POČASÍ – sekce */
+.wx-section{margin:20px}
+.wx-card{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);
+          margin-bottom:20px;overflow:hidden}
+.wx-card-header{padding:14px 20px;background:#1565C0;color:#fff;font-size:14px;font-weight:700}
+.wx-card-body{padding:16px 20px;overflow-x:auto}
+.wx-card-body p{font-size:12px;color:#666;margin-bottom:10px}
+
+/* HEATMAP TABULKY */
+.htbl{border-collapse:collapse;font-size:13px;white-space:nowrap;width:100%}
+.htbl th{background:#e8f0fe;color:#1a237e;padding:8px 12px;text-align:center;
+          font-size:11px;font-weight:700;border:1px solid #c5cae9}
+.htbl th.row-header{text-align:left;background:#e8f0fe;min-width:90px}
+.htbl td{padding:8px 12px;text-align:right;border:1px solid #e0e0e0;font-weight:600;
+          font-variant-numeric:tabular-nums;font-size:12px}
+.htbl td.row-label{text-align:left;font-weight:700;background:#f5f5f5;
+                    color:#333;font-size:13px}
+.htbl tr:hover td{filter:brightness(0.95)}
+
+/* PASMO TABULKY */
+.ptbl{border-collapse:collapse;font-size:12px;width:100%}
+.ptbl th{background:#e8f0fe;color:#1a237e;padding:7px 10px;font-size:10px;
+          font-weight:700;border:1px solid #c5cae9;white-space:nowrap}
+.ptbl td{padding:7px 10px;border:1px solid #e0e0e0;font-size:12px;white-space:nowrap}
+.ptbl tr:nth-child(even) td{background:#fafafa}
+.ptbl tr:hover td{background:#f0f5ff}
+.ptbl td.pasmo-label{font-weight:700;background:#f5f5f5}
+
+/* GRID 2 sloupce */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <div class="header-logo">Chlorito.cz</div>
-    <div class="header-sub">Geografická analýza zákazníků 2025</div>
+  <div class="header-logo">
+    <img src="https://www.chlorito.cz/files/template/img/logo.png"
+         alt="Chlorito"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="logo-fallback" style="display:none">Chlorito.cz</span>
+    <div class="header-sub">Marketing Dashboard 2025</div>
   </div>
   <div class="header-stats">
     <div>
-      <div class="stat-val">17,966</div>
+      <div class="stat-val">17 966</div>
       <div class="stat-lbl">unikátních zákazníků</div>
     </div>
     <div>
-      <div class="stat-val">40.4 M Kč</div>
+      <div class="stat-val">40,4 M Kč</div>
       <div class="stat-lbl">celkový obrat</div>
     </div>
   </div>
@@ -114,15 +144,17 @@ tbody td{padding:11px 16px;vertical-align:middle}
 <nav>
   <button class="nav-btn active" onclick="showPage('kraj-mapa',this)">🗺 Mapa — Kraje</button>
   <button class="nav-btn" onclick="showPage('okres-mapa',this)">📍 Mapa — Okresy</button>
-  <button class="nav-btn" onclick="showPage('mesto-mapa',this)">⬤ Mapa — Města</button>
   <button class="nav-btn" onclick="showPage('kraj-tabulka',this)">📊 Tabulka krajů</button>
   <button class="nav-btn" onclick="showPage('okres-tabulka',this)">📋 Tabulka okresů</button>
+  <button class="nav-btn" onclick="showPage('wx-teplota',this)">🌡️ Teplota</button>
+  <button class="nav-btn" onclick="showPage('wx-tydny',this)">📅 Dny × Teplota</button>
+  <button class="nav-btn" onclick="showPage('wx-sezona',this)">🍂 Dny × Sezóna</button>
 </nav>
 
 <!-- KRAJ MAPA -->
 <div id="kraj-mapa" class="page active">
   <div class="map-wrap">
-    <div class="map-desc">Najeďte myší na kraj pro hodnoty · přepněte vrstvu vpravo nahoře v mapě</div>
+    <div class="map-desc">Najeďte myší na kraj · přepněte vrstvu vpravo nahoře v mapě</div>
     <iframe src="mapa_kraj.html"></iframe>
   </div>
 </div>
@@ -130,16 +162,8 @@ tbody td{padding:11px 16px;vertical-align:middle}
 <!-- OKRES MAPA -->
 <div id="okres-mapa" class="page">
   <div class="map-wrap">
-    <div class="map-desc">77 okresů ČR · najeďte myší na okres pro hodnoty · přepněte vrstvu vpravo nahoře</div>
+    <div class="map-desc">77 okresů ČR · najeďte myší na okres · přepněte vrstvu vpravo nahoře</div>
     <iframe src="mapa_okres.html"></iframe>
-  </div>
-</div>
-
-<!-- MESTO MAPA -->
-<div id="mesto-mapa" class="page">
-  <div class="map-wrap">
-    <div class="map-desc">Velikost bubliny = počet zákazníků nebo obrat · klikněte na bublinu pro detail</div>
-    <iframe src="mapa_mesto.html"></iframe>
   </div>
 </div>
 
@@ -149,23 +173,21 @@ tbody td{padding:11px 16px;vertical-align:middle}
     <div class="tbl-header">
       <h2>Zákazníci a obrat podle kraje</h2>
       <div class="sort-btns">
-        <button class="sort-btn active" onclick="sortTable('tbl-kraj','obrat',this)">Řadit: Obrat</button>
-        <button class="sort-btn" onclick="sortTable('tbl-kraj','zakaznici',this)">Řadit: Zákazníci</button>
-        <button class="sort-btn" onclick="sortTable('tbl-kraj','kosik',this)">Řadit: Košík</button>
+        <button class="sort-btn active" onclick="sortTable('tbl-kraj','obrat',this)">Obrat ↓</button>
+        <button class="sort-btn" onclick="sortTable('tbl-kraj','zakaznici',this)">Zákazníci</button>
+        <button class="sort-btn" onclick="sortTable('tbl-kraj','kosik',this)">Košík</button>
       </div>
     </div>
     <table id="tbl-kraj">
-      <thead>
-        <tr>
-          <th style="width:50px;text-align:center">#</th>
-          <th onclick="sortTableByCol('tbl-kraj',1)">Kraj</th>
-          <th onclick="sortTableByCol('tbl-kraj',2)" style="text-align:right">Zákazníci</th>
-          <th onclick="sortTableByCol('tbl-kraj',3)">Podíl zákazníků</th>
-          <th onclick="sortTableByCol('tbl-kraj',4)" style="text-align:right">Obrat (Kč)</th>
-          <th onclick="sortTableByCol('tbl-kraj',5)">Podíl obratu</th>
-          <th onclick="sortTableByCol('tbl-kraj',6)" style="text-align:right">Průměrný košík</th>
-        </tr>
-      </thead>
+      <thead><tr>
+        <th style="width:44px;text-align:center">#</th>
+        <th>Kraj</th>
+        <th style="text-align:right">Zákazníci</th>
+        <th>Podíl zákazníků</th>
+        <th style="text-align:right">Obrat (Kč)</th>
+        <th>Podíl obratu</th>
+        <th style="text-align:right">Průměrný košík</th>
+      </tr></thead>
       <tbody id="tbl-kraj-body"></tbody>
     </table>
   </div>
@@ -177,86 +199,143 @@ tbody td{padding:11px 16px;vertical-align:middle}
     <div class="tbl-header">
       <h2>Zákazníci a obrat podle okresu</h2>
       <div class="sort-btns">
-        <button class="sort-btn active" onclick="sortTable('tbl-okres','obrat',this)">Řadit: Obrat</button>
-        <button class="sort-btn" onclick="sortTable('tbl-okres','zakaznici',this)">Řadit: Zákazníci</button>
-        <button class="sort-btn" onclick="sortTable('tbl-okres','kosik',this)">Řadit: Košík</button>
+        <button class="sort-btn active" onclick="sortTable('tbl-okres','obrat',this)">Obrat ↓</button>
+        <button class="sort-btn" onclick="sortTable('tbl-okres','zakaznici',this)">Zákazníci</button>
+        <button class="sort-btn" onclick="sortTable('tbl-okres','kosik',this)">Košík</button>
       </div>
     </div>
     <table id="tbl-okres">
-      <thead>
-        <tr>
-          <th style="width:50px;text-align:center">#</th>
-          <th onclick="sortTableByCol('tbl-okres',1)">Okres</th>
-          <th onclick="sortTableByCol('tbl-okres',2)" style="text-align:right">Zákazníci</th>
-          <th onclick="sortTableByCol('tbl-okres',3)">Podíl zákazníků</th>
-          <th onclick="sortTableByCol('tbl-okres',4)" style="text-align:right">Obrat (Kč)</th>
-          <th onclick="sortTableByCol('tbl-okres',5)">Podíl obratu</th>
-          <th onclick="sortTableByCol('tbl-okres',6)" style="text-align:right">Průměrný košík</th>
-        </tr>
-      </thead>
+      <thead><tr>
+        <th style="width:44px;text-align:center">#</th>
+        <th>Okres</th>
+        <th style="text-align:right">Zákazníci</th>
+        <th>Podíl zákazníků</th>
+        <th style="text-align:right">Obrat (Kč)</th>
+        <th>Podíl obratu</th>
+        <th style="text-align:right">Průměrný košík</th>
+      </tr></thead>
       <tbody id="tbl-okres-body"></tbody>
     </table>
   </div>
 </div>
 
-<div class="footer">Chlorito.cz · Analýza zákazníků 2025 · Data: Shoptet + Open-Meteo</div>
+<!-- POČASÍ – TEPLOTA -->
+<div id="wx-teplota" class="page">
+  <div class="wx-section">
+
+    <div class="wx-card">
+      <div class="wx-card-header">🌡️ Teplota (pásma 5 °C) — průměry za den</div>
+      <div class="wx-card-body">
+        <p>Průměrný počet objednávek, obrat a košík podle teplotního pásma. Top 5 produktů (bez dopravy).</p>
+        <div id="tbl-pasma5-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">🌡️ Teplota (pásma 2 °C, 12–34 °C) — detail</div>
+      <div class="wx-card-body">
+        <p>Jemnější pohled v pásmu 12–34 °C kdy probíhá hlavní sezóna.</p>
+        <div id="tbl-pasma2-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">📡 5denní predikce — jaké objednávky lze čekat při daném výhledu</div>
+      <div class="wx-card-body">
+        <p>Průměrné denní objednávky a obrat při daném teplotním výhledu na 5 dní dopředu.</p>
+        <div id="tbl-pred5-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DNY × TEPLOTA -->
+<div id="wx-tydny" class="page">
+  <div class="wx-section">
+
+    <div class="wx-card">
+      <div class="wx-card-header">📅 Den v týdnu — základní statistiky</div>
+      <div class="wx-card-body">
+        <div id="tbl-den-A-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">🔥 Objem objednávek — Den × Tmax (průměr/den)</div>
+      <div class="wx-card-body">
+        <p>Barevná mapa zobrazuje průměrný denní počet objednávek pro každou kombinaci dne a teplotního pásma.</p>
+        <div id="htbl-B-obj-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">💰 Obrat — Den × Tmax (průměr/den, Kč)</div>
+      <div class="wx-card-body">
+        <p>Průměrný denní obrat pro každou kombinaci dne a teplotního pásma.</p>
+        <div id="htbl-B-obrat-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">📊 Index % — Den × Tmax (max=100)</div>
+      <div class="wx-card-body">
+        <p>Relativní vytíženost — 100 = nejsilnější kombinace v tabulce.</p>
+        <div id="htbl-B-pct-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">📡 Obrat — Den × 5denní predikce</div>
+      <div class="wx-card-body">
+        <div id="htbl-C-obrat-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DNY × SEZÓNA -->
+<div id="wx-sezona" class="page">
+  <div class="wx-section">
+
+    <div class="wx-card">
+      <div class="wx-card-header">🍂 Průměrný denní obrat podle dne v týdnu a ročního období (Kč)</div>
+      <div class="wx-card-body">
+        <p>Průměrný obrat připadající na jeden den dané kategorie.</p>
+        <div id="htbl-sea-obrat-wrap"></div>
+      </div>
+    </div>
+
+    <div class="wx-card">
+      <div class="wx-card-header">📦 Průměrný denní počet objednávek — Den × Sezóna</div>
+      <div class="wx-card-body">
+        <div id="htbl-sea-obj-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">Chlorito.cz · Marketing Dashboard 2025 · Data: Shoptet + Open-Meteo · Vytvořeno Claudem</div>
 
 <script>
+// ─── DATA ───
 const KRAJ_DATA  = [{"nazev": "Středočeský", "zakaznici": 4648, "obrat": 10667273.96, "kosik": 2295}, {"nazev": "Praha", "zakaznici": 2181, "obrat": 5737411.4, "kosik": 2631}, {"nazev": "Jihomoravský", "zakaznici": 2012, "obrat": 4557707.97, "kosik": 2265}, {"nazev": "Moravskoslezský", "zakaznici": 1345, "obrat": 2540769.64, "kosik": 1889}, {"nazev": "Ústecký", "zakaznici": 1193, "obrat": 2331251.57, "kosik": 1954}, {"nazev": "Jihočeský", "zakaznici": 981, "obrat": 2232150.62, "kosik": 2275}, {"nazev": "Kraj Vysočina", "zakaznici": 827, "obrat": 1991655.81, "kosik": 2408}, {"nazev": "Zlínský", "zakaznici": 835, "obrat": 1976719.32, "kosik": 2367}, {"nazev": "Královéhradecký", "zakaznici": 782, "obrat": 1820592.17, "kosik": 2328}, {"nazev": "Pardubický", "zakaznici": 806, "obrat": 1656291.05, "kosik": 2055}, {"nazev": "Olomoucký", "zakaznici": 774, "obrat": 1649827.67, "kosik": 2132}, {"nazev": "Plzeňský", "zakaznici": 806, "obrat": 1627503.38, "kosik": 2019}, {"nazev": "Liberecký", "zakaznici": 518, "obrat": 1073995.61, "kosik": 2073}, {"nazev": "Karlovarský", "zakaznici": 258, "obrat": 507599.17, "kosik": 1967}];
-const OKRES_DATA = [{"nazev": "Praha", "zakaznici": 2181, "obrat": 5737411.4, "kosik": 2631}, {"nazev": "Praha-východ", "zakaznici": 988, "obrat": 2206076.17, "kosik": 2233}, {"nazev": "Kladno", "zakaznici": 436, "obrat": 1301012.31, "kosik": 2984}, {"nazev": "Kolín", "zakaznici": 432, "obrat": 1239086.32, "kosik": 2868}, {"nazev": "Praha-západ", "zakaznici": 464, "obrat": 992438.8099999999, "kosik": 2139}, {"nazev": "Mladá Boleslav", "zakaznici": 471, "obrat": 979521.56, "kosik": 2080}, {"nazev": "Nymburk", "zakaznici": 438, "obrat": 951285.7999999999, "kosik": 2172}, {"nazev": "Brno-Venkov", "zakaznici": 412, "obrat": 892857.78, "kosik": 2167}, {"nazev": "Brno", "zakaznici": 352, "obrat": 878089.23, "kosik": 2495}, {"nazev": "Znojmo", "zakaznici": 349, "obrat": 838989.75, "kosik": 2404}, {"nazev": "České Budějovice", "zakaznici": 307, "obrat": 781689.33, "kosik": 2546}, {"nazev": "Břeclav", "zakaznici": 340, "obrat": 748169.78, "kosik": 2200}, {"nazev": "Uherské Hradiště", "zakaznici": 212, "obrat": 682057.93, "kosik": 3217}, {"nazev": "Benešov", "zakaznici": 306, "obrat": 659104.93, "kosik": 2154}, {"nazev": "Hodonín", "zakaznici": 256, "obrat": 636241.19, "kosik": 2485}, {"nazev": "Mělník", "zakaznici": 298, "obrat": 617410.6799999999, "kosik": 2072}, {"nazev": "Olomouc", "zakaznici": 323, "obrat": 609449.42, "kosik": 1887}, {"nazev": "Litoměřice", "zakaznici": 298, "obrat": 609389.77, "kosik": 2045}, {"nazev": "Pardubice", "zakaznici": 274, "obrat": 608505.74, "kosik": 2221}, {"nazev": "Zlín", "zakaznici": 256, "obrat": 579006.38, "kosik": 2262}, {"nazev": "Frýdek-Místek", "zakaznici": 306, "obrat": 555081.87, "kosik": 1814}, {"nazev": "Beroun", "zakaznici": 269, "obrat": 546811.94, "kosik": 2033}, {"nazev": "Třebíč", "zakaznici": 221, "obrat": 515339.44, "kosik": 2332}, {"nazev": "Příbram", "zakaznici": 255, "obrat": 512258.93, "kosik": 2009}, {"nazev": "Ústí nad Orlicí", "zakaznici": 264, "obrat": 509908.66, "kosik": 1931}, {"nazev": "Karviná", "zakaznici": 268, "obrat": 509188.02, "kosik": 1900}, {"nazev": "Opava", "zakaznici": 239, "obrat": 491219.35, "kosik": 2055}, {"nazev": "Hradec Králové", "zakaznici": 174, "obrat": 486608.57, "kosik": 2797}, {"nazev": "Havlíčkův Brod", "zakaznici": 163, "obrat": 470768.43, "kosik": 2888}, {"nazev": "Ostrava", "zakaznici": 228, "obrat": 466623.07, "kosik": 2047}, {"nazev": "Kutná Hora", "zakaznici": 197, "obrat": 461734.32, "kosik": 2344}, {"nazev": "Liberec", "zakaznici": 182, "obrat": 449219.72000000003, "kosik": 2468}, {"nazev": "Žďár nad Sázavou", "zakaznici": 207, "obrat": 445403.29, "kosik": 2152}, {"nazev": "Šumperk", "zakaznici": 152, "obrat": 433833.45, "kosik": 2854}, {"nazev": "Kroměříž", "zakaznici": 192, "obrat": 399551.44, "kosik": 2081}, {"nazev": "Náchod", "zakaznici": 177, "obrat": 387606.08, "kosik": 2190}, {"nazev": "Nový Jičín", "zakaznici": 220, "obrat": 378190.99, "kosik": 1719}, {"nazev": "Trutnov", "zakaznici": 175, "obrat": 376892.07, "kosik": 2154}, {"nazev": "Louny", "zakaznici": 153, "obrat": 352760.19, "kosik": 2306}, {"nazev": "Plzeň-sever", "zakaznici": 178, "obrat": 326980.39, "kosik": 1837}, {"nazev": "Blansko", "zakaznici": 165, "obrat": 321210.8, "kosik": 1947}, {"nazev": "Písek", "zakaznici": 135, "obrat": 318439.58, "kosik": 2359}, {"nazev": "Děčín", "zakaznici": 194, "obrat": 316901.1, "kosik": 1634}, {"nazev": "Klatovy", "zakaznici": 96, "obrat": 316454.07, "kosik": 3296}, {"nazev": "Vsetín", "zakaznici": 175, "obrat": 316103.57, "kosik": 1806}, {"nazev": "Přerov", "zakaznici": 141, "obrat": 315982.87, "kosik": 2241}, {"nazev": "Pelhřimov", "zakaznici": 129, "obrat": 314251.67, "kosik": 2436}, {"nazev": "Teplice", "zakaznici": 177, "obrat": 310760.87, "kosik": 1756}, {"nazev": "Jindřichův Hradec", "zakaznici": 135, "obrat": 309657.05, "kosik": 2294}, {"nazev": "Plzeň", "zakaznici": 157, "obrat": 307440.37, "kosik": 1958}, {"nazev": "Chomutov", "zakaznici": 131, "obrat": 306054.42, "kosik": 2336}, {"nazev": "Rychnov nad Kněžnou", "zakaznici": 127, "obrat": 305749.74, "kosik": 2407}, {"nazev": "Tábor", "zakaznici": 168, "obrat": 298154.16, "kosik": 1775}, {"nazev": "Chrudim", "zakaznici": 162, "obrat": 291599.58999999997, "kosik": 1800}, {"nazev": "Plzeň-jih", "zakaznici": 157, "obrat": 272653.77, "kosik": 1737}, {"nazev": "Jičín", "zakaznici": 129, "obrat": 263735.71, "kosik": 2044}, {"nazev": "Prostějov", "zakaznici": 134, "obrat": 261633.93, "kosik": 1952}, {"nazev": "Svitavy", "zakaznici": 106, "obrat": 246277.06, "kosik": 2323}, {"nazev": "Jihlava", "zakaznici": 107, "obrat": 245892.98, "kosik": 2298}, {"nazev": "Vyškov", "zakaznici": 138, "obrat": 242149.44, "kosik": 1755}, {"nazev": "Strakonice", "zakaznici": 117, "obrat": 239773.33, "kosik": 2049}, {"nazev": "Ústí nad Labem", "zakaznici": 150, "obrat": 239577.15, "kosik": 1597}, {"nazev": "Česká Lípa", "zakaznici": 140, "obrat": 238647.22, "kosik": 1705}, {"nazev": "Karlovy Vary", "zakaznici": 121, "obrat": 222930.03, "kosik": 1842}, {"nazev": "Český Krumlov", "zakaznici": 75, "obrat": 217562.52000000002, "kosik": 2901}, {"nazev": "Semily", "zakaznici": 111, "obrat": 209268.91, "kosik": 1885}, {"nazev": "Cheb", "zakaznici": 79, "obrat": 205310.5, "kosik": 2599}, {"nazev": "Rakovník", "zakaznici": 94, "obrat": 200532.19, "kosik": 2133}, {"nazev": "Most", "zakaznici": 90, "obrat": 195808.07, "kosik": 2176}, {"nazev": "Jablonec nad Nisou", "zakaznici": 85, "obrat": 176859.76, "kosik": 2081}, {"nazev": "Rokycany", "zakaznici": 76, "obrat": 145491.15, "kosik": 1914}, {"nazev": "Bruntál", "zakaznici": 84, "obrat": 140466.34, "kosik": 1672}, {"nazev": "Domažlice", "zakaznici": 93, "obrat": 131918.05, "kosik": 1418}, {"nazev": "Tachov", "zakaznici": 49, "obrat": 126565.58, "kosik": 2583}, {"nazev": "Sokolov", "zakaznici": 58, "obrat": 79358.64, "kosik": 1368}, {"nazev": "Prachatice", "zakaznici": 44, "obrat": 66874.65, "kosik": 1520}, {"nazev": "Jeseník", "zakaznici": 24, "obrat": 28928.0, "kosik": 1205}];
+const OKRES_DATA = [{"nazev": "Praha", "zakaznici": 2181, "obrat": 5737411.4, "kosik": 2631}, {"nazev": "Praha-východ", "zakaznici": 988, "obrat": 2206076.17, "kosik": 2233}, {"nazev": "Kladno", "zakaznici": 436, "obrat": 1301012.31, "kosik": 2984}, {"nazev": "Kolín", "zakaznici": 432, "obrat": 1239086.32, "kosik": 2868}, {"nazev": "Praha-západ", "zakaznici": 464, "obrat": 992438.81, "kosik": 2139}, {"nazev": "Mladá Boleslav", "zakaznici": 471, "obrat": 979521.56, "kosik": 2080}, {"nazev": "Nymburk", "zakaznici": 438, "obrat": 951285.8, "kosik": 2172}, {"nazev": "Brno-Venkov", "zakaznici": 412, "obrat": 892857.78, "kosik": 2167}, {"nazev": "Brno", "zakaznici": 352, "obrat": 878089.23, "kosik": 2495}, {"nazev": "Znojmo", "zakaznici": 349, "obrat": 838989.75, "kosik": 2404}, {"nazev": "České Budějovice", "zakaznici": 307, "obrat": 781689.33, "kosik": 2546}, {"nazev": "Břeclav", "zakaznici": 340, "obrat": 748169.78, "kosik": 2200}, {"nazev": "Uherské Hradiště", "zakaznici": 212, "obrat": 682057.93, "kosik": 3217}, {"nazev": "Benešov", "zakaznici": 306, "obrat": 659104.93, "kosik": 2154}, {"nazev": "Hodonín", "zakaznici": 256, "obrat": 636241.19, "kosik": 2485}, {"nazev": "Mělník", "zakaznici": 298, "obrat": 617410.68, "kosik": 2072}, {"nazev": "Olomouc", "zakaznici": 323, "obrat": 609449.42, "kosik": 1887}, {"nazev": "Litoměřice", "zakaznici": 298, "obrat": 609389.77, "kosik": 2045}, {"nazev": "Pardubice", "zakaznici": 274, "obrat": 608505.74, "kosik": 2221}, {"nazev": "Zlín", "zakaznici": 256, "obrat": 579006.38, "kosik": 2262}, {"nazev": "Frýdek-Místek", "zakaznici": 306, "obrat": 555081.87, "kosik": 1814}, {"nazev": "Beroun", "zakaznici": 269, "obrat": 546811.94, "kosik": 2033}, {"nazev": "Třebíč", "zakaznici": 221, "obrat": 515339.44, "kosik": 2332}, {"nazev": "Příbram", "zakaznici": 255, "obrat": 512258.93, "kosik": 2009}, {"nazev": "Ústí nad Orlicí", "zakaznici": 264, "obrat": 509908.66, "kosik": 1931}, {"nazev": "Karviná", "zakaznici": 268, "obrat": 509188.02, "kosik": 1900}, {"nazev": "Opava", "zakaznici": 239, "obrat": 491219.35, "kosik": 2055}, {"nazev": "Hradec Králové", "zakaznici": 174, "obrat": 486608.57, "kosik": 2797}, {"nazev": "Havlíčkův Brod", "zakaznici": 163, "obrat": 470768.43, "kosik": 2888}, {"nazev": "Ostrava", "zakaznici": 228, "obrat": 466623.07, "kosik": 2047}, {"nazev": "Kutná Hora", "zakaznici": 197, "obrat": 461734.32, "kosik": 2344}, {"nazev": "Liberec", "zakaznici": 182, "obrat": 449219.72, "kosik": 2468}, {"nazev": "Žďár nad Sázavou", "zakaznici": 207, "obrat": 445403.29, "kosik": 2152}, {"nazev": "Šumperk", "zakaznici": 152, "obrat": 433833.45, "kosik": 2854}, {"nazev": "Kroměříž", "zakaznici": 192, "obrat": 399551.44, "kosik": 2081}, {"nazev": "Náchod", "zakaznici": 177, "obrat": 387606.08, "kosik": 2190}, {"nazev": "Nový Jičín", "zakaznici": 220, "obrat": 378190.99, "kosik": 1719}, {"nazev": "Trutnov", "zakaznici": 175, "obrat": 376892.07, "kosik": 2154}, {"nazev": "Louny", "zakaznici": 153, "obrat": 352760.19, "kosik": 2306}, {"nazev": "Plzeň-sever", "zakaznici": 178, "obrat": 326980.39, "kosik": 1837}, {"nazev": "Blansko", "zakaznici": 165, "obrat": 321210.8, "kosik": 1947}, {"nazev": "Písek", "zakaznici": 135, "obrat": 318439.58, "kosik": 2359}, {"nazev": "Děčín", "zakaznici": 194, "obrat": 316901.1, "kosik": 1634}, {"nazev": "Klatovy", "zakaznici": 96, "obrat": 316454.07, "kosik": 3296}, {"nazev": "Vsetín", "zakaznici": 175, "obrat": 316103.57, "kosik": 1806}, {"nazev": "Přerov", "zakaznici": 141, "obrat": 315982.87, "kosik": 2241}, {"nazev": "Pelhřimov", "zakaznici": 129, "obrat": 314251.67, "kosik": 2436}, {"nazev": "Teplice", "zakaznici": 177, "obrat": 310760.87, "kosik": 1756}, {"nazev": "Jindřichův Hradec", "zakaznici": 135, "obrat": 309657.05, "kosik": 2294}, {"nazev": "Plzeň", "zakaznici": 157, "obrat": 307440.37, "kosik": 1958}, {"nazev": "Chomutov", "zakaznici": 131, "obrat": 306054.42, "kosik": 2336}, {"nazev": "Rychnov nad Kněžnou", "zakaznici": 127, "obrat": 305749.74, "kosik": 2407}, {"nazev": "Tábor", "zakaznici": 168, "obrat": 298154.16, "kosik": 1775}, {"nazev": "Chrudim", "zakaznici": 162, "obrat": 291599.59, "kosik": 1800}, {"nazev": "Plzeň-jih", "zakaznici": 157, "obrat": 272653.77, "kosik": 1737}, {"nazev": "Jičín", "zakaznici": 129, "obrat": 263735.71, "kosik": 2044}, {"nazev": "Prostějov", "zakaznici": 134, "obrat": 261633.93, "kosik": 1952}, {"nazev": "Svitavy", "zakaznici": 106, "obrat": 246277.06, "kosik": 2323}, {"nazev": "Jihlava", "zakaznici": 107, "obrat": 245892.98, "kosik": 2298}, {"nazev": "Vyškov", "zakaznici": 138, "obrat": 242149.44, "kosik": 1755}, {"nazev": "Strakonice", "zakaznici": 117, "obrat": 239773.33, "kosik": 2049}, {"nazev": "Ústí nad Labem", "zakaznici": 150, "obrat": 239577.15, "kosik": 1597}, {"nazev": "Česká Lípa", "zakaznici": 140, "obrat": 238647.22, "kosik": 1705}, {"nazev": "Karlovy Vary", "zakaznici": 121, "obrat": 222930.03, "kosik": 1842}, {"nazev": "Český Krumlov", "zakaznici": 75, "obrat": 217562.52, "kosik": 2901}, {"nazev": "Semily", "zakaznici": 111, "obrat": 209268.91, "kosik": 1885}, {"nazev": "Cheb", "zakaznici": 79, "obrat": 205310.5, "kosik": 2599}, {"nazev": "Rakovník", "zakaznici": 94, "obrat": 200532.19, "kosik": 2133}, {"nazev": "Most", "zakaznici": 90, "obrat": 195808.07, "kosik": 2176}, {"nazev": "Jablonec nad Nisou", "zakaznici": 85, "obrat": 176859.76, "kosik": 2081}, {"nazev": "Rokycany", "zakaznici": 76, "obrat": 145491.15, "kosik": 1914}, {"nazev": "Bruntál", "zakaznici": 84, "obrat": 140466.34, "kosik": 1672}, {"nazev": "Domažlice", "zakaznici": 93, "obrat": 131918.05, "kosik": 1418}, {"nazev": "Tachov", "zakaznici": 49, "obrat": 126565.58, "kosik": 2583}, {"nazev": "Sokolov", "zakaznici": 58, "obrat": 79358.64, "kosik": 1368}, {"nazev": "Prachatice", "zakaznici": 44, "obrat": 66874.65, "kosik": 1520}, {"nazev": "Jeseník", "zakaznici": 24, "obrat": 28928.0, "kosik": 1205}];
 
-const MAX_ZAK_K = Math.max(...KRAJ_DATA.map(r=>r.zakaznici));
-const MAX_OBR_K = Math.max(...KRAJ_DATA.map(r=>r.obrat));
-const MAX_ZAK_O = Math.max(...OKRES_DATA.map(r=>r.zakaznici));
-const MAX_OBR_O = Math.max(...OKRES_DATA.map(r=>r.obrat));
+const PASMA5  = [{"Teplotní pásmo": "<0°C", "Počet dní": 10, "Celkem objednávek": 225, "Prům. obj./den": 22.5, "Prům. obrat/den (Kč)": 58025, "Medián obratu (Kč)": 32955, "Velikost košíku (Kč)": 2579, "Index (max=100%)": 11.7, "Top 5 produktů": "Posypová sůl 25 kg, Chlorid hořečnatý pro zimní údržbu 25 kg, Tabletová regenerační sůl 25 kg Solivary, PPR přechodka s kovovým závitem vnějším , Tabletová regenerační sůl SuperTab 25 kg"}, {"Teplotní pásmo": "0–5°C", "Počet dní": 67, "Celkem objednávek": 1433, "Prům. obj./den": 21.4, "Prům. obrat/den (Kč)": 57710, "Medián obratu (Kč)": 50605, "Velikost košíku (Kč)": 2698, "Index (max=100%)": 11.1, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Posypová sůl 25 kg, PVC tvarovka - Úhel 90° 32 mm, koleno, Tabletová regenerační sůl SuperTab 25 kg, Chlorid hořečnatý pro zimní údržbu 25 kg"}, {"Teplotní pásmo": "5–10°C", "Počet dní": 38, "Celkem objednávek": 1136, "Prům. obj./den": 29.9, "Prům. obrat/den (Kč)": 63567, "Medián obratu (Kč)": 47882, "Velikost košíku (Kč)": 2126, "Index (max=100%)": 15.6, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PVC tvarovka - Úhel 90° 20 mm, koleno, PVC tvarovka - Úhel 90° 32 mm, koleno, Zimní dilatační plovák, PVC Trubka, 20 mm, 1m"}, {"Teplotní pásmo": "10–15°C", "Počet dní": 79, "Celkem objednávek": 3239, "Prům. obj./den": 41.0, "Prům. obrat/den (Kč)": 80577, "Medián obratu (Kč)": 69870, "Velikost košíku (Kč)": 1965, "Index (max=100%)": 21.3, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PVC tvarovka - Úhel 90° 20 mm, koleno, Mořská sůl Margherita 25 kg, Tabletová regenerační sůl SuperTab 25 kg, PVC tvarovka - T kus 20 mm, 90°"}, {"Teplotní pásmo": "15–20°C", "Počet dní": 56, "Celkem objednávek": 5079, "Prům. obj./den": 90.7, "Prům. obrat/den (Kč)": 165622, "Medián obratu (Kč)": 125801, "Velikost košíku (Kč)": 1826, "Index (max=100%)": 47.2, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, Sůl do bazénu 25kg čistá vysokoprocentní, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP"}, {"Teplotní pásmo": "20–25°C", "Počet dní": 56, "Celkem objednávek": 5849, "Prům. obj./den": 104.4, "Prům. obrat/den (Kč)": 177542, "Medián obratu (Kč)": 148035, "Velikost košíku (Kč)": 1700, "Index (max=100%)": 54.3, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Mořská sůl Margherita 25 kg, PVC tvarovka - Úhel 90° 50 mm, koleno"}, {"Teplotní pásmo": "25–30°C", "Počet dní": 43, "Celkem objednávek": 5584, "Prům. obj./den": 129.9, "Prům. obrat/den (Kč)": 212736, "Medián obratu (Kč)": 189774, "Velikost košíku (Kč)": 1638, "Index (max=100%)": 67.6, "Top 5 produktů": "PVC tvarovka - Úhel 90° 20 mm, koleno, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Tabletová regenerační sůl 25 kg Solivary, Hadicová spona 32 – 50 mm nerezová"}, {"Teplotní pásmo": ">30°C", "Počet dní": 16, "Celkem objednávek": 3075, "Prům. obj./den": 192.2, "Prům. obrat/den (Kč)": 307808, "Medián obratu (Kč)": 281268, "Velikost košíku (Kč)": 1602, "Index (max=100%)": 100.0, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, PVC tvarovka - T kus 20 mm, 90°, Solární fólie 180mic - modrá - 1 m2 výro, Hadicová spona 32 – 50 mm nerezová"}];
+const PASMA2  = [{"Teplotní pásmo": "<12°C", "Počet dní": 147, "Celkem objednávek": 3845, "Prům. obj./den": 26.2, "Prům. obrat/den (Kč)": 61655, "Medián obratu (Kč)": 53008, "Velikost košíku (Kč)": 2357, "Index (max=100%)": 10.9, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Posypová sůl 25 kg, PVC tvarovka - Úhel 90° 20 mm, koleno, Tabletová regenerační sůl SuperTab 25 kg, PVC tvarovka - Úhel 90° 32 mm, koleno"}, {"Teplotní pásmo": "12–14°C", "Počet dní": 32, "Celkem objednávek": 1459, "Prům. obj./den": 45.6, "Prům. obrat/den (Kč)": 88332, "Medián obratu (Kč)": 73941, "Velikost košíku (Kč)": 1937, "Index (max=100%)": 19.0, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PVC Trubka, 32 mm, 1m, PVC Trubka, 25 mm, 1m, Mořská sůl Margherita 25 kg, PVC tvarovka - Úhel 90° 20 mm, koleno"}, {"Teplotní pásmo": "14–16°C", "Počet dní": 27, "Celkem objednávek": 1761, "Prům. obj./den": 65.2, "Prům. obrat/den (Kč)": 120386, "Medián obratu (Kč)": 103540, "Velikost košíku (Kč)": 1846, "Index (max=100%)": 27.1, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, PVC tvarovka - Úhel 90° 50 mm, koleno, Chlor šok 1kg - organický granulát - DOP, Tabletová regenerační sůl SuperTab 25 kg"}, {"Teplotní pásmo": "16–18°C", "Počet dní": 19, "Celkem objednávek": 1450, "Prům. obj./den": 76.3, "Prům. obrat/den (Kč)": 144584, "Medián obratu (Kč)": 116237, "Velikost košíku (Kč)": 1895, "Index (max=100%)": 31.7, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, Hadicová spona 32 – 50 mm nerezová, PWS Multi tablety 11v1 MAXI EKO 5kg, Sůl do bazénu 25kg čistá vysokoprocentní"}, {"Teplotní pásmo": "18–20°C", "Počet dní": 25, "Celkem objednávek": 2597, "Prům. obj./den": 103.9, "Prům. obrat/den (Kč)": 184616, "Medián obratu (Kč)": 178905, "Velikost košíku (Kč)": 1777, "Index (max=100%)": 43.2, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, Sůl do bazénu 25kg čistá vysokoprocentní, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP"}, {"Teplotní pásmo": "20–22°C", "Počet dní": 21, "Celkem objednávek": 2256, "Prům. obj./den": 107.4, "Prům. obrat/den (Kč)": 189036, "Medián obratu (Kč)": 143168, "Velikost košíku (Kč)": 1760, "Index (max=100%)": 44.7, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PVC tvarovka - Úhel 90° 50 mm, koleno, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Mořská sůl Margherita 25 kg"}, {"Teplotní pásmo": "22–24°C", "Počet dní": 26, "Celkem objednávek": 2694, "Prům. obj./den": 103.6, "Prům. obrat/den (Kč)": 172088, "Medián obratu (Kč)": 148026, "Velikost košíku (Kč)": 1661, "Index (max=100%)": 43.1, "Top 5 produktů": "PVC tvarovka - redukce malá, prstýnek (k, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Tabletová regenerační sůl 25 kg Solivary, PPR Zátka 20mm"}, {"Teplotní pásmo": "24–26°C", "Počet dní": 19, "Celkem objednávek": 2018, "Prům. obj./den": 106.2, "Prům. obrat/den (Kč)": 182994, "Medián obratu (Kč)": 156158, "Velikost košíku (Kč)": 1723, "Index (max=100%)": 44.2, "Top 5 produktů": "PVC tvarovka - T kus 20 mm, 90°, PWS Multi tablety 11v1 MAXI EKO 5kg, Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, PVC tvarovka - přechodka, vnitřní závit "}, {"Teplotní pásmo": "26–28°C", "Počet dní": 21, "Celkem objednávek": 2410, "Prům. obj./den": 114.8, "Prům. obrat/den (Kč)": 193390, "Medián obratu (Kč)": 163404, "Velikost košíku (Kč)": 1685, "Index (max=100%)": 47.7, "Top 5 produktů": "PVC tvarovka - Úhel 90° 20 mm, koleno, PWS Multi tablety 11v1 MAXI EKO 5kg, Tabletová regenerační sůl 25 kg Solivary, Chlor šok 1kg - organický granulát - DOP, Chlornan sodný stabilizovaný 35 kg cca 3"}, {"Teplotní pásmo": "28–30°C", "Počet dní": 12, "Celkem objednávek": 2055, "Prům. obj./den": 171.2, "Prům. obrat/den (Kč)": 258991, "Medián obratu (Kč)": 234979, "Velikost košíku (Kč)": 1512, "Index (max=100%)": 71.2, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, Hadicová spona 32 – 50 mm nerezová, Solární fólie 180mic - modrá - 1 m2 výro, Solární fólie 200 mic - černá- 1 m2 výro, Tabletová regenerační sůl 25 kg Solivary"}, {"Teplotní pásmo": "30–32°C", "Počet dní": 8, "Celkem objednávek": 1364, "Prům. obj./den": 170.5, "Prům. obrat/den (Kč)": 280155, "Medián obratu (Kč)": 208184, "Velikost košíku (Kč)": 1643, "Index (max=100%)": 70.9, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Hadicová spona 32 – 50 mm nerezová, Solární fólie 180mic - modrá - 1 m2 výro, Chlornan sodný stabilizovaný 35 kg cca 3"}, {"Teplotní pásmo": "32–34°C", "Počet dní": 5, "Celkem objednávek": 1202, "Prům. obj./den": 240.4, "Prům. obrat/den (Kč)": 367246, "Medián obratu (Kč)": 363865, "Velikost košíku (Kč)": 1528, "Index (max=100%)": 100.0, "Top 5 produktů": "PVC tvarovka - T kus 20 mm, 90°, PWS Multi tablety 11v1 MAXI EKO 5kg, Solární fólie 180mic - modrá - 1 m2 výro, Chlor šok 1kg - organický granulát - DOP, Hadicová spona 32 – 50 mm nerezová"}, {"Teplotní pásmo": ">34°C", "Počet dní": 3, "Celkem objednávek": 509, "Prům. obj./den": 169.7, "Prům. obrat/den (Kč)": 282486, "Medián obratu (Kč)": 158750, "Velikost košíku (Kč)": 1665, "Index (max=100%)": 70.6, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, PVC tvarovka - příruba pevná 32 mm, Chlor šok 1kg - organický granulát - DOP, Mořská sůl Margherita 25 kg, Tabletová regenerační sůl 25 kg Solivary"}];
+const PRED5   = [{"Teplotní pásmo": "<5°C", "Počet dní": 71, "Celkem objednávek": 1545, "Prům. obj./den": 21.8, "Prům. obrat/den (Kč)": 59408, "Medián obratu (Kč)": 42626, "Velikost košíku (Kč)": 2730, "Index (max=100%)": 9.7, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Posypová sůl 25 kg, Chlorid hořečnatý pro zimní údržbu 25 kg, PVC tvarovka - Úhel 90° 32 mm, koleno, Tabletová regenerační sůl SuperTab 25 kg"}, {"Teplotní pásmo": "5–10°C", "Počet dní": 45, "Celkem objednávek": 1187, "Prům. obj./den": 26.4, "Prům. obrat/den (Kč)": 60667, "Medián obratu (Kč)": 53008, "Velikost košíku (Kč)": 2300, "Index (max=100%)": 11.8, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, Posypová sůl 25 kg, PVC tvarovka - Úhel 90° 20 mm, koleno, Tabletová regenerační sůl SuperTab 25 kg, PVC Trubka, 20 mm, 1m"}, {"Teplotní pásmo": "10–15°C", "Počet dní": 74, "Celkem objednávek": 3020, "Prům. obj./den": 40.8, "Prům. obrat/den (Kč)": 77876, "Medián obratu (Kč)": 70532, "Velikost košíku (Kč)": 1908, "Index (max=100%)": 18.2, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PVC tvarovka - Úhel 90° 20 mm, koleno, Mořská sůl Margherita 25 kg, PVC Trubka, 25 mm, 1m, PVC Trubka, 32 mm, 1m"}, {"Teplotní pásmo": "15–20°C", "Počet dní": 45, "Celkem objednávek": 4267, "Prům. obj./den": 94.8, "Prům. obrat/den (Kč)": 175381, "Medián obratu (Kč)": 154992, "Velikost košíku (Kč)": 1850, "Index (max=100%)": 42.4, "Top 5 produktů": "PVC tvarovka - Úhel 90° 20 mm, koleno, Tabletová regenerační sůl 25 kg Solivary, Mořská sůl Margherita 25 kg, PVC tvarovka - Úhel 90° 50 mm, koleno, Sůl do bazénu 25kg čistá vysokoprocentní"}, {"Teplotní pásmo": "20–25°C", "Počet dní": 71, "Celkem objednávek": 7102, "Prům. obj./den": 100.0, "Prům. obrat/den (Kč)": 173686, "Medián obratu (Kč)": 167882, "Velikost košíku (Kč)": 1736, "Index (max=100%)": 44.7, "Top 5 produktů": "Tabletová regenerační sůl 25 kg Solivary, PWS Multi tablety 11v1 MAXI EKO 5kg, Chlor šok 1kg - organický granulát - DOP, Mořská sůl Margherita 25 kg, Sůl do bazénu 25kg čistá vysokoprocentní"}, {"Teplotní pásmo": "25–30°C", "Počet dní": 40, "Celkem objednávek": 5087, "Prům. obj./den": 127.2, "Prům. obrat/den (Kč)": 203024, "Medián obratu (Kč)": 157732, "Velikost košíku (Kč)": 1596, "Index (max=100%)": 56.8, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, Tabletová regenerační sůl 25 kg Solivary, Chlor šok 1kg - organický granulát - DOP, PVC tvarovka - Úhel 90° 20 mm, koleno, Hadicová spona 32 – 50 mm nerezová"}, {"Teplotní pásmo": ">30°C", "Počet dní": 15, "Celkem objednávek": 3356, "Prům. obj./den": 223.7, "Prům. obrat/den (Kč)": 352121, "Medián obratu (Kč)": 363865, "Velikost košíku (Kč)": 1574, "Index (max=100%)": 100.0, "Top 5 produktů": "PWS Multi tablety 11v1 MAXI EKO 5kg, PVC tvarovka - T kus 20 mm, 90°, Solární fólie 180mic - modrá - 1 m2 výro, Chlor šok 1kg - organický granulát - DOP, Hadicová spona 32 – 50 mm nerezová"}];
+const DEN_A   = [{"Den": "Pondělí", "Počet dní": 52, "Celkem obj.": 4924, "Prům. obj./den": 94.7, "Index (max=100%)": 100.0, "Prům. obrat (Kč)": 185063, "Medián obratu (Kč)": 121168, "Košík (Kč)": 1954}, {"Den": "Úterý", "Počet dní": 52, "Celkem obj.": 4292, "Prům. obj./den": 82.5, "Index (max=100%)": 87.2, "Prům. obrat (Kč)": 153091, "Medián obratu (Kč)": 128316, "Košík (Kč)": 1855}, {"Den": "Středa", "Počet dní": 53, "Celkem obj.": 4352, "Prům. obj./den": 82.1, "Index (max=100%)": 86.7, "Prům. obrat (Kč)": 155507, "Medián obratu (Kč)": 112659, "Košík (Kč)": 1894}, {"Den": "Čtvrtek", "Počet dní": 52, "Celkem obj.": 3496, "Prům. obj./den": 67.2, "Index (max=100%)": 71.0, "Prům. obrat (Kč)": 121601, "Medián obratu (Kč)": 76711, "Košík (Kč)": 1809}, {"Den": "Pátek", "Počet dní": 52, "Celkem obj.": 2728, "Prům. obj./den": 52.5, "Index (max=100%)": 55.4, "Prům. obrat (Kč)": 99192, "Medián obratu (Kč)": 73750, "Košík (Kč)": 1891}, {"Den": "Sobota", "Počet dní": 52, "Celkem obj.": 2135, "Prům. obj./den": 41.1, "Index (max=100%)": 43.4, "Prům. obrat (Kč)": 65388, "Medián obratu (Kč)": 38381, "Košík (Kč)": 1593}, {"Den": "Neděle", "Počet dní": 52, "Celkem obj.": 3693, "Prům. obj./den": 71.0, "Index (max=100%)": 75.0, "Prům. obrat (Kč)": 111740, "Medián obratu (Kč)": 59989, "Košík (Kč)": 1573}];
+const B_OBJ   = {"Pondělí": {"<10°C": 38.2, "10–15°C": 53.4, "15–20°C": 150.6, "20–25°C": 138.9, "25–30°C": 176.0, ">30°C": 315.0}, "Úterý": {"<10°C": 26.1, "10–15°C": 46.3, "15–20°C": 112.4, "20–25°C": 146.0, "25–30°C": 151.4, ">30°C": 285.0}, "Středa": {"<10°C": 30.1, "10–15°C": 42.0, "15–20°C": 91.5, "20–25°C": 121.7, "25–30°C": 164.8, ">30°C": 247.3}, "Čtvrtek": {"<10°C": 22.9, "10–15°C": 41.0, "15–20°C": 87.7, "20–25°C": 106.5, "25–30°C": 119.1, ">30°C": 123.7}, "Pátek": {"<10°C": 18.3, "10–15°C": 41.8, "15–20°C": 54.3, "20–25°C": 75.0, "25–30°C": 110.9, ">30°C": 88.5}, "Sobota": {"<10°C": 12.4, "10–15°C": 20.1, "15–20°C": 47.6, "20–25°C": 38.8, "25–30°C": 106.0, ">30°C": 45.0}, "Neděle": {"<10°C": 21.1, "10–15°C": 31.1, "15–20°C": 101.9, "20–25°C": 70.7, "25–30°C": 105.2, ">30°C": 228.0}};
+const B_PCT   = {"Pondělí": {"<10°C": 12.1, "10–15°C": 16.9, "15–20°C": 47.8, "20–25°C": 44.1, "25–30°C": 55.9, ">30°C": 100.0}, "Úterý": {"<10°C": 8.3, "10–15°C": 14.7, "15–20°C": 35.7, "20–25°C": 46.3, "25–30°C": 48.1, ">30°C": 90.5}, "Středa": {"<10°C": 9.5, "10–15°C": 13.3, "15–20°C": 29.0, "20–25°C": 38.6, "25–30°C": 52.3, ">30°C": 78.5}, "Čtvrtek": {"<10°C": 7.3, "10–15°C": 13.0, "15–20°C": 27.8, "20–25°C": 33.8, "25–30°C": 37.8, ">30°C": 39.3}, "Pátek": {"<10°C": 5.8, "10–15°C": 13.3, "15–20°C": 17.2, "20–25°C": 23.8, "25–30°C": 35.2, ">30°C": 28.1}, "Sobota": {"<10°C": 3.9, "10–15°C": 6.4, "15–20°C": 15.1, "20–25°C": 12.3, "25–30°C": 33.7, ">30°C": 14.3}, "Neděle": {"<10°C": 6.7, "10–15°C": 9.9, "15–20°C": 32.3, "20–25°C": 22.4, "25–30°C": 33.4, ">30°C": 72.4}};
+const B_OBRAT = {"Pondělí": {"<10°C": 99274, "10–15°C": 117072, "15–20°C": 292449, "20–25°C": 238088, "25–30°C": 289829, ">30°C": 617015}, "Úterý": {"<10°C": 70798, "10–15°C": 90229, "15–20°C": 208874, "20–25°C": 247980, "25–30°C": 253538, ">30°C": 473616}, "Středa": {"<10°C": 85878, "10–15°C": 82494, "15–20°C": 163923, "20–25°C": 220713, "25–30°C": 274811, ">30°C": 388144}, "Čtvrtek": {"<10°C": 56425, "10–15°C": 78067, "15–20°C": 171165, "20–25°C": 167436, "25–30°C": 201863, ">30°C": 213061}, "Pátek": {"<10°C": 44941, "10–15°C": 89113, "15–20°C": 98825, "20–25°C": 129584, "25–30°C": 197127, ">30°C": 130608}, "Sobota": {"<10°C": 21638, "10–15°C": 34943, "15–20°C": 78261, "20–25°C": 70381, "25–30°C": 153223, ">30°C": 82721}, "Neděle": {"<10°C": 37792, "10–15°C": 42428, "15–20°C": 174180, "20–25°C": 102052, "25–30°C": 163137, ">30°C": 337348}};
+const C_OBRAT = {"Pondělí": {"<10°C": 106402, "10–15°C": 107987, "15–20°C": 305152, "20–25°C": 265776, "25–30°C": 254953, ">30°C": 448264}, "Úterý": {"<10°C": 73008, "10–15°C": 90418, "15–20°C": 229220, "20–25°C": 209726, "25–30°C": 255944, ">30°C": 367616}, "Středa": {"<10°C": 83565, "10–15°C": 87703, "15–20°C": 219306, "20–25°C": 200045, "25–30°C": 221420, ">30°C": 388144}, "Čtvrtek": {"<10°C": 57094, "10–15°C": 59445, "15–20°C": 168933, "20–25°C": 165299, "25–30°C": 202281, ">30°C": 363865}, "Pátek": {"<10°C": 48191, "10–15°C": 71754, "15–20°C": 146007, "20–25°C": 97655, "25–30°C": 183329, ">30°C": 242567}, "Sobota": {"<10°C": 24795, "10–15°C": 38273, "15–20°C": 103888, "20–25°C": 74310, "25–30°C": 145921, ">30°C": 173131}, "Neděle": {"<10°C": 38040, "10–15°C": 66698, "15–20°C": 161293, "20–25°C": 167106, "25–30°C": 194551, ">30°C": 296725}};
+const SEA_OBRAT = {"Pondělí": {"Zima": 126493.0, "Jaro": 148763.0, "Léto": 116448.0, "Podzim": 115832.0}, "Úterý": {"Zima": 153530.0, "Jaro": 130096.0, "Léto": 113045.0, "Podzim": 106073.0}, "Středa": {"Zima": 102340.0, "Jaro": 110603.0, "Léto": 76208.0, "Podzim": 111090.0}, "Čtvrtek": {"Zima": 146700.0, "Jaro": 97165.0, "Léto": 109229.0, "Podzim": 135909.0}, "Pátek": {"Zima": 218682.0, "Jaro": 134542.0, "Léto": 124033.0, "Podzim": 115572.0}, "Sobota": {"Zima": 100719.0, "Jaro": 120272.0, "Léto": 144225.0, "Podzim": 175555.0}, "Neděle": {"Zima": 126639.0, "Jaro": 124562.0, "Léto": 110773.0, "Podzim": 106111.0}};
+const SEA_OBJ   = {"Pondělí": {"Zima": 80.6, "Jaro": 74.2, "Léto": 63.4, "Podzim": 67.2}, "Úterý": {"Zima": 84.2, "Jaro": 72.8, "Léto": 58.0, "Podzim": 53.6}, "Středa": {"Zima": 53.8, "Jaro": 64.8, "Léto": 50.0, "Podzim": 64.7}, "Čtvrtek": {"Zima": 81.6, "Jaro": 62.2, "Léto": 67.2, "Podzim": 77.0}, "Pátek": {"Zima": 120.6, "Jaro": 70.2, "Léto": 67.4, "Podzim": 64.2}, "Sobota": {"Zima": 64.0, "Jaro": 60.3, "Léto": 82.6, "Podzim": 88.8}, "Neděle": {"Zima": 64.4, "Jaro": 67.6, "Léto": 55.0, "Podzim": 54.8}};
 
-function fmt(n){return n.toLocaleString('cs-CZ')}
-function fmtKc(n){return n.toLocaleString('cs-CZ') + ' Kč'}
-function pct(v,max){return (v/max*100).toFixed(1)+'%'}
-
-function buildTable(tbodyId, data, maxZ, maxO){
-  const tbody = document.getElementById(tbodyId);
-  tbody.innerHTML = '';
-  data.forEach((r,i)=>{
-    const pz = (r.zakaznici/maxZ*100).toFixed(1);
-    const po = (r.obrat/maxO*100).toFixed(1);
-    const rankCls = i===0?'rank rank-1':i===1?'rank rank-2':i===2?'rank rank-3':'rank';
-    tbody.innerHTML += `
-      <tr>
-        <td style="text-align:center"><div class="${rankCls}">${i+1}</div></td>
-        <td><b>${r.nazev}</b></td>
-        <td class="num">${fmt(r.zakaznici)}</td>
-        <td>
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="bar-wrap"><div class="bar" style="width:${pz}%"></div></div>
-            <span style="font-size:12px;color:#666;min-width:40px">${pz}%</span>
-          </div>
-        </td>
-        <td class="num">${fmtKc(r.obrat)}</td>
-        <td>
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="bar-wrap"><div class="bar bar-o" style="width:${po}%"></div></div>
-            <span style="font-size:12px;color:#666;min-width:40px">${po}%</span>
-          </div>
-        </td>
-        <td class="num">${fmtKc(r.kosik)}</td>
-      </tr>`;
-  });
-}
-
-let sortState = {};
-function sortTable(tblId, key, btn){
-  const isKraj = tblId === 'tbl-kraj';
-  let data = isKraj ? [...KRAJ_DATA] : [...OKRES_DATA];
-  data.sort((a,b) => b[key]-a[key]);
-  buildTable(tblId+'-body', data,
-    isKraj?MAX_ZAK_K:MAX_ZAK_O, isKraj?MAX_OBR_K:MAX_OBR_O);
-  btn.closest('.sort-btns').querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function sortTableByCol(tblId, colIdx){}  // rozšíření v budoucnu
-
+// ─── NAVIGACE ───
 function showPage(id, btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -264,9 +343,186 @@ function showPage(id, btn){
   btn.classList.add('active');
 }
 
-// Init tabulky
-buildTable('tbl-kraj-body',  KRAJ_DATA,  MAX_ZAK_K, MAX_OBR_K);
-buildTable('tbl-okres-body', OKRES_DATA, MAX_ZAK_O, MAX_OBR_O);
+// ─── GEOTABULKY ───
+function fmt(n){return Math.round(n).toLocaleString('cs-CZ')}
+function fmtKc(n){return Math.round(n).toLocaleString('cs-CZ')+' Kč'}
+
+function buildGeoTable(tbodyId, data, maxZ, maxO){
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  data.forEach((r,i)=>{
+    const pz = (r.zakaznici/maxZ*100).toFixed(1);
+    const po = (r.obrat/maxO*100).toFixed(1);
+    const rc = i===0?'rank rank-1':i===1?'rank rank-2':i===2?'rank rank-3':'rank';
+    tbody.innerHTML += `<tr>
+      <td style="text-align:center"><div class="${rc}">${i+1}</div></td>
+      <td><b>${r.nazev}</b></td>
+      <td class="num">${fmt(r.zakaznici)}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="bar-wrap"><div class="bar" style="width:${pz}%"></div></div>
+        <span style="font-size:12px;color:#666;min-width:36px">${pz}</span>
+      </div></td>
+      <td class="num">${fmtKc(r.obrat)}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="bar-wrap"><div class="bar bar-o" style="width:${po}%"></div></div>
+        <span style="font-size:12px;color:#666;min-width:36px">${po}</span>
+      </div></td>
+      <td class="num">${fmtKc(r.kosik)}</td>
+    </tr>`;
+  });
+}
+
+const MAX_ZAK_K=Math.max(...KRAJ_DATA.map(r=>r.zakaznici));
+const MAX_OBR_K=Math.max(...KRAJ_DATA.map(r=>r.obrat));
+const MAX_ZAK_O=Math.max(...OKRES_DATA.map(r=>r.zakaznici));
+const MAX_OBR_O=Math.max(...OKRES_DATA.map(r=>r.obrat));
+
+function sortTable(tblId,key,btn){
+  const isK=tblId==='tbl-kraj';
+  let data=isK?[...KRAJ_DATA]:[...OKRES_DATA];
+  data.sort((a,b)=>b[key]-a[key]);
+  buildGeoTable(tblId+'-body',data,isK?MAX_ZAK_K:MAX_ZAK_O,isK?MAX_OBR_K:MAX_OBR_O);
+  btn.closest('.sort-btns').querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+buildGeoTable('tbl-kraj-body',KRAJ_DATA,MAX_ZAK_K,MAX_OBR_K);
+buildGeoTable('tbl-okres-body',OKRES_DATA,MAX_ZAK_O,MAX_OBR_O);
+
+// ─── HEATMAP BARVY ───
+// Barvy: červená (low) → bílá (mid) → zelená (high)
+function heatColor(v, minV, maxV){
+  if(v===null||v===undefined) return '#f5f5f5';
+  const t=(v-minV)/(maxV-minV||1);
+  // t=0 → červená #f44336, t=0.5 → bílá, t=1 → zelená #4caf50
+  let r,g,b;
+  if(t<0.5){
+    const s=t*2;
+    r=Math.round(244+(255-244)*s); // 244→255
+    g=Math.round(67+(255-67)*s);   // 67→255
+    b=Math.round(54+(255-54)*s);   // 54→255
+  }else{
+    const s=(t-0.5)*2;
+    r=Math.round(255+(76-255)*s);  // 255→76
+    g=Math.round(255+(175-255)*s); // 255→175
+    b=Math.round(255+(80-255)*s);  // 255→80
+  }
+  return `rgb(${r},${g},${b})`;
+}
+
+function textColor(bg){
+  // tmavý text na světlém pozadí, bílý na tmavém
+  const m=bg.match(/rgb\((\d+),(\d+),(\d+)\)/);
+  if(!m) return '#000';
+  const lum=(0.299*m[1]+0.587*m[2]+0.114*m[3])/255;
+  return lum>0.6?'#1a1a2e':'#fff';
+}
+
+// ─── HEATMAP TABULKA Z den->pasmo->val ───
+function buildHeatmap(wrapperId, dataObj, fmtFn, title){
+  const wrap=document.getElementById(wrapperId);
+  if(!wrap)return;
+  const dens=Object.keys(dataObj);
+  if(!dens.length){wrap.innerHTML='<p style="color:#999">Žádná data</p>';return;}
+  const pasma=Object.keys(dataObj[dens[0]]);
+
+  // Najdi min/max přes celou tabulku
+  let allVals=[];
+  dens.forEach(d=>pasma.forEach(p=>{if(dataObj[d][p]!==null)allVals.push(dataObj[d][p])}));
+  const minV=Math.min(...allVals), maxV=Math.max(...allVals);
+
+  let html='<table class="htbl"><thead><tr><th class="row-header">Den / Pásmo</th>';
+  pasma.forEach(p=>{html+=`<th>${p}</th>`});
+  html+='</tr></thead><tbody>';
+  dens.forEach(den=>{
+    html+=`<tr><td class="row-label">${den}</td>`;
+    pasma.forEach(p=>{
+      const v=dataObj[den][p];
+      const bg=heatColor(v,minV,maxV);
+      const tc=textColor(bg);
+      html+=`<td style="background:${bg};color:${tc}">${v!==null?fmtFn(v):'–'}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
+// ─── PÁSMA TABULKA ───
+function buildPasmaTable(wrapperId, rows){
+  const wrap=document.getElementById(wrapperId);
+  if(!wrap||!rows.length)return;
+  const cols=Object.keys(rows[0]);
+
+  // Identifikuj numerické sloupce pro heatmapu
+  const numCols=cols.filter(c=>{
+    const vals=rows.map(r=>r[c]).filter(v=>v!==null&&typeof v==='number');
+    return vals.length>1;
+  });
+
+  // Min/max per sloupec
+  const colStats={};
+  numCols.forEach(c=>{
+    const vals=rows.map(r=>r[c]).filter(v=>v!==null&&typeof v==='number');
+    colStats[c]={min:Math.min(...vals),max:Math.max(...vals)};
+  });
+
+  let html='<table class="ptbl"><thead><tr>';
+  cols.forEach(c=>{html+=`<th>${c}</th>`});
+  html+='</tr></thead><tbody>';
+  rows.forEach((row,i)=>{
+    html+='<tr>';
+    cols.forEach((c,ci)=>{
+      const v=row[c];
+      let bg='', tc='#1a1a2e';
+      if(numCols.includes(c)&&v!==null){
+        bg=heatColor(v,colStats[c].min,colStats[c].max);
+        tc=textColor(bg);
+      }
+      const style=bg?`style="background:${bg};color:${tc}"`:( ci===0?'class="pasmo-label"':'');
+      const disp=v===null||v===undefined?'–':(typeof v==='number'?(v>999?v.toLocaleString('cs-CZ'):v):v);
+      html+=`<td ${style}>${disp}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
+// ─── JEDNODUCHÁ TABULKA ───
+function buildSimpleTable(wrapperId, rows){
+  const wrap=document.getElementById(wrapperId);
+  if(!wrap||!rows.length)return;
+  const cols=Object.keys(rows[0]);
+  let html='<table class="ptbl"><thead><tr>';
+  cols.forEach(c=>{html+=`<th>${c}</th>`});
+  html+='</tr></thead><tbody>';
+  rows.forEach(row=>{
+    html+='<tr>';
+    cols.forEach(c=>{
+      const v=row[c];
+      const disp=v===null||v===undefined?'–':(typeof v==='number'&&Math.abs(v)>999?v.toLocaleString('cs-CZ'):v);
+      html+=`<td>${disp}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
+// ─── RENDEROVÁNÍ ───
+buildPasmaTable('tbl-pasma5-wrap', PASMA5);
+buildPasmaTable('tbl-pasma2-wrap', PASMA2);
+buildSimpleTable('tbl-pred5-wrap', PRED5);
+buildSimpleTable('tbl-den-A-wrap', DEN_A);
+
+buildHeatmap('htbl-B-obj-wrap',   B_OBJ,   v=>v.toFixed(1),  '');
+buildHeatmap('htbl-B-obrat-wrap', B_OBRAT, v=>Math.round(v).toLocaleString('cs-CZ'), '');
+buildHeatmap('htbl-B-pct-wrap',   B_PCT,   v=>v.toFixed(1),  '');
+buildHeatmap('htbl-C-obrat-wrap', C_OBRAT, v=>Math.round(v).toLocaleString('cs-CZ'), '');
+buildHeatmap('htbl-sea-obrat-wrap', SEA_OBRAT, v=>Math.round(v).toLocaleString('cs-CZ'), '');
+buildHeatmap('htbl-sea-obj-wrap',   SEA_OBJ,   v=>v.toFixed(1), '');
+
 </script>
 </body>
 </html>
