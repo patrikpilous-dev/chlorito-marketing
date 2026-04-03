@@ -117,6 +117,39 @@ tbody td{padding:10px 14px;vertical-align:middle}
 /* GRID 2 sloupce */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0}
 @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+/* ── FORECAST TABS ── */
+.fx-section{margin:20px}
+.fx-card{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);
+          margin-bottom:20px;overflow:hidden}
+.fx-card-header{padding:14px 20px;color:#fff;font-size:14px;font-weight:700}
+.fx-card-header.blue{background:linear-gradient(135deg,#1565C0,#1976D2)}
+.fx-card-header.teal{background:linear-gradient(135deg,#00695C,#00897B)}
+.fx-card-body{padding:16px 20px;overflow-x:auto}
+.fx-metrics{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.fx-metric{background:#f0f5ff;border-radius:8px;padding:9px 14px;text-align:center}
+.fx-metric.teal{background:#e0f2f1}
+.fx-metric-val{font-size:16px;font-weight:700;color:#1565C0}
+.fx-metric.teal .fx-metric-val{color:#00695C}
+.fx-metric-lbl{font-size:10px;color:#666;margin-top:1px}
+.fx-loading{text-align:center;padding:40px;color:#888;font-size:14px}
+.fx-formula{background:#f8f9fa;border:1px solid #e0e0e0;border-left:4px solid #1565C0;
+             border-radius:0 6px 6px 0;padding:10px 14px;font-family:monospace;
+             font-size:12px;color:#333;margin-bottom:14px;line-height:1.7}
+.fx-formula strong{color:#1565C0}
+.fx-pred-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.fx-pred-tbl th{background:#e8f0fe;color:#1a237e;padding:9px 12px;text-align:left;
+                 font-size:11px;font-weight:700;border:1px solid #c5cae9;white-space:nowrap}
+.fx-pred-tbl td{padding:9px 12px;border:1px solid #eef1f8;vertical-align:middle}
+.fx-pred-tbl tr:hover td{background:#f5f8ff}
+.fx-pred-tbl.teal th{background:#e0f2f1;color:#004D40;border-color:#b2dfdb}
+.pred-obrat{font-weight:700;font-size:14px;color:#1565C0;font-variant-numeric:tabular-nums}
+.pred-obrat.teal{color:#00695C}
+.pred-band{display:inline-block;padding:2px 8px;border-radius:10px;
+            font-size:11px;font-weight:600;background:#e8f0fe;color:#1565C0}
+.pred-n{font-size:10px;color:#999;display:block}
+.fx-note{font-size:11px;color:#888;margin-top:12px;font-style:italic}
+.fx-err{color:#c62828;background:#ffebee;padding:12px;border-radius:8px;font-size:13px}
 </style>
 </head>
 <body>
@@ -151,6 +184,8 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('wx-tydny',this)">📅 Dny × Teplota</button>
   <button class="nav-btn" onclick="showPage('wx-sezona',this)">🍂 Dny × Sezóna</button>
   <button class="nav-btn" onclick="showPage('wx-svatky',this)">🗓️ Svátky 2025</button>
+  <button class="nav-btn" onclick="showPage('fx-lookup',this)">📊 Predikce A</button>
+  <button class="nav-btn" onclick="showPage('fx-regrese',this)">🤖 Predikce B</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -332,6 +367,93 @@ tbody td{padding:10px 14px;vertical-align:middle}
   </div>
 </div>
 
+<!-- PREDIKCE A – LOOKUP -->
+<div id="fx-lookup" class="page">
+  <div class="fx-section">
+
+    <div class="fx-card">
+      <div class="fx-card-header blue">📊 Predikce A — Lookup teplota × den (živá předpověď počasí)</div>
+      <div class="fx-card-body">
+        <div class="fx-metrics">
+          <div class="fx-metric">
+            <div class="fx-metric-val" id="fa-days">–</div>
+            <div class="fx-metric-lbl">dní předpovědi</div>
+          </div>
+          <div class="fx-metric">
+            <div class="fx-metric-val" id="fa-loc">CZ</div>
+            <div class="fx-metric-lbl">lokace</div>
+          </div>
+          <div class="fx-metric">
+            <div class="fx-metric-val" id="fa-bands">–</div>
+            <div class="fx-metric-lbl">teplotních pásem</div>
+          </div>
+          <div class="fx-metric">
+            <div class="fx-metric-val" id="fa-ndays">365</div>
+            <div class="fx-metric-lbl">tréninkových dní</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:#555;margin-bottom:12px">
+          Pro každý den předpovědi: najdeme teplotní pásmo (po 5 °C) a den v týdnu →
+          vrátíme průměrný obrat z historických dat 2025.
+          Počasí: <a href="https://open-meteo.com" target="_blank" style="color:#1565C0">Open-Meteo API</a> · středočeská ČR (49.8°N 15.5°E).
+        </p>
+        <div id="fa-table-wrap"><div class="fx-loading">⏳ Načítám předpověď počasí…</div></div>
+        <p class="fx-note" id="fa-updated"></p>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header blue">📋 Lookup tabulka — průměrný obrat (Kč) podle pásma × den</div>
+      <div class="fx-card-body">
+        <p style="font-size:12px;color:#555;margin-bottom:10px">Historické průměry 2025. Kliknutím na záhlaví seřadíte.</p>
+        <div id="fa-heatmap-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PREDIKCE B – REGRESE -->
+<div id="fx-regrese" class="page">
+  <div class="fx-section">
+
+    <div class="fx-card">
+      <div class="fx-card-header teal">🤖 Predikce B — Lineární regrese (Ridge) · živá předpověď</div>
+      <div class="fx-card-body">
+        <div class="fx-metrics">
+          <div class="fx-metric teal">
+            <div class="fx-metric-val" id="fb-r2">–</div>
+            <div class="fx-metric-lbl">R² (vysvětlená variance)</div>
+          </div>
+          <div class="fx-metric teal">
+            <div class="fx-metric-val" id="fb-rmse">–</div>
+            <div class="fx-metric-lbl">RMSE (průměrná chyba)</div>
+          </div>
+          <div class="fx-metric teal">
+            <div class="fx-metric-val" id="fb-mae">–</div>
+            <div class="fx-metric-lbl">MAE (střední abs. chyba)</div>
+          </div>
+          <div class="fx-metric teal">
+            <div class="fx-metric-val" id="fb-n">–</div>
+            <div class="fx-metric-lbl">tréninkových dní</div>
+          </div>
+        </div>
+        <div class="fx-formula" id="fb-formula">⏳ Načítám model…</div>
+        <div id="fb-table-wrap"><div class="fx-loading">⏳ Načítám předpověď počasí…</div></div>
+        <p class="fx-note" id="fb-updated"></p>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header teal">📈 Koeficienty modelu — vliv proměnných na denní obrat</div>
+      <div class="fx-card-body">
+        <div id="fb-coef-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="footer">Chlorito.cz · Marketing Dashboard 2025 · Data: Shoptet + Open-Meteo · Vytvořeno Claudem</div>
 
 <script>
@@ -350,6 +472,8 @@ const C_OBRAT = {"Pondělí": {"<10°C": 106402, "10–15°C": 107987, "15–20�
 const SEA_OBRAT = {"Pondělí": {"Zima": 98101.0, "Jaro": 223312.0, "Léto": 316933.0, "Podzim": 101905.0}, "Úterý": {"Zima": 53506.0, "Jaro": 200125.0, "Léto": 256681.0, "Podzim": 102052.0}, "Středa": {"Zima": 67224.0, "Jaro": 206470.0, "Léto": 270297.0, "Podzim": 84829.0}, "Čtvrtek": {"Zima": 51671.0, "Jaro": 170586.0, "Léto": 208537.0, "Podzim": 55608.0}, "Pátek": {"Zima": 43752.0, "Jaro": 136730.0, "Léto": 159875.0, "Podzim": 56409.0}, "Sobota": {"Zima": 17328.0, "Jaro": 100513.0, "Léto": 110345.0, "Podzim": 26965.0}, "Neděle": {"Zima": 36913.0, "Jaro": 157306.0, "Léto": 204739.0, "Podzim": 35094.0}};
 const SEA_OBJ   = {"Pondělí": {"Zima": 30.5, "Jaro": 118.0, "Léto": 186.7, "Podzim": 43.6}, "Úterý": {"Zima": 22.6, "Jaro": 111.2, "Léto": 158.4, "Podzim": 38.0}, "Středa": {"Zima": 24.4, "Jaro": 108.2, "Léto": 165.7, "Podzim": 34.6}, "Čtvrtek": {"Zima": 21.9, "Jaro": 88.2, "Léto": 128.8, "Podzim": 29.9}, "Pátek": {"Zima": 17.2, "Jaro": 69.8, "Léto": 95.2, "Podzim": 27.8}, "Sobota": {"Zima": 11.7, "Jaro": 58.6, "Léto": 76.5, "Podzim": 13.8}, "Neděle": {"Zima": 18.3, "Jaro": 93.8, "Léto": 138.2, "Podzim": 24.5}};
 const SVATKY    = [{"datum": "2025-01-01", "nazev": "🎆 Nový rok", "den": "Středa", "sezona": "Zima", "obrat": 42626, "pocet": 17, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -36.6, "pct_pocet": -30.2}, {"datum": "2025-04-18", "nazev": "🙏 Velký pátek", "den": "Pátek", "sezona": "Jaro", "obrat": 78492, "pocet": 46, "avg_obrat": 136730, "avg_pocet": 69.8, "pct_obrat": -42.6, "pct_pocet": -34.1}, {"datum": "2025-04-21", "nazev": "🐣 Velikonoční pondělí", "den": "Pondělí", "sezona": "Jaro", "obrat": 227576, "pocet": 148, "avg_obrat": 223312, "avg_pocet": 118.0, "pct_obrat": 1.9, "pct_pocet": 25.4}, {"datum": "2025-05-01", "nazev": "🌷 Svátek práce", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 274126, "pocet": 169, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 60.7, "pct_pocet": 91.5}, {"datum": "2025-05-08", "nazev": "✌️ Den vítězství", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 182491, "pocet": 98, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 7.0, "pct_pocet": 11.1}, {"datum": "2025-07-05", "nazev": "✨ Den Cyrila a Metoděje", "den": "Sobota", "sezona": "Léto", "obrat": 189774, "pocet": 120, "avg_obrat": 110345, "avg_pocet": 76.5, "pct_obrat": 72.0, "pct_pocet": 56.8}, {"datum": "2025-07-06", "nazev": "🔥 Den upálení Jana Husa", "den": "Neděle", "sezona": "Léto", "obrat": 258671, "pocet": 185, "avg_obrat": 204739, "avg_pocet": 138.2, "pct_obrat": 26.3, "pct_pocet": 33.9}, {"datum": "2025-09-28", "nazev": "🇨🇿 Den české státnosti", "den": "Neděle", "sezona": "Podzim", "obrat": 30803, "pocet": 26, "avg_obrat": 35094, "avg_pocet": 24.5, "pct_obrat": -12.2, "pct_pocet": 6.0}, {"datum": "2025-10-28", "nazev": "🎗️ Vznik Československa", "den": "Úterý", "sezona": "Podzim", "obrat": 31840, "pocet": 23, "avg_obrat": 102052, "avg_pocet": 38.0, "pct_obrat": -68.8, "pct_pocet": -39.5}, {"datum": "2025-11-17", "nazev": "🕊️ Den svobody a demokracie", "den": "Pondělí", "sezona": "Podzim", "obrat": 89043, "pocet": 34, "avg_obrat": 101905, "avg_pocet": 43.6, "pct_obrat": -12.6, "pct_pocet": -22.0}, {"datum": "2025-12-24", "nazev": "🎄 Štědrý den", "den": "Středa", "sezona": "Zima", "obrat": 135, "pocet": 1, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -99.8, "pct_pocet": -95.9}, {"datum": "2025-12-25", "nazev": "🎁 1. svátek vánoční", "den": "Čtvrtek", "sezona": "Zima", "obrat": 6009, "pocet": 7, "avg_obrat": 51671, "avg_pocet": 21.9, "pct_obrat": -88.4, "pct_pocet": -68.1}, {"datum": "2025-12-26", "nazev": "🎅 2. svátek vánoční", "den": "Pátek", "sezona": "Zima", "obrat": 10466, "pocet": 8, "avg_obrat": 43752, "avg_pocet": 17.2, "pct_obrat": -76.1, "pct_pocet": -53.4}];
+const LOOKUP_A  = {"0–5°C": {"Neděle": {"avg_obrat": 39682, "avg_pocet": 19, "n": 9}, "Pondělí": {"avg_obrat": 86609, "avg_pocet": 30, "n": 7}, "Pátek": {"avg_obrat": 41735, "avg_pocet": 17, "n": 10}, "Sobota": {"avg_obrat": 23195, "avg_pocet": 12, "n": 11}, "Středa": {"avg_obrat": 89645, "avg_pocet": 26, "n": 11}, "Úterý": {"avg_obrat": 71327, "avg_pocet": 24, "n": 9}, "Čtvrtek": {"avg_obrat": 60265, "avg_pocet": 24, "n": 10}}, "10–15°C": {"Neděle": {"avg_obrat": 42428, "avg_pocet": 31, "n": 7}, "Pondělí": {"avg_obrat": 117072, "avg_pocet": 53, "n": 11}, "Pátek": {"avg_obrat": 89113, "avg_pocet": 42, "n": 12}, "Sobota": {"avg_obrat": 34943, "avg_pocet": 20, "n": 8}, "Středa": {"avg_obrat": 82494, "avg_pocet": 42, "n": 11}, "Úterý": {"avg_obrat": 90229, "avg_pocet": 46, "n": 15}, "Čtvrtek": {"avg_obrat": 78067, "avg_pocet": 41, "n": 15}}, "15–20°C": {"Neděle": {"avg_obrat": 174180, "avg_pocet": 102, "n": 10}, "Pondělí": {"avg_obrat": 292449, "avg_pocet": 151, "n": 8}, "Pátek": {"avg_obrat": 98825, "avg_pocet": 54, "n": 7}, "Sobota": {"avg_obrat": 78261, "avg_pocet": 48, "n": 12}, "Středa": {"avg_obrat": 163923, "avg_pocet": 92, "n": 4}, "Úterý": {"avg_obrat": 208874, "avg_pocet": 112, "n": 9}, "Čtvrtek": {"avg_obrat": 171165, "avg_pocet": 88, "n": 6}}, "20–25°C": {"Neděle": {"avg_obrat": 102052, "avg_pocet": 71, "n": 7}, "Pondělí": {"avg_obrat": 238088, "avg_pocet": 139, "n": 9}, "Pátek": {"avg_obrat": 129584, "avg_pocet": 75, "n": 8}, "Sobota": {"avg_obrat": 70381, "avg_pocet": 39, "n": 5}, "Středa": {"avg_obrat": 220713, "avg_pocet": 122, "n": 13}, "Úterý": {"avg_obrat": 247980, "avg_pocet": 146, "n": 6}, "Čtvrtek": {"avg_obrat": 167436, "avg_pocet": 106, "n": 8}}, "25–30°C": {"Neděle": {"avg_obrat": 163137, "avg_pocet": 105, "n": 4}, "Pondělí": {"avg_obrat": 289829, "avg_pocet": 176, "n": 5}, "Pátek": {"avg_obrat": 197127, "avg_pocet": 111, "n": 7}, "Sobota": {"avg_obrat": 153223, "avg_pocet": 106, "n": 9}, "Středa": {"avg_obrat": 274811, "avg_pocet": 165, "n": 4}, "Úterý": {"avg_obrat": 253538, "avg_pocet": 151, "n": 7}, "Čtvrtek": {"avg_obrat": 201863, "avg_pocet": 119, "n": 7}}, "5–10°C": {"Neděle": {"avg_obrat": 37880, "avg_pocet": 24, "n": 7}, "Pondělí": {"avg_obrat": 93168, "avg_pocet": 42, "n": 9}, "Pátek": {"avg_obrat": 53395, "avg_pocet": 22, "n": 5}, "Sobota": {"avg_obrat": 19835, "avg_pocet": 13, "n": 4}, "Středa": {"avg_obrat": 79959, "avg_pocet": 37, "n": 7}, "Úterý": {"avg_obrat": 70241, "avg_pocet": 31, "n": 4}, "Čtvrtek": {"avg_obrat": 62434, "avg_pocet": 24, "n": 2}}, "<0°C": {"Neděle": {"avg_obrat": 31915, "avg_pocet": 19, "n": 3}, "Pondělí": {"avg_obrat": 171075, "avg_pocet": 49, "n": 2}, "Pátek": {"avg_obrat": 34730, "avg_pocet": 16, "n": 1}, "Sobota": {"avg_obrat": 16678, "avg_pocet": 12, "n": 2}, "Úterý": {"avg_obrat": 68264, "avg_pocet": 23, "n": 1}, "Čtvrtek": {"avg_obrat": 6009, "avg_pocet": 7, "n": 1}}, ">30°C": {"Neděle": {"avg_obrat": 337348, "avg_pocet": 228, "n": 5}, "Pondělí": {"avg_obrat": 617015, "avg_pocet": 315, "n": 1}, "Pátek": {"avg_obrat": 130608, "avg_pocet": 88, "n": 2}, "Sobota": {"avg_obrat": 82721, "avg_pocet": 45, "n": 1}, "Středa": {"avg_obrat": 388144, "avg_pocet": 247, "n": 3}, "Úterý": {"avg_obrat": 473616, "avg_pocet": 285, "n": 1}, "Čtvrtek": {"avg_obrat": 213061, "avg_pocet": 124, "n": 3}}};
+const COEF_B    = {"intercept": 4496.0, "coef_tmax": 5452.11, "coef_precip": 424.47, "coef_sunshine": 5513.02, "dow_effects": [0.0, 9218.0, 9828.0, -8672.0, -17457.0, -34757.0, -13530.0], "month_effects": [0.0, -2487.0, -10043.0, 14564.0, 31814.0, 51692.0, -3203.0, -33901.0, -33040.0, -20165.0, -384.0, -5760.0], "r2": 0.6, "rmse": 72965.0, "mae": 53488.0, "n_train": 365};
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -589,6 +713,269 @@ function buildSvatkyTable(wrapperId, data){
   wrap.innerHTML=html;
 }
 buildSvatkyTable('tbl-svatky-wrap', SVATKY);
+
+// ═══════════════════════════════════════════════
+// ─── FORECASTING A + B ───
+// ═══════════════════════════════════════════════
+const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=49.8&longitude=15.5' +
+  '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration' +
+  '&forecast_days=7&timezone=Europe%2FPrague';
+
+const DOW_CZ = ['Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota','Neděle'];
+const MON_CZ = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
+
+function wxEmoji(tmax, precip){
+  if(precip > 10) return tmax < 2 ? '🌨️' : '⛈️';
+  if(precip > 3)  return '🌦️';
+  if(tmax > 28)   return '🔥';
+  if(tmax > 22)   return '☀️';
+  if(tmax > 14)   return '🌤️';
+  if(tmax > 6)    return '⛅';
+  if(tmax > 1)    return '🌥️';
+  return '❄️';
+}
+
+function getTempBand(tmax){
+  if(tmax <  0)  return '<0°C';
+  if(tmax <  5)  return '0–5°C';
+  if(tmax < 10)  return '5–10°C';
+  if(tmax < 15)  return '10–15°C';
+  if(tmax < 20)  return '15–20°C';
+  if(tmax < 25)  return '20–25°C';
+  if(tmax < 30)  return '25–30°C';
+  return '>30°C';
+}
+
+function fmtDate(dateStr){
+  const d = new Date(dateStr);
+  return d.getDate()+'.'+(d.getMonth()+1)+'.';
+}
+
+let FORECAST = null;
+
+async function loadForecast(){
+  try {
+    const res = await fetch(WX_URL);
+    FORECAST = (await res.json()).daily;
+    renderPredA();
+    renderPredB();
+  } catch(e) {
+    const err = `<div class="fx-err">❌ Nepodařilo se načíst předpověď počasí: ${e.message}</div>`;
+    document.getElementById('fa-table-wrap').innerHTML = err;
+    document.getElementById('fb-table-wrap').innerHTML = err;
+  }
+}
+
+// ─── VARIANTA A ───
+function renderPredA(){
+  if(!FORECAST) return;
+  const d = FORECAST;
+  const n = d.time.length;
+  const bands = Object.keys(LOOKUP_A);
+
+  document.getElementById('fa-days').textContent  = n;
+  document.getElementById('fa-bands').textContent = bands.length;
+
+  let rows = '';
+  d.time.forEach((date,i)=>{
+    const dt   = new Date(date);
+    const dow  = (dt.getDay()+6)%7;   // JS: 0=Ne → přeindexuj na 0=Po
+    const tmax = d.temperature_2m_max[i];
+    const tmin = d.temperature_2m_min[i];
+    const prec = d.precipitation_sum[i];
+    const band = getTempBand(tmax);
+    const denCz= DOW_CZ[dow];
+    const emoji= wxEmoji(tmax, prec);
+
+    const lkp  = (LOOKUP_A[band] && LOOKUP_A[band][denCz]) ? LOOKUP_A[band][denCz] : null;
+    const obrat = lkp ? lkp.avg_obrat : null;
+    const pocet = lkp ? lkp.avg_pocet : null;
+    const nObs  = lkp ? lkp.n : 0;
+
+    const obratTxt = obrat!==null ? Math.round(obrat).toLocaleString('cs-CZ')+' Kč' : '?';
+    const pocetTxt = pocet!==null ? Math.round(pocet) : '?';
+    const isToday  = i===0;
+
+    rows += `<tr style="background:${isToday?'#f0f5ff':''};font-weight:${isToday?'600':'400'}">
+      <td style="white-space:nowrap"><b>${fmtDate(date)}</b> <span style="font-size:11px;color:#888">${denCz}</span></td>
+      <td style="text-align:center;font-size:18px">${emoji}</td>
+      <td style="text-align:center;font-weight:600;white-space:nowrap">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
+      <td style="text-align:center;color:#5b8dd9">${prec.toFixed(1)} mm</td>
+      <td><span class="pred-band">${band}</span><span class="pred-n">n=${nObs}</span></td>
+      <td class="pred-obrat">${obratTxt}</td>
+      <td style="text-align:right;color:#555">${pocetTxt}</td>
+    </tr>`;
+  });
+
+  document.getElementById('fa-table-wrap').innerHTML = `
+    <table class="fx-pred-tbl">
+      <thead><tr>
+        <th>Datum</th><th>🌤️</th><th>Tmax/min</th><th>Srážky</th>
+        <th>Tep. pásmo (hist. n)</th><th>Predikce obratu</th><th style="text-align:right">Pred. obj.</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+  document.getElementById('fa-updated').textContent =
+    '⏱ Data: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR';
+
+  // Heatmap lookup tabulky
+  buildLookupHeatmap('fa-heatmap-wrap');
+}
+
+function buildLookupHeatmap(wrapperId){
+  const bands = ['<0°C','0–5°C','5–10°C','10–15°C','15–20°C','20–25°C','25–30°C','>30°C'];
+  const days  = DOW_CZ;
+  // Collect all values for heatmap coloring
+  const allVals = [];
+  bands.forEach(b=>{ days.forEach(d=>{ const v=(LOOKUP_A[b]&&LOOKUP_A[b][d])?LOOKUP_A[b][d].avg_obrat:null; if(v) allVals.push(v); }) });
+  const minV=Math.min(...allVals), maxV=Math.max(...allVals);
+
+  let h='<table class="htbl"><thead><tr><th class="row-header">Pásmo ↓ / Den →</th>';
+  days.forEach(d=>h+=`<th>${d.slice(0,2)}</th>`);
+  h+='</tr></thead><tbody>';
+  bands.forEach(b=>{
+    const hasData=LOOKUP_A[b];
+    h+=`<tr><td class="row-label">${b}</td>`;
+    days.forEach(d=>{
+      const lkp=hasData&&hasData[d];
+      if(lkp){
+        const bg=heatColor(lkp.avg_obrat,minV,maxV);
+        h+=`<td style="background:${bg};color:#fff;text-align:right">${Math.round(lkp.avg_obrat/1000)}K<br><span style="font-size:9px;opacity:.7">n=${lkp.n}</span></td>`;
+      } else {
+        h+='<td style="background:#f5f5f5;color:#ccc;text-align:center">–</td>';
+      }
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+// ─── VARIANTA B ───
+function predictB(tmax, precip, sunshineH, dow, month){
+  // dow 0=Po…6=Ne, month 1-12
+  const m = COEF_B;
+  let pred = m.intercept;
+  pred += m.coef_tmax    * tmax;
+  pred += m.coef_precip  * precip;
+  pred += m.coef_sunshine* sunshineH;
+  pred += m.dow_effects[dow];
+  pred += m.month_effects[month-1];
+  return Math.max(0, Math.round(pred));
+}
+
+function renderPredB(){
+  if(!FORECAST) return;
+  const d = FORECAST;
+  const m = COEF_B;
+
+  // Metriky
+  document.getElementById('fb-r2').textContent   = m.r2.toFixed(3);
+  document.getElementById('fb-rmse').textContent = Math.round(m.rmse).toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('fb-mae').textContent  = Math.round(m.mae).toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('fb-n').textContent    = m.n_train+' dní';
+
+  // Formula
+  const sign = v => v>=0 ? '+'+Math.round(v) : Math.round(v);
+  document.getElementById('fb-formula').innerHTML =
+    `<strong>Predikce (Kč)</strong> = ${Math.round(m.intercept)}<br>` +
+    `&nbsp;&nbsp;+ ${m.coef_tmax.toFixed(0)} × Tmax<br>` +
+    `&nbsp;&nbsp;+ ${m.coef_precip.toFixed(0)} × srážky(mm)<br>` +
+    `&nbsp;&nbsp;+ ${m.coef_sunshine.toFixed(0)} × slunce(h)<br>` +
+    `&nbsp;&nbsp;+ korekce dne v týdnu &amp; měsíce (viz tabulka níže)`;
+
+  let rows = '';
+  d.time.forEach((date,i)=>{
+    const dt      = new Date(date);
+    const dow     = (dt.getDay()+6)%7;
+    const month   = dt.getMonth()+1;
+    const tmax    = d.temperature_2m_max[i];
+    const tmin    = d.temperature_2m_min[i];
+    const prec    = d.precipitation_sum[i];
+    const sunSec  = d.sunshine_duration ? d.sunshine_duration[i] : null;
+    const sunH    = sunSec!==null ? sunSec/3600 : 5.0;  // fallback median
+    const emoji   = wxEmoji(tmax, prec);
+    const pred    = predictB(tmax, prec, sunH, dow, month);
+    const isToday = i===0;
+
+    rows += `<tr style="background:${isToday?'#e0f2f1':''};font-weight:${isToday?'600':'400'}">
+      <td style="white-space:nowrap"><b>${fmtDate(date)}</b> <span style="font-size:11px;color:#888">${DOW_CZ[dow]}</span></td>
+      <td style="text-align:center;font-size:18px">${emoji}</td>
+      <td style="text-align:center;white-space:nowrap">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
+      <td style="text-align:center;color:#5b8dd9">${prec.toFixed(1)} mm</td>
+      <td style="text-align:center;color:#f39c12">${sunH.toFixed(1)} h</td>
+      <td class="pred-obrat teal">${pred.toLocaleString('cs-CZ')} Kč</td>
+    </tr>`;
+  });
+
+  document.getElementById('fb-table-wrap').innerHTML = `
+    <table class="fx-pred-tbl teal">
+      <thead><tr>
+        <th>Datum</th><th>🌤️</th><th>Tmax/min</th>
+        <th>Srážky</th><th>Slunce</th><th>Predikce obratu</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+  document.getElementById('fb-updated').textContent =
+    '⏱ Data: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR · Ridge α=50';
+
+  // Koeficienty tabulka
+  buildCoefTable('fb-coef-wrap');
+}
+
+function buildCoefTable(wrapperId){
+  const m = COEF_B;
+  const dayNames = ['Pondělí (ref)','Úterý','Středa','Čtvrtek','Pátek','Sobota','Neděle'];
+  const monNames = ['Leden (ref)','Únor','Březen','Duben','Květen','Červen',
+                    'Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
+
+  function coefBar(v){
+    const pct = Math.min(Math.abs(v)/3000*100, 100);
+    const col = v>=0 ? '#27ae60' : '#e74c3c';
+    const sign= v>=0 ? '+' : '';
+    return `<div style="display:flex;align-items:center;gap:8px">
+      <div style="width:120px;background:#f0f0f0;border-radius:4px;height:10px;overflow:hidden">
+        <div style="width:${pct}%;height:10px;background:${col};border-radius:4px"></div></div>
+      <span style="font-size:12px;font-variant-numeric:tabular-nums;color:${col};font-weight:600">${sign}${Math.round(v).toLocaleString('cs-CZ')} Kč</span>
+    </div>`;
+  }
+
+  let h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
+  // Den v týdnu
+  h+='<div><table style="width:100%;font-size:12px;border-collapse:collapse">';
+  h+='<thead><tr><th style="text-align:left;padding:6px 8px;background:#e0f2f1;color:#004D40">Den v týdnu</th><th style="padding:6px 8px;background:#e0f2f1;color:#004D40">Korekce</th></tr></thead><tbody>';
+  dayNames.forEach((n,i)=>{
+    const v=m.dow_effects[i];
+    h+=`<tr style="border-bottom:1px solid #eee"><td style="padding:5px 8px;font-weight:600">${n}</td><td style="padding:5px 8px">${i===0?'<span style="color:#999">—</span>':coefBar(v)}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  // Měsíc
+  h+='<div><table style="width:100%;font-size:12px;border-collapse:collapse">';
+  h+='<thead><tr><th style="text-align:left;padding:6px 8px;background:#e0f2f1;color:#004D40">Měsíc</th><th style="padding:6px 8px;background:#e0f2f1;color:#004D40">Korekce</th></tr></thead><tbody>';
+  monNames.forEach((n,i)=>{
+    const v=m.month_effects[i];
+    h+=`<tr style="border-bottom:1px solid #eee"><td style="padding:5px 8px;font-weight:600">${n}</td><td style="padding:5px 8px">${i===0?'<span style="color:#999">—</span>':coefBar(v)}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+
+  // Numerické koeficienty
+  h+='</div>';
+  h+=`<table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:14px">
+    <thead><tr style="background:#e0f2f1">
+      <th style="padding:6px 10px;text-align:left;color:#004D40">Proměnná</th>
+      <th style="padding:6px 10px;color:#004D40">Koeficient</th>
+      <th style="padding:6px 10px;color:#004D40;text-align:left">Interpretace</th>
+    </tr></thead><tbody>
+    <tr><td style="padding:6px 10px;font-weight:600">Teplota max (°C)</td><td style="padding:6px 10px">${coefBar(m.coef_tmax)}</td><td style="padding:6px 10px;color:#555">za každý 1°C navíc</td></tr>
+    <tr><td style="padding:6px 10px;font-weight:600">Srážky (mm)</td><td style="padding:6px 10px">${coefBar(m.coef_precip)}</td><td style="padding:6px 10px;color:#555">za každý 1mm srážek</td></tr>
+    <tr><td style="padding:6px 10px;font-weight:600">Slunce (h)</td><td style="padding:6px 10px">${coefBar(m.coef_sunshine)}</td><td style="padding:6px 10px;color:#555">za každou 1h slunečního svitu</td></tr>
+    </tbody></table>`;
+
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+// Spustit načtení předpovědi
+loadForecast();
 
 </script>
 </body>
