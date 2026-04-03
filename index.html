@@ -150,6 +150,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('wx-teplota',this)">🌡️ Teplota</button>
   <button class="nav-btn" onclick="showPage('wx-tydny',this)">📅 Dny × Teplota</button>
   <button class="nav-btn" onclick="showPage('wx-sezona',this)">🍂 Dny × Sezóna</button>
+  <button class="nav-btn" onclick="showPage('wx-svatky',this)">🗓️ Svátky 2025</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -318,6 +319,19 @@ tbody td{padding:10px 14px;vertical-align:middle}
   </div>
 </div>
 
+<!-- STÁTNÍ SVÁTKY -->
+<div id="wx-svatky" class="page">
+  <div class="wx-section">
+    <div class="wx-card">
+      <div class="wx-card-header">🗓️ Státní svátky 2025 — srovnání s průměrným dnem (stejný den v týdnu × sezóna)</div>
+      <div class="wx-card-body">
+        <p>Jak si vedl každý svátek oproti průměru pro stejný den v týdnu ve stejném ročním období. +/− % = odchylka od normálu.</p>
+        <div id="tbl-svatky-wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="footer">Chlorito.cz · Marketing Dashboard 2025 · Data: Shoptet + Open-Meteo · Vytvořeno Claudem</div>
 
 <script>
@@ -335,6 +349,7 @@ const B_OBRAT = {"Pondělí": {"<10°C": 99274, "10–15°C": 117072, "15–20°
 const C_OBRAT = {"Pondělí": {"<10°C": 106402, "10–15°C": 107987, "15–20°C": 305152, "20–25°C": 265776, "25–30°C": 254953, ">30°C": 448264}, "Úterý": {"<10°C": 73008, "10–15°C": 90418, "15–20°C": 229220, "20–25°C": 209726, "25–30°C": 255944, ">30°C": 367616}, "Středa": {"<10°C": 83565, "10–15°C": 87703, "15–20°C": 219306, "20–25°C": 200045, "25–30°C": 221420, ">30°C": 388144}, "Čtvrtek": {"<10°C": 57094, "10–15°C": 59445, "15–20°C": 168933, "20–25°C": 165299, "25–30°C": 202281, ">30°C": 363865}, "Pátek": {"<10°C": 48191, "10–15°C": 71754, "15–20°C": 146007, "20–25°C": 97655, "25–30°C": 183329, ">30°C": 242567}, "Sobota": {"<10°C": 24795, "10–15°C": 38273, "15–20°C": 103888, "20–25°C": 74310, "25–30°C": 145921, ">30°C": 173131}, "Neděle": {"<10°C": 38040, "10–15°C": 66698, "15–20°C": 161293, "20–25°C": 167106, "25–30°C": 194551, ">30°C": 296725}};
 const SEA_OBRAT = {"Pondělí": {"Zima": 98101.0, "Jaro": 223312.0, "Léto": 316933.0, "Podzim": 101905.0}, "Úterý": {"Zima": 53506.0, "Jaro": 200125.0, "Léto": 256681.0, "Podzim": 102052.0}, "Středa": {"Zima": 67224.0, "Jaro": 206470.0, "Léto": 270297.0, "Podzim": 84829.0}, "Čtvrtek": {"Zima": 51671.0, "Jaro": 170586.0, "Léto": 208537.0, "Podzim": 55608.0}, "Pátek": {"Zima": 43752.0, "Jaro": 136730.0, "Léto": 159875.0, "Podzim": 56409.0}, "Sobota": {"Zima": 17328.0, "Jaro": 100513.0, "Léto": 110345.0, "Podzim": 26965.0}, "Neděle": {"Zima": 36913.0, "Jaro": 157306.0, "Léto": 204739.0, "Podzim": 35094.0}};
 const SEA_OBJ   = {"Pondělí": {"Zima": 30.5, "Jaro": 118.0, "Léto": 186.7, "Podzim": 43.6}, "Úterý": {"Zima": 22.6, "Jaro": 111.2, "Léto": 158.4, "Podzim": 38.0}, "Středa": {"Zima": 24.4, "Jaro": 108.2, "Léto": 165.7, "Podzim": 34.6}, "Čtvrtek": {"Zima": 21.9, "Jaro": 88.2, "Léto": 128.8, "Podzim": 29.9}, "Pátek": {"Zima": 17.2, "Jaro": 69.8, "Léto": 95.2, "Podzim": 27.8}, "Sobota": {"Zima": 11.7, "Jaro": 58.6, "Léto": 76.5, "Podzim": 13.8}, "Neděle": {"Zima": 18.3, "Jaro": 93.8, "Léto": 138.2, "Podzim": 24.5}};
+const SVATKY    = [{"datum": "2025-01-01", "nazev": "🎆 Nový rok", "den": "Středa", "sezona": "Zima", "obrat": 42626, "pocet": 17, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -36.6, "pct_pocet": -30.2}, {"datum": "2025-04-18", "nazev": "🙏 Velký pátek", "den": "Pátek", "sezona": "Jaro", "obrat": 78492, "pocet": 46, "avg_obrat": 136730, "avg_pocet": 69.8, "pct_obrat": -42.6, "pct_pocet": -34.1}, {"datum": "2025-04-21", "nazev": "🐣 Velikonoční pondělí", "den": "Pondělí", "sezona": "Jaro", "obrat": 227576, "pocet": 148, "avg_obrat": 223312, "avg_pocet": 118.0, "pct_obrat": 1.9, "pct_pocet": 25.4}, {"datum": "2025-05-01", "nazev": "🌷 Svátek práce", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 274126, "pocet": 169, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 60.7, "pct_pocet": 91.5}, {"datum": "2025-05-08", "nazev": "✌️ Den vítězství", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 182491, "pocet": 98, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 7.0, "pct_pocet": 11.1}, {"datum": "2025-07-05", "nazev": "✨ Den Cyrila a Metoděje", "den": "Sobota", "sezona": "Léto", "obrat": 189774, "pocet": 120, "avg_obrat": 110345, "avg_pocet": 76.5, "pct_obrat": 72.0, "pct_pocet": 56.8}, {"datum": "2025-07-06", "nazev": "🔥 Den upálení Jana Husa", "den": "Neděle", "sezona": "Léto", "obrat": 258671, "pocet": 185, "avg_obrat": 204739, "avg_pocet": 138.2, "pct_obrat": 26.3, "pct_pocet": 33.9}, {"datum": "2025-09-28", "nazev": "🇨🇿 Den české státnosti", "den": "Neděle", "sezona": "Podzim", "obrat": 30803, "pocet": 26, "avg_obrat": 35094, "avg_pocet": 24.5, "pct_obrat": -12.2, "pct_pocet": 6.0}, {"datum": "2025-10-28", "nazev": "🎗️ Vznik Československa", "den": "Úterý", "sezona": "Podzim", "obrat": 31840, "pocet": 23, "avg_obrat": 102052, "avg_pocet": 38.0, "pct_obrat": -68.8, "pct_pocet": -39.5}, {"datum": "2025-11-17", "nazev": "🕊️ Den svobody a demokracie", "den": "Pondělí", "sezona": "Podzim", "obrat": 89043, "pocet": 34, "avg_obrat": 101905, "avg_pocet": 43.6, "pct_obrat": -12.6, "pct_pocet": -22.0}, {"datum": "2025-12-24", "nazev": "🎄 Štědrý den", "den": "Středa", "sezona": "Zima", "obrat": 135, "pocet": 1, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -99.8, "pct_pocet": -95.9}, {"datum": "2025-12-25", "nazev": "🎁 1. svátek vánoční", "den": "Čtvrtek", "sezona": "Zima", "obrat": 6009, "pocet": 7, "avg_obrat": 51671, "avg_pocet": 21.9, "pct_obrat": -88.4, "pct_pocet": -68.1}, {"datum": "2025-12-26", "nazev": "🎅 2. svátek vánoční", "den": "Pátek", "sezona": "Zima", "obrat": 10466, "pocet": 8, "avg_obrat": 43752, "avg_pocet": 17.2, "pct_obrat": -76.1, "pct_pocet": -53.4}];
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -421,12 +436,8 @@ function heatColor(v, minV, maxV){
   return `rgb(${r},${g},${b})`;
 }
 
-function textColor(bg){
-  const m=bg.match(/rgb\((\d+),(\d+),(\d+)\)/);
-  if(!m) return '#222';
-  const lum=(0.299*m[1]+0.587*m[2]+0.114*m[3])/255;
-  return lum>0.55?'#1a1a2e':'#fff';
-}
+// Vždy bílý text v barevných buňkách
+function textColor(bg){ return '#fff'; }
 
 // ─── HEATMAP TABULKA Z den->pasmo->val ───
 function buildHeatmap(wrapperId, dataObj, fmtFn, title){
@@ -532,6 +543,52 @@ buildHeatmap('htbl-B-pct-wrap',   B_PCT,   v=>v.toFixed(1),  '');
 buildHeatmap('htbl-C-obrat-wrap', C_OBRAT, v=>Math.round(v).toLocaleString('cs-CZ'), '');
 buildHeatmap('htbl-sea-obrat-wrap', SEA_OBRAT, v=>Math.round(v).toLocaleString('cs-CZ'), '');
 buildHeatmap('htbl-sea-obj-wrap',   SEA_OBJ,   v=>v.toFixed(1), '');
+
+// ─── TABULKA STÁTNÍCH SVÁTKŮ ───
+function pctBadge(v){
+  if(v===null||v===undefined) return '–';
+  const color = v>=0 ? '#27ae60' : '#e74c3c';
+  const sign  = v>=0 ? '+' : '';
+  return `<span style="display:inline-block;padding:2px 8px;border-radius:12px;
+    background:${color};color:#fff;font-size:11px;font-weight:700">${sign}${v}%</span>`;
+}
+function buildSvatkyTable(wrapperId, data){
+  const wrap=document.getElementById(wrapperId);
+  if(!wrap) return;
+  let html=`<table style="width:100%;border-collapse:collapse;font-size:13px">
+  <thead><tr style="background:#e8f0fe">
+    <th style="padding:9px 12px;text-align:left;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Datum</th>
+    <th style="padding:9px 12px;text-align:left;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Svátek</th>
+    <th style="padding:9px 12px;text-align:left;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Den / Sezóna</th>
+    <th style="padding:9px 12px;text-align:right;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Obrat (Kč)</th>
+    <th style="padding:9px 12px;text-align:right;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Prům. den (Kč)</th>
+    <th style="padding:9px 12px;text-align:center;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">% vs. průměr</th>
+    <th style="padding:9px 12px;text-align:right;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Obj.</th>
+    <th style="padding:9px 12px;text-align:right;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">Prům. obj.</th>
+    <th style="padding:9px 12px;text-align:center;color:#1a237e;font-size:11px;font-weight:700;border-bottom:2px solid #c5cae9">% vs. průměr</th>
+  </tr></thead><tbody>`;
+  data.forEach((r,i)=>{
+    const bg = i%2===0?'#fff':'#f9fbff';
+    const obrat  = r.obrat!==null ? Math.round(r.obrat).toLocaleString('cs-CZ')+' Kč' : '–';
+    const avg_ob = r.avg_obrat!==null ? Math.round(r.avg_obrat).toLocaleString('cs-CZ')+' Kč' : '–';
+    const pocet  = r.pocet!==null ? r.pocet : '–';
+    const avg_po = r.avg_pocet!==null ? r.avg_pocet : '–';
+    html+=`<tr style="background:${bg};border-bottom:1px solid #eef1f8">
+      <td style="padding:9px 12px;font-size:12px;color:#555">${r.datum}</td>
+      <td style="padding:9px 12px;font-weight:600">${r.nazev}</td>
+      <td style="padding:9px 12px;font-size:12px;color:#666">${r.den} · ${r.sezona}</td>
+      <td style="padding:9px 12px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums">${obrat}</td>
+      <td style="padding:9px 12px;text-align:right;color:#888;font-size:12px">${avg_ob}</td>
+      <td style="padding:9px 12px;text-align:center">${pctBadge(r.pct_obrat)}</td>
+      <td style="padding:9px 12px;text-align:right;font-weight:600">${pocet}</td>
+      <td style="padding:9px 12px;text-align:right;color:#888;font-size:12px">${avg_po}</td>
+      <td style="padding:9px 12px;text-align:center">${pctBadge(r.pct_pocet)}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+buildSvatkyTable('tbl-svatky-wrap', SVATKY);
 
 </script>
 </body>
