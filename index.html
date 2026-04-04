@@ -163,16 +163,6 @@ tbody td{padding:10px 14px;vertical-align:middle}
     <span class="logo-fallback" style="display:none">Chlorito.cz</span>
     <div class="header-sub">Marketing Dashboard 2025</div>
   </div>
-  <div class="header-stats">
-    <div>
-      <div class="stat-val">17 966</div>
-      <div class="stat-lbl">unikátních zákazníků</div>
-    </div>
-    <div>
-      <div class="stat-val">40,4 M Kč</div>
-      <div class="stat-lbl">celkový obrat</div>
-    </div>
-  </div>
 </div>
 
 <nav>
@@ -186,6 +176,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('wx-svatky',this)">🗓️ Svátky 2025</button>
   <button class="nav-btn" onclick="showPage('fx-lookup',this)">📊 Predikce A</button>
   <button class="nav-btn" onclick="showPage('fx-regrese',this)">🤖 Predikce B</button>
+  <button class="nav-btn" onclick="showPage('b2b-b2c',this)">🏢 B2B vs B2C</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -420,27 +411,38 @@ tbody td{padding:10px 14px;vertical-align:middle}
     <div class="fx-card">
       <div class="fx-card-header teal">🤖 Predikce B — Lineární regrese (Ridge) · živá předpověď</div>
       <div class="fx-card-body">
-        <div class="fx-metrics">
-          <div class="fx-metric teal">
-            <div class="fx-metric-val" id="fb-r2">–</div>
-            <div class="fx-metric-lbl">R² (vysvětlená variance)</div>
-          </div>
-          <div class="fx-metric teal">
-            <div class="fx-metric-val" id="fb-rmse">–</div>
-            <div class="fx-metric-lbl">RMSE (průměrná chyba)</div>
-          </div>
-          <div class="fx-metric teal">
-            <div class="fx-metric-val" id="fb-mae">–</div>
-            <div class="fx-metric-lbl">MAE (střední abs. chyba)</div>
-          </div>
-          <div class="fx-metric teal">
-            <div class="fx-metric-val" id="fb-n">–</div>
-            <div class="fx-metric-lbl">tréninkových dní</div>
-          </div>
-        </div>
         <div class="fx-formula" id="fb-formula">⏳ Načítám model…</div>
         <div id="fb-table-wrap"><div class="fx-loading">⏳ Načítám předpověď počasí…</div></div>
         <p class="fx-note" id="fb-updated"></p>
+        <!-- Metriky modelu jsou záměrně až zde — nejsou hlavním výstupem -->
+        <div style="margin-top:20px;padding:14px;background:#f8f9fa;border-radius:8px;border-left:4px solid #00695C">
+          <div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:8px">📐 Kvalita modelu (trénink na datech 2025)</div>
+          <div class="fx-metrics">
+            <div class="fx-metric teal">
+              <div class="fx-metric-val" id="fb-r2">–</div>
+              <div class="fx-metric-lbl">R²</div>
+            </div>
+            <div class="fx-metric teal">
+              <div class="fx-metric-val" id="fb-rmse">–</div>
+              <div class="fx-metric-lbl">RMSE</div>
+            </div>
+            <div class="fx-metric teal">
+              <div class="fx-metric-val" id="fb-mae">–</div>
+              <div class="fx-metric-lbl">MAE</div>
+            </div>
+            <div class="fx-metric teal">
+              <div class="fx-metric-val" id="fb-n">–</div>
+              <div class="fx-metric-lbl">tréninkových dní</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#555;margin-top:10px;line-height:1.7">
+            <b>R²</b> = kolik % variability obratu model vysvětluje (0.60 = 60 %). Zbývá 40 % neznámých faktorů (akce, e-mailing, atd.).<br>
+            <b>RMSE</b> = průměrná chyba predikce — na průměrný den (127K Kč) je to cca ±58 %.<br>
+            <b>MAE</b> = střední absolutní chyba — reálnější pohled na typickou odchylku.<br>
+            <b>Proč Úterý/Středa jako kladné oproti Pondělí?</b> Surová data: Pondělí je skutečně nejsilnější (185K Kč vs Út 153K). Ale model <i>kontroluje pro měsíc</i> — v červenci 2025 má Úterý/Středa 5 výskytů vs Pondělí jen 4. Červenec má negativní měsíční koeficient, takže model uvnitř měsíce přeskupí váhy. Jde o statistický artefakt s jedním rokem dat — reálné pořadí dnů se nemění.<br>
+            <b>Proč srážky kladně (+424 Kč/mm)?</b> Korelace srážky×obrat je -0.001 — prakticky nulová. Efekt je zanedbatelný (&lt;2 % průměrného dne). Pro e-shop s chemikáliemi déšť nákup nezastaví.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -448,6 +450,84 @@ tbody td{padding:10px 14px;vertical-align:middle}
       <div class="fx-card-header teal">📈 Koeficienty modelu — vliv proměnných na denní obrat</div>
       <div class="fx-card-body">
         <div id="fb-coef-wrap"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- B2B vs B2C -->
+<div id="b2b-b2c" class="page">
+  <div class="fx-section">
+
+    <!-- SUMMARY KARTY -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0">
+      <div class="fx-card">
+        <div class="fx-card-header teal">🏢 B2B — Firemní zákazníci</div>
+        <div class="fx-card-body">
+          <div class="fx-metrics">
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-pocet">–</div><div class="fx-metric-lbl">objednávek</div></div>
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-obrat">–</div><div class="fx-metric-lbl">celkový obrat</div></div>
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-podil-obj">–</div><div class="fx-metric-lbl">podíl objemu</div></div>
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-podil-ob">–</div><div class="fx-metric-lbl">podíl obratu</div></div>
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-kosik">–</div><div class="fx-metric-lbl">průměrný košík</div></div>
+            <div class="fx-metric teal"><div class="fx-metric-val" id="b2b-med">–</div><div class="fx-metric-lbl">medián košíku</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="fx-card">
+        <div class="fx-card-header blue">🛒 B2C — Jednotliví zákazníci</div>
+        <div class="fx-card-body">
+          <div class="fx-metrics">
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-pocet">–</div><div class="fx-metric-lbl">objednávek</div></div>
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-obrat">–</div><div class="fx-metric-lbl">celkový obrat</div></div>
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-podil-obj">–</div><div class="fx-metric-lbl">podíl objemu</div></div>
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-podil-ob">–</div><div class="fx-metric-lbl">podíl obratu</div></div>
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-kosik">–</div><div class="fx-metric-lbl">průměrný košík</div></div>
+            <div class="fx-metric"><div class="fx-metric-val" id="b2c-med">–</div><div class="fx-metric-lbl">medián košíku</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DNY TÝDNE -->
+    <div class="fx-card">
+      <div class="fx-card-header blue">📅 Průměrný košík — Den v týdnu · B2B vs B2C (Kč)</div>
+      <div class="fx-card-body">
+        <p style="font-size:12px;color:#555;margin-bottom:10px">B2B je silně pracovní-denní segment. Výška sloupce = průměrný košík daného segmentu.</p>
+        <div id="b2b-dow-wrap"></div>
+      </div>
+    </div>
+
+    <!-- MĚSÍCE -->
+    <div class="fx-card">
+      <div class="fx-card-header blue">📆 Celkový obrat — Měsíce · B2B vs B2C (Kč)</div>
+      <div class="fx-card-body">
+        <div id="b2b-mon-wrap"></div>
+      </div>
+    </div>
+
+    <!-- PRODUKTY -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="fx-card">
+        <div class="fx-card-header teal">🏢 Top 10 produktů — B2B (tržby)</div>
+        <div class="fx-card-body">
+          <div id="b2b-prods-wrap"></div>
+        </div>
+      </div>
+      <div class="fx-card">
+        <div class="fx-card-header blue">🛒 Top 10 produktů — B2C (tržby)</div>
+        <div class="fx-card-body">
+          <div id="b2c-prods-wrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KOŠÍK DISTRIBUCE -->
+    <div class="fx-card">
+      <div class="fx-card-header blue">💰 Distribuce velikosti košíku — B2B vs B2C</div>
+      <div class="fx-card-body">
+        <div id="b2b-basket-wrap"></div>
       </div>
     </div>
 
@@ -474,6 +554,18 @@ const SEA_OBJ   = {"Pondělí": {"Zima": 30.5, "Jaro": 118.0, "Léto": 186.7, "P
 const SVATKY    = [{"datum": "2025-01-01", "nazev": "🎆 Nový rok", "den": "Středa", "sezona": "Zima", "obrat": 42626, "pocet": 17, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -36.6, "pct_pocet": -30.2}, {"datum": "2025-04-18", "nazev": "🙏 Velký pátek", "den": "Pátek", "sezona": "Jaro", "obrat": 78492, "pocet": 46, "avg_obrat": 136730, "avg_pocet": 69.8, "pct_obrat": -42.6, "pct_pocet": -34.1}, {"datum": "2025-04-21", "nazev": "🐣 Velikonoční pondělí", "den": "Pondělí", "sezona": "Jaro", "obrat": 227576, "pocet": 148, "avg_obrat": 223312, "avg_pocet": 118.0, "pct_obrat": 1.9, "pct_pocet": 25.4}, {"datum": "2025-05-01", "nazev": "🌷 Svátek práce", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 274126, "pocet": 169, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 60.7, "pct_pocet": 91.5}, {"datum": "2025-05-08", "nazev": "✌️ Den vítězství", "den": "Čtvrtek", "sezona": "Jaro", "obrat": 182491, "pocet": 98, "avg_obrat": 170586, "avg_pocet": 88.2, "pct_obrat": 7.0, "pct_pocet": 11.1}, {"datum": "2025-07-05", "nazev": "✨ Den Cyrila a Metoděje", "den": "Sobota", "sezona": "Léto", "obrat": 189774, "pocet": 120, "avg_obrat": 110345, "avg_pocet": 76.5, "pct_obrat": 72.0, "pct_pocet": 56.8}, {"datum": "2025-07-06", "nazev": "🔥 Den upálení Jana Husa", "den": "Neděle", "sezona": "Léto", "obrat": 258671, "pocet": 185, "avg_obrat": 204739, "avg_pocet": 138.2, "pct_obrat": 26.3, "pct_pocet": 33.9}, {"datum": "2025-09-28", "nazev": "🇨🇿 Den české státnosti", "den": "Neděle", "sezona": "Podzim", "obrat": 30803, "pocet": 26, "avg_obrat": 35094, "avg_pocet": 24.5, "pct_obrat": -12.2, "pct_pocet": 6.0}, {"datum": "2025-10-28", "nazev": "🎗️ Vznik Československa", "den": "Úterý", "sezona": "Podzim", "obrat": 31840, "pocet": 23, "avg_obrat": 102052, "avg_pocet": 38.0, "pct_obrat": -68.8, "pct_pocet": -39.5}, {"datum": "2025-11-17", "nazev": "🕊️ Den svobody a demokracie", "den": "Pondělí", "sezona": "Podzim", "obrat": 89043, "pocet": 34, "avg_obrat": 101905, "avg_pocet": 43.6, "pct_obrat": -12.6, "pct_pocet": -22.0}, {"datum": "2025-12-24", "nazev": "🎄 Štědrý den", "den": "Středa", "sezona": "Zima", "obrat": 135, "pocet": 1, "avg_obrat": 67224, "avg_pocet": 24.4, "pct_obrat": -99.8, "pct_pocet": -95.9}, {"datum": "2025-12-25", "nazev": "🎁 1. svátek vánoční", "den": "Čtvrtek", "sezona": "Zima", "obrat": 6009, "pocet": 7, "avg_obrat": 51671, "avg_pocet": 21.9, "pct_obrat": -88.4, "pct_pocet": -68.1}, {"datum": "2025-12-26", "nazev": "🎅 2. svátek vánoční", "den": "Pátek", "sezona": "Zima", "obrat": 10466, "pocet": 8, "avg_obrat": 43752, "avg_pocet": 17.2, "pct_obrat": -76.1, "pct_pocet": -53.4}];
 const LOOKUP_A  = {"0–5°C": {"Neděle": {"avg_obrat": 39682, "avg_pocet": 19, "n": 9}, "Pondělí": {"avg_obrat": 86609, "avg_pocet": 30, "n": 7}, "Pátek": {"avg_obrat": 41735, "avg_pocet": 17, "n": 10}, "Sobota": {"avg_obrat": 23195, "avg_pocet": 12, "n": 11}, "Středa": {"avg_obrat": 89645, "avg_pocet": 26, "n": 11}, "Úterý": {"avg_obrat": 71327, "avg_pocet": 24, "n": 9}, "Čtvrtek": {"avg_obrat": 60265, "avg_pocet": 24, "n": 10}}, "10–15°C": {"Neděle": {"avg_obrat": 42428, "avg_pocet": 31, "n": 7}, "Pondělí": {"avg_obrat": 117072, "avg_pocet": 53, "n": 11}, "Pátek": {"avg_obrat": 89113, "avg_pocet": 42, "n": 12}, "Sobota": {"avg_obrat": 34943, "avg_pocet": 20, "n": 8}, "Středa": {"avg_obrat": 82494, "avg_pocet": 42, "n": 11}, "Úterý": {"avg_obrat": 90229, "avg_pocet": 46, "n": 15}, "Čtvrtek": {"avg_obrat": 78067, "avg_pocet": 41, "n": 15}}, "15–20°C": {"Neděle": {"avg_obrat": 174180, "avg_pocet": 102, "n": 10}, "Pondělí": {"avg_obrat": 292449, "avg_pocet": 151, "n": 8}, "Pátek": {"avg_obrat": 98825, "avg_pocet": 54, "n": 7}, "Sobota": {"avg_obrat": 78261, "avg_pocet": 48, "n": 12}, "Středa": {"avg_obrat": 163923, "avg_pocet": 92, "n": 4}, "Úterý": {"avg_obrat": 208874, "avg_pocet": 112, "n": 9}, "Čtvrtek": {"avg_obrat": 171165, "avg_pocet": 88, "n": 6}}, "20–25°C": {"Neděle": {"avg_obrat": 102052, "avg_pocet": 71, "n": 7}, "Pondělí": {"avg_obrat": 238088, "avg_pocet": 139, "n": 9}, "Pátek": {"avg_obrat": 129584, "avg_pocet": 75, "n": 8}, "Sobota": {"avg_obrat": 70381, "avg_pocet": 39, "n": 5}, "Středa": {"avg_obrat": 220713, "avg_pocet": 122, "n": 13}, "Úterý": {"avg_obrat": 247980, "avg_pocet": 146, "n": 6}, "Čtvrtek": {"avg_obrat": 167436, "avg_pocet": 106, "n": 8}}, "25–30°C": {"Neděle": {"avg_obrat": 163137, "avg_pocet": 105, "n": 4}, "Pondělí": {"avg_obrat": 289829, "avg_pocet": 176, "n": 5}, "Pátek": {"avg_obrat": 197127, "avg_pocet": 111, "n": 7}, "Sobota": {"avg_obrat": 153223, "avg_pocet": 106, "n": 9}, "Středa": {"avg_obrat": 274811, "avg_pocet": 165, "n": 4}, "Úterý": {"avg_obrat": 253538, "avg_pocet": 151, "n": 7}, "Čtvrtek": {"avg_obrat": 201863, "avg_pocet": 119, "n": 7}}, "5–10°C": {"Neděle": {"avg_obrat": 37880, "avg_pocet": 24, "n": 7}, "Pondělí": {"avg_obrat": 93168, "avg_pocet": 42, "n": 9}, "Pátek": {"avg_obrat": 53395, "avg_pocet": 22, "n": 5}, "Sobota": {"avg_obrat": 19835, "avg_pocet": 13, "n": 4}, "Středa": {"avg_obrat": 79959, "avg_pocet": 37, "n": 7}, "Úterý": {"avg_obrat": 70241, "avg_pocet": 31, "n": 4}, "Čtvrtek": {"avg_obrat": 62434, "avg_pocet": 24, "n": 2}}, "<0°C": {"Neděle": {"avg_obrat": 31915, "avg_pocet": 19, "n": 3}, "Pondělí": {"avg_obrat": 171075, "avg_pocet": 49, "n": 2}, "Pátek": {"avg_obrat": 34730, "avg_pocet": 16, "n": 1}, "Sobota": {"avg_obrat": 16678, "avg_pocet": 12, "n": 2}, "Úterý": {"avg_obrat": 68264, "avg_pocet": 23, "n": 1}, "Čtvrtek": {"avg_obrat": 6009, "avg_pocet": 7, "n": 1}}, ">30°C": {"Neděle": {"avg_obrat": 337348, "avg_pocet": 228, "n": 5}, "Pondělí": {"avg_obrat": 617015, "avg_pocet": 315, "n": 1}, "Pátek": {"avg_obrat": 130608, "avg_pocet": 88, "n": 2}, "Sobota": {"avg_obrat": 82721, "avg_pocet": 45, "n": 1}, "Středa": {"avg_obrat": 388144, "avg_pocet": 247, "n": 3}, "Úterý": {"avg_obrat": 473616, "avg_pocet": 285, "n": 1}, "Čtvrtek": {"avg_obrat": 213061, "avg_pocet": 124, "n": 3}}};
 const COEF_B    = {"intercept": 4496.0, "coef_tmax": 5452.11, "coef_precip": 424.47, "coef_sunshine": 5513.02, "dow_effects": [0.0, 9218.0, 9828.0, -8672.0, -17457.0, -34757.0, -13530.0], "month_effects": [0.0, -2487.0, -10043.0, 14564.0, 31814.0, 51692.0, -3203.0, -33901.0, -33040.0, -20165.0, -384.0, -5760.0], "r2": 0.6, "rmse": 72965.0, "mae": 53488.0, "n_train": 365};
+const DAILY_2025 = {"2025-01-01": 42626, "2025-01-02": 82242, "2025-01-03": 61939, "2025-01-04": 14249, "2025-01-05": 33430, "2025-01-06": 204331, "2025-01-07": 131620, "2025-01-08": 112659, "2025-01-09": 63389, "2025-01-10": 57559, "2025-01-11": 39843, "2025-01-12": 31180, "2025-01-13": 221871, "2025-01-14": 87490, "2025-01-15": 158447, "2025-01-16": 55900, "2025-01-17": 20502, "2025-01-18": 10188, "2025-01-19": 31237, "2025-01-20": 65385, "2025-01-21": 33349, "2025-01-22": 128641, "2025-01-23": 103429, "2025-01-24": 69433, "2025-01-25": 12239, "2025-01-26": 41385, "2025-01-27": 53137, "2025-01-28": 30531, "2025-01-29": 42492, "2025-01-30": 42627, "2025-01-31": 41292, "2025-02-01": 28277, "2025-02-02": 55519, "2025-02-03": 72460, "2025-02-04": 50605, "2025-02-05": 96947, "2025-02-06": 31709, "2025-02-07": 29276, "2025-02-08": 26717, "2025-02-09": 30982, "2025-02-10": 80845, "2025-02-11": 42512, "2025-02-12": 93694, "2025-02-13": 56195, "2025-02-14": 34730, "2025-02-15": 12601, "2025-02-16": 21937, "2025-02-17": 120278, "2025-02-18": 68264, "2025-02-19": 31931, "2025-02-20": 38778, "2025-02-21": 35617, "2025-02-22": 22384, "2025-02-23": 66901, "2025-02-24": 127441, "2025-02-25": 46865, "2025-02-26": 31096, "2025-02-27": 42236, "2025-02-28": 67207, "2025-03-01": 36759, "2025-03-02": 38626, "2025-03-03": 62648, "2025-03-04": 52579, "2025-03-05": 111779, "2025-03-06": 44994, "2025-03-07": 83133, "2025-03-08": 30291, "2025-03-09": 85900, "2025-03-10": 112177, "2025-03-11": 113981, "2025-03-12": 79389, "2025-03-13": 100297, "2025-03-14": 53427, "2025-03-15": 33670, "2025-03-16": 39559, "2025-03-17": 76536, "2025-03-18": 76300, "2025-03-19": 111533, "2025-03-20": 40921, "2025-03-21": 77487, "2025-03-22": 92616, "2025-03-23": 79863, "2025-03-24": 103540, "2025-03-25": 168271, "2025-03-26": 142662, "2025-03-27": 104466, "2025-03-28": 145684, "2025-03-29": 69403, "2025-03-30": 62452, "2025-03-31": 124278, "2025-04-01": 80564, "2025-04-02": 95345, "2025-04-03": 116237, "2025-04-04": 106153, "2025-04-05": 50636, "2025-04-06": 70770, "2025-04-07": 116723, "2025-04-08": 153270, "2025-04-09": 150550, "2025-04-10": 140526, "2025-04-11": 105745, "2025-04-12": 80477, "2025-04-13": 158039, "2025-04-14": 249908, "2025-04-15": 182919, "2025-04-16": 263342, "2025-04-17": 239207, "2025-04-18": 78492, "2025-04-19": 117880, "2025-04-20": 154992, "2025-04-21": 227576, "2025-04-22": 411207, "2025-04-23": 335439, "2025-04-24": 168980, "2025-04-25": 198155, "2025-04-26": 119542, "2025-04-27": 288726, "2025-04-28": 434212, "2025-04-29": 443418, "2025-04-30": 216680, "2025-05-01": 274126, "2025-05-02": 370670, "2025-05-03": 185985, "2025-05-04": 344107, "2025-05-05": 347857, "2025-05-06": 218030, "2025-05-07": 289265, "2025-05-08": 182491, "2025-05-09": 184911, "2025-05-10": 143168, "2025-05-11": 257969, "2025-05-12": 425454, "2025-05-13": 298691, "2025-05-14": 350294, "2025-05-15": 372336, "2025-05-16": 128025, "2025-05-17": 140232, "2025-05-18": 251845, "2025-05-19": 262426, "2025-05-20": 164841, "2025-05-21": 282345, "2025-05-22": 189645, "2025-05-23": 116497, "2025-05-24": 88927, "2025-05-25": 212126, "2025-05-26": 359719, "2025-05-27": 237551, "2025-05-28": 255488, "2025-05-29": 243392, "2025-05-30": 129114, "2025-05-31": 217599, "2025-06-01": 322913, "2025-06-02": 376233, "2025-06-03": 262538, "2025-06-04": 338600, "2025-06-05": 281413, "2025-06-06": 267173, "2025-06-07": 123577, "2025-06-08": 178905, "2025-06-09": 374436, "2025-06-10": 281781, "2025-06-11": 344044, "2025-06-12": 285557, "2025-06-13": 313663, "2025-06-14": 227390, "2025-06-15": 519754, "2025-06-16": 523700, "2025-06-17": 506599, "2025-06-18": 491594, "2025-06-19": 411687, "2025-06-20": 321648, "2025-06-21": 235796, "2025-06-22": 446756, "2025-06-23": 617015, "2025-06-24": 460045, "2025-06-25": 457750, "2025-06-26": 363865, "2025-06-27": 242567, "2025-06-28": 173131, "2025-06-29": 303864, "2025-06-30": 486575, "2025-07-01": 473616, "2025-07-02": 531553, "2025-07-03": 302500, "2025-07-04": 180663, "2025-07-05": 189774, "2025-07-06": 258671, "2025-07-07": 331515, "2025-07-08": 180148, "2025-07-09": 242607, "2025-07-10": 187640, "2025-07-11": 132949, "2025-07-12": 74421, "2025-07-13": 133146, "2025-07-14": 250503, "2025-07-15": 214430, "2025-07-16": 174706, "2025-07-17": 141061, "2025-07-18": 76998, "2025-07-19": 62221, "2025-07-20": 157697, "2025-07-21": 314707, "2025-07-22": 238697, "2025-07-23": 191781, "2025-07-24": 202416, "2025-07-25": 104440, "2025-07-26": 88347, "2025-07-27": 70601, "2025-07-28": 167882, "2025-07-29": 125315, "2025-07-30": 139276, "2025-07-31": 63890, "2025-08-01": 48995, "2025-08-02": 31401, "2025-08-03": 93364, "2025-08-04": 165774, "2025-08-05": 97831, "2025-08-06": 157768, "2025-08-07": 145585, "2025-08-08": 104061, "2025-08-09": 82721, "2025-08-10": 139553, "2025-08-11": 241202, "2025-08-12": 169187, "2025-08-13": 175129, "2025-08-14": 158750, "2025-08-15": 157154, "2025-08-16": 49800, "2025-08-17": 104634, "2025-08-18": 152902, "2025-08-19": 163268, "2025-08-20": 198758, "2025-08-21": 50055, "2025-08-22": 96938, "2025-08-23": 28750, "2025-08-24": 57526, "2025-08-25": 117681, "2025-08-26": 163404, "2025-08-27": 70292, "2025-08-28": 116568, "2025-08-29": 31128, "2025-08-30": 67159, "2025-08-31": 78956, "2025-09-01": 156158, "2025-09-02": 187443, "2025-09-03": 104637, "2025-09-04": 61590, "2025-09-05": 60845, "2025-09-06": 21873, "2025-09-07": 53778, "2025-09-08": 121634, "2025-09-09": 136130, "2025-09-10": 66352, "2025-09-11": 49261, "2025-09-12": 79378, "2025-09-13": 21831, "2025-09-14": 33888, "2025-09-15": 101332, "2025-09-16": 72800, "2025-09-17": 73041, "2025-09-18": 56542, "2025-09-19": 38773, "2025-09-20": 37316, "2025-09-21": 56935, "2025-09-22": 89996, "2025-09-23": 82820, "2025-09-24": 89354, "2025-09-25": 57691, "2025-09-26": 52188, "2025-09-27": 13543, "2025-09-28": 30803, "2025-09-29": 104625, "2025-09-30": 48655, "2025-10-01": 41496, "2025-10-02": 70561, "2025-10-03": 88657, "2025-10-04": 39446, "2025-10-05": 33761, "2025-10-06": 52878, "2025-10-07": 53331, "2025-10-08": 37897, "2025-10-09": 70860, "2025-10-10": 70503, "2025-10-11": 37291, "2025-10-12": 37641, "2025-10-13": 72869, "2025-10-14": 49765, "2025-10-15": 35891, "2025-10-16": 23982, "2025-10-17": 43018, "2025-10-18": 3481, "2025-10-19": 20670, "2025-10-20": 91121, "2025-10-21": 144270, "2025-10-22": 76823, "2025-10-23": 34521, "2025-10-24": 19882, "2025-10-25": 9827, "2025-10-26": 16102, "2025-10-27": 65820, "2025-10-28": 31840, "2025-10-29": 117328, "2025-10-30": 51017, "2025-10-31": 63475, "2025-11-01": 23830, "2025-11-02": 25619, "2025-11-03": 72807, "2025-11-04": 106268, "2025-11-05": 56475, "2025-11-06": 48310, "2025-11-07": 19546, "2025-11-08": 43873, "2025-11-09": 37752, "2025-11-10": 81769, "2025-11-11": 69870, "2025-11-12": 92356, "2025-11-13": 76739, "2025-11-14": 100201, "2025-11-15": 19806, "2025-11-16": 36987, "2025-11-17": 89043, "2025-11-18": 131317, "2025-11-19": 161771, "2025-11-20": 81145, "2025-11-21": 38276, "2025-11-22": 20756, "2025-11-23": 42628, "2025-11-24": 224710, "2025-11-25": 212165, "2025-11-26": 149358, "2025-11-27": 40680, "2025-11-28": 58578, "2025-11-29": 57676, "2025-11-30": 29654, "2025-12-01": 41688, "2025-12-02": 34719, "2025-12-03": 65062, "2025-12-04": 76683, "2025-12-05": 63990, "2025-12-06": 11505, "2025-12-07": 24836, "2025-12-08": 120702, "2025-12-09": 77321, "2025-12-10": 53008, "2025-12-11": 54699, "2025-12-12": 58150, "2025-12-13": 17998, "2025-12-14": 19662, "2025-12-15": 84279, "2025-12-16": 19117, "2025-12-17": 81000, "2025-12-18": 17833, "2025-12-19": 18611, "2025-12-20": 2426, "2025-12-21": 19049, "2025-12-22": 27628, "2025-12-23": 18396, "2025-12-24": 135, "2025-12-25": 6009, "2025-12-26": 10466, "2025-12-27": 9504, "2025-12-28": 66835, "2025-12-29": 55264, "2025-12-30": 54784, "2025-12-31": 3399};   // skutečný denní obrat 2025
+const GROWTH    = 1.20;               // plánovaný růst 2026 vs 2025
+const B2B_SUM   = {"pocet": 3326, "obrat": 13399250, "avg_kosik": 4029, "med_kosik": 2171, "podil_pocet": 13.0, "podil_obrat": 28.8};
+const B2C_SUM   = {"pocet": 22294, "obrat": 33118446, "avg_kosik": 1486, "med_kosik": 990, "podil_pocet": 87.0, "podil_obrat": 71.2};
+const B2B_DOW   = [{"den": "Pondělí", "avg": 4488, "total": 3222267, "cnt": 718}, {"den": "Úterý", "avg": 3980, "total": 2467794, "cnt": 620}, {"den": "Středa", "avg": 4359, "total": 2824332, "cnt": 648}, {"den": "Čtvrtek", "avg": 3813, "total": 2051191, "cnt": 538}, {"den": "Pátek", "avg": 4059, "total": 1716923, "cnt": 423}, {"den": "Sobota", "avg": 3086, "total": 432009, "cnt": 140}, {"den": "Neděle", "avg": 2865, "total": 684734, "cnt": 239}];
+const B2C_DOW   = [{"den": "Pondělí", "avg": 1522, "total": 6400988, "cnt": 4206}, {"den": "Úterý", "avg": 1496, "total": 5492934, "cnt": 3672}, {"den": "Středa", "avg": 1463, "total": 5417553, "cnt": 3704}, {"den": "Čtvrtek", "avg": 1444, "total": 4272041, "cnt": 2958}, {"den": "Pátek", "avg": 1493, "total": 3441037, "cnt": 2305}, {"den": "Sobota", "avg": 1488, "total": 2968142, "cnt": 1995}, {"den": "Neděle", "avg": 1484, "total": 5125751, "cnt": 3454}];
+const B2B_MON   = [{"mesic": "Leden", "m": 1, "total": 1353509, "avg": 5050, "cnt": 268}, {"mesic": "Únor", "m": 2, "total": 735885, "avg": 3935, "cnt": 187}, {"mesic": "Březen", "m": 3, "total": 634534, "avg": 3375, "cnt": 188}, {"mesic": "Duben", "m": 4, "total": 1151996, "avg": 3523, "cnt": 327}, {"mesic": "Květen", "m": 5, "total": 1438879, "avg": 4183, "cnt": 344}, {"mesic": "Červen", "m": 6, "total": 1791991, "avg": 3749, "cnt": 478}, {"mesic": "Červenec", "m": 7, "total": 1367177, "avg": 3895, "cnt": 351}, {"mesic": "Srpen", "m": 8, "total": 969480, "avg": 3462, "cnt": 280}, {"mesic": "Září", "m": 9, "total": 982274, "avg": 4093, "cnt": 240}, {"mesic": "Říjen", "m": 10, "total": 773498, "avg": 3946, "cnt": 196}, {"mesic": "Listopad", "m": 11, "total": 1471763, "avg": 5201, "cnt": 283}, {"mesic": "Prosinec", "m": 12, "total": 728265, "avg": 3958, "cnt": 184}];
+const B2C_MON   = [{"mesic": "Leden", "m": 1, "total": 771132, "avg": 1521, "cnt": 507}, {"mesic": "Únor", "m": 2, "total": 728120, "avg": 1734, "cnt": 420}, {"mesic": "Březen", "m": 3, "total": 1920685, "avg": 1672, "cnt": 1149}, {"mesic": "Duben", "m": 4, "total": 4403716, "avg": 1575, "cnt": 2796}, {"mesic": "Květen", "m": 5, "total": 6086245, "avg": 1656, "cnt": 3675}, {"mesic": "Červen", "m": 6, "total": 8748583, "avg": 1457, "cnt": 6004}, {"mesic": "Červenec", "m": 7, "total": 4636993, "avg": 1345, "cnt": 3447}, {"mesic": "Srpen", "m": 8, "total": 2546816, "avg": 1325, "cnt": 1922}, {"mesic": "Září", "m": 9, "total": 1178938, "avg": 1410, "cnt": 836}, {"mesic": "Říjen", "m": 10, "total": 832524, "avg": 1207, "cnt": 690}, {"mesic": "Listopad", "m": 11, "total": 778203, "avg": 1511, "cnt": 515}, {"mesic": "Prosinec", "m": 12, "total": 486492, "avg": 1461, "cnt": 333}];
+const B2B_PRODS = [{"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "qty": 711, "rev": 140403}, {"name": "Tabletová regenerační sůl 1000 kg Solivary 40x25 kg", "qty": 69, "rev": 130555}, {"name": "Posypová sůl 1000kg (40x25 kg)", "qty": 71, "rev": 126669}, {"name": "Čtvercová regenerační sůl 1000 kg Solivary 40x25 kg", "qty": 54, "rev": 101910}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "qty": 1918, "rev": 81725}, {"name": "Tabletová regenerační sůl 500 kg Solivary 20x25 kg", "qty": 62, "rev": 65134}, {"name": "Mořská sůl Margharita 1000 kg (40x25 kg)", "qty": 28, "rev": 57555}, {"name": "Posypová sůl 1000 kg 40x25 kg doprava zdarma", "qty": 26, "rev": 52580}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l - doprava zd", "qty": 220, "rev": 52419}, {"name": "Tabletová regenerační sůl 1000 kg Solivary 40x25 kg Pou", "qty": 33, "rev": 50213}];
+const B2C_PRODS = [{"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "qty": 2252, "rev": 340507}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "qty": 1053, "rev": 182327}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "qty": 804, "rev": 161333}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "qty": 684, "rev": 112412}, {"name": "Pojízdný naviják na solární plachtu 2,15 - 5,55 m", "qty": 194, "rev": 108503}, {"name": "Mořská sůl Margherita 25 kg", "qty": 2253, "rev": 103442}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "qty": 2223, "rev": 95575}, {"name": "Solární sprcha COMFORT ALU", "qty": 112, "rev": 95436}, {"name": "Nafukovací vířivá vana NetSpa BOHEMIAN", "qty": 69, "rev": 83332}, {"name": "Multi tablety 6v1 do bazénu 200g 10kg", "qty": 247, "rev": 82281}];
+const B2B_BASKET= [{"range": "<500", "cnt": 333, "pct": 10.0}, {"range": "500–1K", "cnt": 457, "pct": 13.7}, {"range": "1K–2K", "cnt": 664, "pct": 20.0}, {"range": "2K–5K", "cnt": 907, "pct": 27.3}, {"range": "5K–10K", "cnt": 497, "pct": 14.9}, {"range": "10K–50K", "cnt": 341, "pct": 10.3}, {"range": ">50K", "cnt": 3, "pct": 0.1}];
+const B2C_BASKET= [{"range": "<500", "cnt": 4953, "pct": 22.2}, {"range": "500–1K", "cnt": 5493, "pct": 24.6}, {"range": "1K–2K", "cnt": 6419, "pct": 28.8}, {"range": "2K–5K", "cnt": 3707, "pct": 16.6}, {"range": "5K–10K", "cnt": 654, "pct": 2.9}, {"range": "10K–50K", "cnt": 159, "pct": 0.7}, {"range": ">50K", "cnt": 1, "pct": 0.0}];
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -719,7 +811,7 @@ buildSvatkyTable('tbl-svatky-wrap', SVATKY);
 // ═══════════════════════════════════════════════
 const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=49.8&longitude=15.5' +
   '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration' +
-  '&forecast_days=7&timezone=Europe%2FPrague';
+  '&past_days=14&forecast_days=7&timezone=Europe%2FPrague';
 
 const DOW_CZ = ['Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota','Neděle'];
 const MON_CZ = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
@@ -766,59 +858,118 @@ async function loadForecast(){
   }
 }
 
+// ─── STORAGE pro skutečný obrat 2026 ───
+function saveReal(dateStr, val){
+  const d = JSON.parse(localStorage.getItem('chlorito_real')||'{}');
+  if(val===null||val==='') delete d[dateStr]; else d[dateStr]=parseInt(val)||0;
+  localStorage.setItem('chlorito_real', JSON.stringify(d));
+}
+function loadReal(dateStr){
+  const d = JSON.parse(localStorage.getItem('chlorito_real')||'{}');
+  return d[dateStr]!==undefined ? d[dateStr] : null;
+}
+
 // ─── VARIANTA A ───
 function renderPredA(){
   if(!FORECAST) return;
   const d = FORECAST;
   const n = d.time.length;
+  const today = new Date(); today.setHours(0,0,0,0);
   const bands = Object.keys(LOOKUP_A);
 
   document.getElementById('fa-days').textContent  = n;
   document.getElementById('fa-bands').textContent = bands.length;
 
+  // Sbírej všechny předpovídané hodnoty pro heatmap škálování
+  const predVals = [];
+  d.time.forEach((date,i)=>{
+    const dt  = new Date(date); dt.setHours(0,0,0,0);
+    const dow = (dt.getDay()+6)%7;
+    const tmax= d.temperature_2m_max[i];
+    const band= getTempBand(tmax);
+    const denCz=DOW_CZ[dow];
+    const lkp = (LOOKUP_A[band]&&LOOKUP_A[band][denCz]) ? LOOKUP_A[band][denCz] : null;
+    if(lkp) predVals.push(Math.round(lkp.avg_obrat * GROWTH));
+  });
+  const predMin=Math.min(...predVals), predMax=Math.max(...predVals);
+
   let rows = '';
   d.time.forEach((date,i)=>{
-    const dt   = new Date(date);
-    const dow  = (dt.getDay()+6)%7;   // JS: 0=Ne → přeindexuj na 0=Po
-    const tmax = d.temperature_2m_max[i];
-    const tmin = d.temperature_2m_min[i];
-    const prec = d.precipitation_sum[i];
-    const band = getTempBand(tmax);
-    const denCz= DOW_CZ[dow];
-    const emoji= wxEmoji(tmax, prec);
+    const dt    = new Date(date); dt.setHours(0,0,0,0);
+    const isPast= dt < today;
+    const isToday= dt.getTime()===today.getTime();
+    const dow   = (dt.getDay()+6)%7;
+    const tmax  = d.temperature_2m_max[i];
+    const tmin  = d.temperature_2m_min[i];
+    const prec  = d.precipitation_sum[i];
+    const band  = getTempBand(tmax);
+    const denCz = DOW_CZ[dow];
+    const emoji = wxEmoji(tmax, prec);
 
-    const lkp  = (LOOKUP_A[band] && LOOKUP_A[band][denCz]) ? LOOKUP_A[band][denCz] : null;
-    const obrat = lkp ? lkp.avg_obrat : null;
-    const pocet = lkp ? lkp.avg_pocet : null;
+    const lkp   = (LOOKUP_A[band]&&LOOKUP_A[band][denCz]) ? LOOKUP_A[band][denCz] : null;
+    const predRaw = lkp ? Math.round(lkp.avg_obrat * GROWTH) : null;
+    const pocet = lkp ? Math.round(lkp.avg_pocet * GROWTH) : null;
     const nObs  = lkp ? lkp.n : 0;
 
-    const obratTxt = obrat!==null ? Math.round(obrat).toLocaleString('cs-CZ')+' Kč' : '?';
-    const pocetTxt = pocet!==null ? Math.round(pocet) : '?';
-    const isToday  = i===0;
+    // Barva predikce
+    const predBg = predRaw!==null ? heatColor(predRaw, predMin, predMax) : '#eee';
+    const predTxt= predRaw!==null ? predRaw.toLocaleString('cs-CZ')+' Kč' : '?';
 
-    rows += `<tr style="background:${isToday?'#f0f5ff':''};font-weight:${isToday?'600':'400'}">
-      <td style="white-space:nowrap"><b>${fmtDate(date)}</b> <span style="font-size:11px;color:#888">${denCz}</span></td>
-      <td style="text-align:center;font-size:18px">${emoji}</td>
-      <td style="text-align:center;font-weight:600;white-space:nowrap">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
-      <td style="text-align:center;color:#5b8dd9">${prec.toFixed(1)} mm</td>
-      <td><span class="pred-band">${band}</span><span class="pred-n">n=${nObs}</span></td>
-      <td class="pred-obrat">${obratTxt}</td>
-      <td style="text-align:right;color:#555">${pocetTxt}</td>
+    // Real 2026 (z localStorage)
+    const realVal = loadReal(date);
+    const realCell = isPast
+      ? `<input type="number" step="100" value="${realVal!==null?realVal:''}"
+           style="width:110px;padding:4px 6px;border:1.5px solid #c5cae9;border-radius:6px;font-size:12px;text-align:right"
+           placeholder="zadej Kč"
+           onchange="saveReal('${date}',this.value);renderPredA()">`
+      : '<span style="color:#ccc;font-size:11px">—</span>';
+
+    // Porovnání se skutečností (minulé dny)
+    let diffCell = '';
+    if(isPast && realVal!==null && predRaw!==null){
+      const diff=realVal-predRaw;
+      const pct=((realVal/predRaw-1)*100).toFixed(1);
+      const c=diff>=0?'#27ae60':'#e74c3c';
+      diffCell=`<span style="color:${c};font-size:11px;font-weight:700">${diff>=0?'+':''}${pct}%</span>`;
+    }
+
+    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : '');
+    const rowFw = isToday ? '700' : '400';
+
+    rows += `<tr style="background:${rowBg};font-weight:${rowFw}">
+      <td style="white-space:nowrap;padding:8px 10px">
+        ${isToday?'<b>':''}<span style="font-size:13px">${fmtDate(date)}</span>
+        <span style="font-size:11px;color:#888;display:block">${denCz}</span>
+        ${isPast?'<span style="font-size:9px;background:#e3e8f0;border-radius:4px;padding:1px 5px;color:#666">hist.</span>':
+          isToday?'<span style="font-size:9px;background:#fff176;border-radius:4px;padding:1px 5px;color:#333">dnes</span>':
+          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}</td>
+      <td style="text-align:center;font-size:18px;padding:8px 6px">${emoji}</td>
+      <td style="text-align:center;font-weight:600;white-space:nowrap;padding:8px 10px">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
+      <td style="text-align:center;color:#5b8dd9;padding:8px 10px">${prec.toFixed(1)} mm</td>
+      <td style="padding:8px 10px"><span class="pred-band">${band}</span><span class="pred-n">n=${nObs}</span></td>
+      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${predTxt}</td>
+      <td style="text-align:right;color:#555;padding:8px 10px">${pocet||'?'}</td>
+      <td style="padding:6px 8px">${realCell}</td>
+      <td style="text-align:center;padding:8px 6px">${diffCell}</td>
     </tr>`;
   });
 
   document.getElementById('fa-table-wrap').innerHTML = `
-    <table class="fx-pred-tbl">
+    <table class="fx-pred-tbl" style="font-size:12px">
       <thead><tr>
         <th>Datum</th><th>🌤️</th><th>Tmax/min</th><th>Srážky</th>
-        <th>Tep. pásmo (hist. n)</th><th>Predikce obratu</th><th style="text-align:right">Pred. obj.</th>
+        <th>Tep. pásmo (n)</th>
+        <th style="background:#1565C0;color:#fff">Predikce +20% (2026)</th>
+        <th style="text-align:right">Pred. obj.</th>
+        <th>Skutečný obrat 2026</th>
+        <th>vs predikce</th>
       </tr></thead>
       <tbody>${rows}</tbody>
-    </table>`;
+    </table>
+    <p style="font-size:11px;color:#888;margin-top:8px">💡 Predikce = průměr 2025 daného pásma × den × 1.20 (plánovaný růst). Hist. = minulé dny s historickým počasím.</p>`;
   document.getElementById('fa-updated').textContent =
-    '⏱ Data: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR';
+    '⏱ Počasí: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR · past_days=14+7 výhled';
 
-  // Heatmap lookup tabulky
   buildLookupHeatmap('fa-heatmap-wrap');
 }
 
@@ -853,12 +1004,11 @@ function buildLookupHeatmap(wrapperId){
 
 // ─── VARIANTA B ───
 function predictB(tmax, precip, sunshineH, dow, month){
-  // dow 0=Po…6=Ne, month 1-12
   const m = COEF_B;
   let pred = m.intercept;
-  pred += m.coef_tmax    * tmax;
-  pred += m.coef_precip  * precip;
-  pred += m.coef_sunshine* sunshineH;
+  pred += m.coef_tmax     * tmax;
+  pred += m.coef_precip   * precip;
+  pred += m.coef_sunshine * sunshineH;
   pred += m.dow_effects[dow];
   pred += m.month_effects[month-1];
   return Math.max(0, Math.round(pred));
@@ -868,58 +1018,99 @@ function renderPredB(){
   if(!FORECAST) return;
   const d = FORECAST;
   const m = COEF_B;
-
-  // Metriky
-  document.getElementById('fb-r2').textContent   = m.r2.toFixed(3);
-  document.getElementById('fb-rmse').textContent = Math.round(m.rmse).toLocaleString('cs-CZ')+' Kč';
-  document.getElementById('fb-mae').textContent  = Math.round(m.mae).toLocaleString('cs-CZ')+' Kč';
-  document.getElementById('fb-n').textContent    = m.n_train+' dní';
+  const today = new Date(); today.setHours(0,0,0,0);
 
   // Formula
-  const sign = v => v>=0 ? '+'+Math.round(v) : Math.round(v);
   document.getElementById('fb-formula').innerHTML =
-    `<strong>Predikce (Kč)</strong> = ${Math.round(m.intercept)}<br>` +
-    `&nbsp;&nbsp;+ ${m.coef_tmax.toFixed(0)} × Tmax<br>` +
-    `&nbsp;&nbsp;+ ${m.coef_precip.toFixed(0)} × srážky(mm)<br>` +
-    `&nbsp;&nbsp;+ ${m.coef_sunshine.toFixed(0)} × slunce(h)<br>` +
-    `&nbsp;&nbsp;+ korekce dne v týdnu &amp; měsíce (viz tabulka níže)`;
+    `<strong>Predikce 2026 (Kč)</strong> = (${Math.round(m.intercept)} + ${m.coef_tmax.toFixed(0)}×Tmax ` +
+    `+ ${m.coef_precip.toFixed(0)}×srážky(mm) + ${m.coef_sunshine.toFixed(0)}×slunce(h) ` +
+    `+ korekce dne + korekce měsíce) × <strong>${GROWTH}</strong>`;
+
+  // Sbírej hodnoty pro heatmap
+  const predVals = [];
+  d.time.forEach((date,i)=>{
+    const dt=new Date(date); dt.setHours(0,0,0,0);
+    const dow=(dt.getDay()+6)%7;
+    const month=dt.getMonth()+1;
+    const sunSec=d.sunshine_duration?d.sunshine_duration[i]:null;
+    const sunH=sunSec!==null?sunSec/3600:5.0;
+    predVals.push(Math.round(predictB(d.temperature_2m_max[i],d.precipitation_sum[i],sunH,dow,month)*GROWTH));
+  });
+  const predMin=Math.min(...predVals), predMax=Math.max(...predVals);
 
   let rows = '';
   d.time.forEach((date,i)=>{
-    const dt      = new Date(date);
+    const dt      = new Date(date); dt.setHours(0,0,0,0);
+    const isPast  = dt < today;
+    const isToday = dt.getTime()===today.getTime();
     const dow     = (dt.getDay()+6)%7;
     const month   = dt.getMonth()+1;
     const tmax    = d.temperature_2m_max[i];
     const tmin    = d.temperature_2m_min[i];
     const prec    = d.precipitation_sum[i];
     const sunSec  = d.sunshine_duration ? d.sunshine_duration[i] : null;
-    const sunH    = sunSec!==null ? sunSec/3600 : 5.0;  // fallback median
+    const sunH    = sunSec!==null ? sunSec/3600 : 5.0;
     const emoji   = wxEmoji(tmax, prec);
-    const pred    = predictB(tmax, prec, sunH, dow, month);
-    const isToday = i===0;
+    const pred    = Math.round(predictB(tmax, prec, sunH, dow, month) * GROWTH);
 
-    rows += `<tr style="background:${isToday?'#e0f2f1':''};font-weight:${isToday?'600':'400'}">
-      <td style="white-space:nowrap"><b>${fmtDate(date)}</b> <span style="font-size:11px;color:#888">${DOW_CZ[dow]}</span></td>
-      <td style="text-align:center;font-size:18px">${emoji}</td>
-      <td style="text-align:center;white-space:nowrap">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
-      <td style="text-align:center;color:#5b8dd9">${prec.toFixed(1)} mm</td>
-      <td style="text-align:center;color:#f39c12">${sunH.toFixed(1)} h</td>
-      <td class="pred-obrat teal">${pred.toLocaleString('cs-CZ')} Kč</td>
+    const predBg  = heatColor(pred, predMin, predMax);
+    const realVal = loadReal(date);
+
+    let diffCell = '';
+    if(isPast && realVal!==null){
+      const diff=realVal-pred;
+      const pct=((realVal/pred-1)*100).toFixed(1);
+      const c=diff>=0?'#27ae60':'#e74c3c';
+      diffCell=`<span style="color:${c};font-size:11px;font-weight:700">${diff>=0?'+':''}${pct}%</span>`;
+    }
+
+    const realCell = isPast
+      ? `<input type="number" step="100" value="${realVal!==null?realVal:''}"
+           style="width:110px;padding:4px 6px;border:1.5px solid #b2dfdb;border-radius:6px;font-size:12px;text-align:right"
+           placeholder="zadej Kč"
+           onchange="saveReal('${date}',this.value);renderPredB()">`
+      : '<span style="color:#ccc;font-size:11px">—</span>';
+
+    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : '');
+
+    rows += `<tr style="background:${rowBg}">
+      <td style="white-space:nowrap;padding:8px 10px">
+        <span style="font-size:13px">${fmtDate(date)}</span>
+        <span style="font-size:11px;color:#888;display:block">${DOW_CZ[dow]}</span>
+        ${isPast?'<span style="font-size:9px;background:#e3e8f0;border-radius:4px;padding:1px 5px;color:#666">hist.</span>':
+          isToday?'<span style="font-size:9px;background:#fff176;border-radius:4px;padding:1px 5px;color:#333">dnes</span>':
+          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}</td>
+      <td style="text-align:center;font-size:18px;padding:8px 6px">${emoji}</td>
+      <td style="text-align:center;white-space:nowrap;padding:8px 10px">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
+      <td style="text-align:center;color:#5b8dd9;padding:8px 10px">${prec.toFixed(1)} mm</td>
+      <td style="text-align:center;color:#f39c12;padding:8px 10px">${sunH.toFixed(1)} h</td>
+      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${pred.toLocaleString('cs-CZ')} Kč</td>
+      <td style="padding:6px 8px">${realCell}</td>
+      <td style="text-align:center;padding:8px 6px">${diffCell}</td>
     </tr>`;
   });
 
   document.getElementById('fb-table-wrap').innerHTML = `
-    <table class="fx-pred-tbl teal">
+    <table class="fx-pred-tbl teal" style="font-size:12px">
       <thead><tr>
-        <th>Datum</th><th>🌤️</th><th>Tmax/min</th>
-        <th>Srážky</th><th>Slunce</th><th>Predikce obratu</th>
+        <th>Datum</th><th>🌤️</th><th>Tmax/min</th><th>Srážky</th><th>Slunce</th>
+        <th style="background:#00695C;color:#fff">Predikce +20% (2026)</th>
+        <th>Skutečný obrat 2026</th>
+        <th>vs predikce</th>
       </tr></thead>
       <tbody>${rows}</tbody>
-    </table>`;
-  document.getElementById('fb-updated').textContent =
-    '⏱ Data: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR · Ridge α=50';
+    </table>
+    <p style="font-size:11px;color:#888;margin-top:8px">💡 Predikce = Ridge model na datech 2025 × 1.20. Hist. = minulé dny s reálným historickým počasím z Open-Meteo.</p>`;
 
-  // Koeficienty tabulka
+  // Metriky modelu — až NAKONEC s vysvětlením
+  document.getElementById('fb-r2').textContent   = m.r2.toFixed(3);
+  document.getElementById('fb-rmse').textContent = Math.round(m.rmse).toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('fb-mae').textContent  = Math.round(m.mae).toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('fb-n').textContent    = m.n_train+' dní';
+
+  document.getElementById('fb-updated').textContent =
+    '⏱ Počasí: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · past_days=14+7 výhled · Ridge α=50';
+
   buildCoefTable('fb-coef-wrap');
 }
 
@@ -976,6 +1167,162 @@ function buildCoefTable(wrapperId){
 
 // Spustit načtení předpovědi
 loadForecast();
+
+// ═══════════════════════════════════════════════
+// ─── B2B vs B2C ───
+// ═══════════════════════════════════════════════
+function fmtM(n){return (n/1e6).toFixed(2)+' M Kč'}
+
+function initB2B(){
+  // Summary cards
+  document.getElementById('b2b-pocet').textContent = B2B_SUM.pocet.toLocaleString('cs-CZ');
+  document.getElementById('b2b-obrat').textContent = fmtM(B2B_SUM.obrat);
+  document.getElementById('b2b-podil-obj').textContent = B2B_SUM.podil_pocet+'%';
+  document.getElementById('b2b-podil-ob').textContent  = B2B_SUM.podil_obrat+'%';
+  document.getElementById('b2b-kosik').textContent = B2B_SUM.avg_kosik.toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('b2b-med').textContent   = B2B_SUM.med_kosik.toLocaleString('cs-CZ')+' Kč';
+
+  document.getElementById('b2c-pocet').textContent = B2C_SUM.pocet.toLocaleString('cs-CZ');
+  document.getElementById('b2c-obrat').textContent = fmtM(B2C_SUM.obrat);
+  document.getElementById('b2c-podil-obj').textContent = B2C_SUM.podil_pocet+'%';
+  document.getElementById('b2c-podil-ob').textContent  = B2C_SUM.podil_obrat+'%';
+  document.getElementById('b2c-kosik').textContent = B2C_SUM.avg_kosik.toLocaleString('cs-CZ')+' Kč';
+  document.getElementById('b2c-med').textContent   = B2C_SUM.med_kosik.toLocaleString('cs-CZ')+' Kč';
+
+  // DOW chart
+  buildSegDowChart('b2b-dow-wrap');
+
+  // Monthly chart
+  buildSegMonChart('b2b-mon-wrap');
+
+  // Products
+  buildProdsTable('b2b-prods-wrap', B2B_PRODS, '#00695C');
+  buildProdsTable('b2c-prods-wrap', B2C_PRODS, '#1565C0');
+
+  // Basket distribution
+  buildBasketTable('b2b-basket-wrap');
+}
+
+function buildSegDowChart(wrapperId){
+  const maxVal = Math.max(...B2B_DOW.map(r=>r.avg), ...B2C_DOW.map(r=>r.avg));
+  let h='<table style="width:100%;border-collapse:collapse;font-size:12px">';
+  h+='<thead><tr style="background:#e8f0fe">';
+  h+='<th style="padding:8px;text-align:left;color:#1a237e">Den</th>';
+  h+='<th style="padding:8px;color:#00695C">B2B průměr košíku</th>';
+  h+='<th style="padding:8px;color:#1565C0">B2C průměr košíku</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2B obj.</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2C obj.</th>';
+  h+='</tr></thead><tbody>';
+  B2B_DOW.forEach((r,i)=>{
+    const b2c=B2C_DOW[i];
+    const pb2b=(r.avg/maxVal*100).toFixed(1);
+    const pb2c=(b2c.avg/maxVal*100).toFixed(1);
+    h+=`<tr style="border-bottom:1px solid #eee">
+      <td style="padding:8px;font-weight:600">${r.den}</td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:160px;background:#e0f2f1;border-radius:4px;height:14px;overflow:hidden">
+          <div style="width:${pb2b}%;height:14px;background:#00897B;border-radius:4px"></div></div>
+        <span style="font-weight:700;color:#00695C">${r.avg.toLocaleString('cs-CZ')} Kč</span></div></td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:160px;background:#e3f2fd;border-radius:4px;height:14px;overflow:hidden">
+          <div style="width:${pb2c}%;height:14px;background:#1976D2;border-radius:4px"></div></div>
+        <span style="color:#1565C0">${b2c.avg.toLocaleString('cs-CZ')} Kč</span></div></td>
+      <td style="padding:8px;text-align:right;color:#555">${r.cnt.toLocaleString('cs-CZ')}</td>
+      <td style="padding:8px;text-align:right;color:#555">${b2c.cnt.toLocaleString('cs-CZ')}</td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+function buildSegMonChart(wrapperId){
+  const maxVal = Math.max(...B2B_MON.map(r=>r.total), ...B2C_MON.map(r=>r.total));
+  let h='<table style="width:100%;border-collapse:collapse;font-size:12px">';
+  h+='<thead><tr style="background:#e8f0fe">';
+  h+='<th style="padding:8px;text-align:left;color:#1a237e">Měsíc</th>';
+  h+='<th style="padding:8px;color:#00695C">B2B obrat</th>';
+  h+='<th style="padding:8px;color:#1565C0">B2C obrat</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2B n</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2C n</th>';
+  h+='</tr></thead><tbody>';
+  B2B_MON.forEach((r,i)=>{
+    const b2c=B2C_MON[i];
+    const pb2b=(r.total/maxVal*100).toFixed(1);
+    const pb2c=(b2c.total/maxVal*100).toFixed(1);
+    h+=`<tr style="border-bottom:1px solid #eee">
+      <td style="padding:8px;font-weight:600">${r.mesic}</td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:150px;background:#e0f2f1;border-radius:4px;height:14px;overflow:hidden">
+          <div style="width:${pb2b}%;height:14px;background:#00897B;border-radius:4px"></div></div>
+        <span style="font-weight:700;color:#00695C">${r.total.toLocaleString('cs-CZ')} Kč</span></div></td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:150px;background:#e3f2fd;border-radius:4px;height:14px;overflow:hidden">
+          <div style="width:${pb2c}%;height:14px;background:#1976D2;border-radius:4px"></div></div>
+        <span style="color:#1565C0">${b2c.total.toLocaleString('cs-CZ')} Kč</span></div></td>
+      <td style="padding:8px;text-align:right;color:#555">${r.cnt}</td>
+      <td style="padding:8px;text-align:right;color:#555">${b2c.cnt}</td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+function buildProdsTable(wrapperId, prods, color){
+  const maxRev=Math.max(...prods.map(p=>p.rev));
+  let h='<table style="width:100%;border-collapse:collapse;font-size:12px">';
+  h+=`<thead><tr style="background:#f0f5ff"><th style="padding:7px 10px;text-align:left">Produkt</th>
+    <th style="padding:7px 10px;text-align:right">Tržby</th>
+    <th style="padding:7px 10px;text-align:right">Ks</th></tr></thead><tbody>`;
+  prods.forEach((p,i)=>{
+    const pct=(p.rev/maxRev*100).toFixed(0);
+    h+=`<tr style="border-bottom:1px solid #eee">
+      <td style="padding:7px 10px">
+        <div style="font-weight:600;color:#333;font-size:11px">${p.name}</div>
+        <div style="height:4px;background:#eee;border-radius:2px;margin-top:3px;overflow:hidden">
+          <div style="width:${pct}%;height:4px;background:${color};border-radius:2px"></div></div>
+      </td>
+      <td style="padding:7px 10px;text-align:right;font-weight:700;color:${color}">${Math.round(p.rev/1000)}K</td>
+      <td style="padding:7px 10px;text-align:right;color:#666">${Math.round(p.qty)}</td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+function buildBasketTable(wrapperId){
+  const maxB2B=Math.max(...B2B_BASKET.map(r=>r.pct));
+  const maxB2C=Math.max(...B2C_BASKET.map(r=>r.pct));
+  let h='<table style="width:100%;border-collapse:collapse;font-size:12px">';
+  h+='<thead><tr style="background:#e8f0fe">';
+  h+='<th style="padding:8px;text-align:left">Velikost košíku</th>';
+  h+='<th style="padding:8px;color:#00695C">B2B %</th>';
+  h+='<th style="padding:8px;color:#1565C0">B2C %</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2B objednávek</th>';
+  h+='<th style="padding:8px;text-align:right;color:#555">B2C objednávek</th>';
+  h+='</tr></thead><tbody>';
+  B2B_BASKET.forEach((r,i)=>{
+    const b2c=B2C_BASKET[i];
+    const pb2b=(r.pct/maxB2B*100).toFixed(0);
+    const pb2c=(b2c.pct/maxB2C*100).toFixed(0);
+    h+=`<tr style="border-bottom:1px solid #eee">
+      <td style="padding:8px;font-weight:600">${r.range} Kč</td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:120px;background:#e0f2f1;border-radius:4px;height:12px;overflow:hidden">
+          <div style="width:${pb2b}%;height:12px;background:#00897B;border-radius:4px"></div></div>
+        <span style="color:#00695C;font-weight:600">${r.pct}%</span></div></td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:120px;background:#e3f2fd;border-radius:4px;height:12px;overflow:hidden">
+          <div style="width:${pb2c}%;height:12px;background:#1976D2;border-radius:4px"></div></div>
+        <span style="color:#1565C0;font-weight:600">${b2c.pct}%</span></div></td>
+      <td style="padding:8px;text-align:right;color:#555">${r.cnt.toLocaleString('cs-CZ')}</td>
+      <td style="padding:8px;text-align:right;color:#555">${b2c.cnt.toLocaleString('cs-CZ')}</td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  document.getElementById(wrapperId).innerHTML=h;
+}
+
+initB2B();
 
 </script>
 </body>
