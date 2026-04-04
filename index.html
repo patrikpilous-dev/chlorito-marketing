@@ -566,6 +566,7 @@ const B2B_PRODS = [{"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", 
 const B2C_PRODS = [{"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "qty": 2252, "rev": 340507}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "qty": 1053, "rev": 182327}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "qty": 804, "rev": 161333}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "qty": 684, "rev": 112412}, {"name": "Pojízdný naviják na solární plachtu 2,15 - 5,55 m", "qty": 194, "rev": 108503}, {"name": "Mořská sůl Margherita 25 kg", "qty": 2253, "rev": 103442}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "qty": 2223, "rev": 95575}, {"name": "Solární sprcha COMFORT ALU", "qty": 112, "rev": 95436}, {"name": "Nafukovací vířivá vana NetSpa BOHEMIAN", "qty": 69, "rev": 83332}, {"name": "Multi tablety 6v1 do bazénu 200g 10kg", "qty": 247, "rev": 82281}];
 const B2B_BASKET= [{"range": "<500", "cnt": 333, "pct": 10.0}, {"range": "500–1K", "cnt": 457, "pct": 13.7}, {"range": "1K–2K", "cnt": 664, "pct": 20.0}, {"range": "2K–5K", "cnt": 907, "pct": 27.3}, {"range": "5K–10K", "cnt": 497, "pct": 14.9}, {"range": "10K–50K", "cnt": 341, "pct": 10.3}, {"range": ">50K", "cnt": 3, "pct": 0.1}];
 const B2C_BASKET= [{"range": "<500", "cnt": 4953, "pct": 22.2}, {"range": "500–1K", "cnt": 5493, "pct": 24.6}, {"range": "1K–2K", "cnt": 6419, "pct": 28.8}, {"range": "2K–5K", "cnt": 3707, "pct": 16.6}, {"range": "5K–10K", "cnt": 654, "pct": 2.9}, {"range": "10K–50K", "cnt": 159, "pct": 0.7}, {"range": ">50K", "cnt": 1, "pct": 0.0}];
+const HOLIDAYS_2026 = {"2026-01-01": {"name": "Nový rok", "emoji": "🎆", "mult": 0.313}, "2026-04-03": {"name": "Velký pátek", "emoji": "🙏", "mult": 0.643}, "2026-04-06": {"name": "Velikonoční pondělí", "emoji": "🐣", "mult": 0.885}, "2026-05-01": {"name": "Svátek práce", "emoji": "🌷", "mult": 1.086}, "2026-05-08": {"name": "Den vítězství", "emoji": "✌️", "mult": 0.723}, "2026-07-05": {"name": "Den Cyrila a Metoděje", "emoji": "✨", "mult": 1.83}, "2026-07-06": {"name": "Den upálení Jana Husa", "emoji": "🔥", "mult": 1.669}, "2026-09-28": {"name": "Den české státnosti", "emoji": "🇨🇿", "mult": 0.702}, "2026-10-28": {"name": "Vznik Československa", "emoji": "🎗️", "mult": 0.456}, "2026-11-17": {"name": "Den svobody a demokracie", "emoji": "🕊️", "mult": 0.761}, "2026-12-24": {"name": "Štědrý den", "emoji": "🎄", "mult": 0.003}, "2026-12-25": {"name": "1. svátek vánoční", "emoji": "🎁", "mult": 0.155}, "2026-12-26": {"name": "2. svátek vánoční", "emoji": "🎅", "mult": 0.277}};  // státní svátky 2026 s multiplikátory z dat 2025
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -920,8 +921,10 @@ function renderPredA(){
     const emoji = wxEmoji(tmax, prec);
 
     const lkp   = (LOOKUP_A[band]&&LOOKUP_A[band][denCz]) ? LOOKUP_A[band][denCz] : null;
-    const predRaw = lkp ? Math.round(lkp.avg_obrat * GROWTH) : null;
-    const pocet = lkp ? Math.round(lkp.avg_pocet * GROWTH) : null;
+    const holiday = HOLIDAYS_2026[date] || null;
+    const holidayMult = holiday ? holiday.mult : 1.0;
+    const predRaw = lkp ? Math.round(lkp.avg_obrat * GROWTH * holidayMult) : null;
+    const pocet = lkp ? Math.round(lkp.avg_pocet * GROWTH * holidayMult) : null;
     const nObs  = lkp ? lkp.n : 0;
 
     const predBg = predRaw!==null ? heatColor(predRaw, predMin, predMax) : '#eee';
@@ -943,20 +946,27 @@ function renderPredA(){
       diffCell=`<span style="color:${c};font-size:11px;font-weight:700">${diff>=0?'+':''}${pct}%</span>`;
     }
 
-    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : '');
+    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : holiday ? '#fff8e0' : '');
     const rowFw = isToday ? '700' : '400';
+    const holidayBadgeA = holiday
+      ? `<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holiday.emoji} ${holiday.name}</span>`
+      : '';
+    const multNote = holiday
+      ? `<span style="display:block;font-size:9px;color:#e65100">×${holiday.mult} svátek</span>`
+      : '';
     const rowHtml = `<tr style="background:${rowBg};font-weight:${rowFw}">
       <td style="white-space:nowrap;padding:8px 10px">
         <span style="font-size:13px">${fmtDate(date)}</span>
         <span style="font-size:11px;color:#888;display:block">${denCz}</span>
         ${isPast?'<span style="font-size:9px;background:#e3e8f0;border-radius:4px;padding:1px 5px;color:#666">hist.</span>':
           isToday?'<span style="font-size:9px;background:#fff176;border-radius:4px;padding:1px 5px;color:#333">dnes</span>':
-          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}</td>
+          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}
+        ${holidayBadgeA}</td>
       <td style="text-align:center;font-size:18px;padding:8px 6px">${emoji}</td>
       <td style="text-align:center;font-weight:600;white-space:nowrap;padding:8px 10px">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
       <td style="text-align:center;color:#5b8dd9;padding:8px 10px">${prec.toFixed(1)} mm</td>
       <td style="padding:8px 10px"><span class="pred-band">${band}</span><span class="pred-n">n=${nObs}</span></td>
-      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${predTxt}</td>
+      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${predTxt}${multNote}</td>
       <td style="text-align:right;color:#555;padding:8px 10px">${pocet||'?'}</td>
       <td style="padding:6px 8px">${realCell}</td>
       <td style="text-align:center;padding:8px 6px">${diffCell}</td>
@@ -1052,7 +1062,8 @@ function renderPredB(){
     const month=dt.getMonth()+1;
     const sunSec=d.sunshine_duration?d.sunshine_duration[i]:null;
     const sunH=sunSec!==null?sunSec/3600:5.0;
-    predVals.push(Math.round(predictB(d.temperature_2m_max[i],d.precipitation_sum[i],sunH,dow,month)*GROWTH));
+    const hMult=(HOLIDAYS_2026[d.time[i]]||{mult:1.0}).mult;
+    predVals.push(Math.round(predictB(d.temperature_2m_max[i],d.precipitation_sum[i],sunH,dow,month)*GROWTH*hMult));
   });
   const predMin=Math.min(...predVals), predMax=Math.max(...predVals);
 
@@ -1069,7 +1080,9 @@ function renderPredB(){
     const sunSec  = d.sunshine_duration ? d.sunshine_duration[i] : null;
     const sunH    = sunSec!==null ? sunSec/3600 : 5.0;
     const emoji   = wxEmoji(tmax, prec);
-    const pred    = Math.round(predictB(tmax, prec, sunH, dow, month) * GROWTH);
+    const holidayB = HOLIDAYS_2026[date] || null;
+    const holidayMultB = holidayB ? holidayB.mult : 1.0;
+    const pred    = Math.round(predictB(tmax, prec, sunH, dow, month) * GROWTH * holidayMultB);
 
     const predBg  = heatColor(pred, predMin, predMax);
     const realVal = loadReal(date);
@@ -1089,19 +1102,26 @@ function renderPredB(){
            onchange="saveReal('${date}',this.value);renderPredB()">`
       : '<span style="color:#ccc;font-size:11px">—</span>';
 
-    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : '');
+    const rowBg = isToday ? '#fff8e1' : (isPast ? '#fafafa' : holidayB ? '#fff8e0' : '');
+    const holidayBadgeB = holidayB
+      ? `<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holidayB.emoji} ${holidayB.name}</span>`
+      : '';
+    const multNoteB = holidayB
+      ? `<span style="display:block;font-size:9px;color:#e65100">×${holidayB.mult} svátek</span>`
+      : '';
     const rowHtml = `<tr style="background:${rowBg}">
       <td style="white-space:nowrap;padding:8px 10px">
         <span style="font-size:13px">${fmtDate(date)}</span>
         <span style="font-size:11px;color:#888;display:block">${DOW_CZ[dow]}</span>
         ${isPast?'<span style="font-size:9px;background:#e3e8f0;border-radius:4px;padding:1px 5px;color:#666">hist.</span>':
           isToday?'<span style="font-size:9px;background:#fff176;border-radius:4px;padding:1px 5px;color:#333">dnes</span>':
-          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}</td>
+          '<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}
+        ${holidayBadgeB}</td>
       <td style="text-align:center;font-size:18px;padding:8px 6px">${emoji}</td>
       <td style="text-align:center;white-space:nowrap;padding:8px 10px">${Math.round(tmax)}° / ${Math.round(tmin)}°</td>
       <td style="text-align:center;color:#5b8dd9;padding:8px 10px">${prec.toFixed(1)} mm</td>
       <td style="text-align:center;color:#f39c12;padding:8px 10px">${sunH.toFixed(1)} h</td>
-      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${pred.toLocaleString('cs-CZ')} Kč</td>
+      <td style="padding:4px 8px;background:${predBg};color:#fff;text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums">${pred.toLocaleString('cs-CZ')} Kč${multNoteB}</td>
       <td style="padding:6px 8px">${realCell}</td>
       <td style="text-align:center;padding:8px 6px">${diffCell}</td>
     </tr>`;
