@@ -580,9 +580,9 @@ function toggleHistRows(prefix, count){
   const rows = document.getElementById(prefix+'-hist-rows');
   const btn  = document.getElementById(prefix+'-hist-btn');
   if(!rows||!btn) return;
-  const isHidden = rows.style.display === 'none' || rows.style.display === '';
-  rows.style.display = isHidden ? '' : 'none';
-  btn.textContent = isHidden
+  const isHidden = rows.style.display === 'none';
+  rows.style.display = isHidden ? 'table-row-group' : 'none';
+  btn.innerHTML = isHidden
     ? '📁 Skrýt historická data (' + count + ' dní zpět)'
     : '📂 Zobrazit historická data (' + count + ' dní zpět)';
 }
