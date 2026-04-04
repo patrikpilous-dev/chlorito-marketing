@@ -412,6 +412,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
       <div class="fx-card-header teal">🌡️ Predikce B1 — Absolutní počasí (tmax · srážky · slunce)</div>
       <div class="fx-card-body">
         <div class="fx-formula" id="fb1-formula">⏳ Načítám model…</div>
+        <div id="fb1-summary"></div>
         <div id="fb1-table-wrap"><div class="fx-loading">⏳ Načítám předpověď počasí…</div></div>
         <p class="fx-note" id="fb1-updated"></p>
         <div style="margin-top:20px;padding:14px;background:#f8f9fa;border-radius:8px;border-left:4px solid #00695C">
@@ -446,6 +447,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
       </div>
       <div class="fx-card-body">
         <div class="fx-formula" id="fb2-formula">⏳ Načítám model…</div>
+        <div id="fb2-summary"></div>
         <div id="fb2-table-wrap"><div class="fx-loading">⏳ Načítám předpověď počasí…</div></div>
         <p class="fx-note" id="fb2-updated"></p>
         <div style="margin-top:20px;padding:14px;background:#f8f9fa;border-radius:8px;border-left:4px solid #4527A0">
@@ -1057,28 +1059,28 @@ function buildLookupHeatmap(wrapperId){
   document.getElementById(wrapperId).innerHTML=h;
 }
 
-// ─── POMOCNÁ: zeleno-žlutá heatmapa pro baseline tabulku ───
+// ─── POMOCNÁ: červeno-žluto-zelená heatmapa pro baseline tabulku ───
 function heatColorGreen(v, minV, maxV){
   if(v===null||v===undefined) return '#f5f5f5';
   const t = (v-minV)/(maxV-minV||1);
-  // paleta: 0→světle žlutá #fffde7, 0.5→žluto-zelená #c5e1a5, 1→tmavě zelená #2e7d32
+  // paleta: 0→světle červená #ffcdd2, 0.5→světle žlutá #fffde7, 1→tmavě zelená #2e7d32
   let r,g,b;
   if(t < 0.5){
     const s = t/0.5;
-    r = Math.round(255 + (197-255)*s);
-    g = Math.round(253 + (225-253)*s);
-    b = Math.round(231 + (165-231)*s);
+    r = Math.round(255 + (255-255)*s);   // 255→255
+    g = Math.round(205 + (253-205)*s);   // 205→253
+    b = Math.round(210 + (231-210)*s);   // 210→231
   } else {
     const s = (t-0.5)/0.5;
-    r = Math.round(197 + (46-197)*s);
-    g = Math.round(225 + (125-225)*s);
-    b = Math.round(165 + (50-165)*s);
+    r = Math.round(255 + (46-255)*s);    // 255→46
+    g = Math.round(253 + (125-253)*s);   // 253→125
+    b = Math.round(231 + (50-231)*s);    // 231→50
   }
   return `rgb(${r},${g},${b})`;
 }
 function textColorGreen(v, minV, maxV){
   const t = (v-minV)/(maxV-minV||1);
-  return t > 0.6 ? '#fff' : '#333';
+  return t > 0.65 ? '#fff' : '#333';
 }
 
 // ─── MODEL B1: ISO week×DOW baseline (Gaussian smoothed) + Ridge(tmax, precip, sun) ───
@@ -1134,7 +1136,7 @@ function computeRoll4(tmaxArr, idx){
 function predRow(date, dow, tmax, tmin, prec, sunH, pred, isPast, isToday, accentColor, extraCols, prefixId){
   const holiday = HOLIDAYS_2026[date] || null;
   const hMult   = holiday ? holiday.mult : 1.0;
-  const finalPred = Math.round(pred * GROWTH * hMult);
+  const finalPred = Math.round(pred * hMult);
   const realVal = loadReal(date);
   const predBg  = null;  // caller computes heatColor
 
@@ -1173,7 +1175,7 @@ function renderPredB1(){
     `<strong>B1 predikce 2026 (Kč)</strong> = [ baseline(ISO_týden, den) + `+
     `${m.intercept} + <b>${m.coef_tmax>0?'+':''}${m.coef_tmax}</b>×Tmax + `+
     `<b>${m.coef_precip>0?'+':''}${m.coef_precip}</b>×srážky(mm) + `+
-    `<b>+${m.coef_sunshine}</b>×slunce(h) ] × <strong>${GROWTH}</strong><br>`+
+    `<b>+${m.coef_sunshine}</b>×slunce(h) ]<br>`+
     `<span style="font-size:11px;color:#666">Baseline = klouzavý průměr (Gauss σ=2 týdny) za týden roku × den v týdnu. Zachytí, že začátek dubna = ~50% průměru. +1°C = +${m.coef_tmax} Kč · +1mm déšť = ${m.coef_precip} Kč · +1h slunce = +${m.coef_sunshine} Kč</span>`;
 
   const predVals = [];
@@ -1183,9 +1185,28 @@ function renderPredB1(){
     const woy=getISOWeek(date);
     const sunH=(d.sunshine_duration?d.sunshine_duration[i]:0)/3600||5;
     const hm=(HOLIDAYS_2026[date]||{mult:1}).mult;
-    predVals.push(Math.round(predictB1(d.temperature_2m_max[i],d.precipitation_sum[i],sunH,woy,dow)*GROWTH*hm));
+    predVals.push(Math.round(predictB1(d.temperature_2m_max[i],d.precipitation_sum[i],sunH,woy,dow)*hm));
   });
   const predMin=Math.min(...predVals), predMax=Math.max(...predVals);
+
+  // ── Über-souhrn: budoucí predikce ──
+  const futurePreds1 = predVals.filter((_,i)=>{ const dt=new Date(d.time[i]); dt.setHours(0,0,0,0); return dt>=today; });
+  const total1 = futurePreds1.reduce((a,b)=>a+b,0);
+  const avg1   = futurePreds1.length ? Math.round(total1/futurePreds1.length) : 0;
+  document.getElementById('fb1-summary').innerHTML =
+    `<div style="display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;align-items:stretch">
+      <div style="background:#e0f2f1;border-radius:12px;padding:14px 22px;flex:1;min-width:150px;border:2px solid #00695C">
+        <div style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.6px">Celkem výhled (${futurePreds1.length} dní)</div>
+        <div style="font-size:24px;font-weight:800;color:#00695C;margin-top:6px;font-variant-numeric:tabular-nums">${total1.toLocaleString('cs-CZ')} Kč</div>
+      </div>
+      <div style="background:#f1f8f6;border-radius:12px;padding:14px 22px;flex:1;min-width:150px;border:1.5px solid #b2dfdb">
+        <div style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.6px">Průměr / den</div>
+        <div style="font-size:24px;font-weight:800;color:#00695C;margin-top:6px;font-variant-numeric:tabular-nums">${avg1.toLocaleString('cs-CZ')} Kč</div>
+      </div>
+      <div style="background:#f1f8f6;border-radius:12px;padding:14px 22px;flex:0 0 auto;min-width:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;border:1.5px solid #b2dfdb">
+        <div style="font-size:11px;color:#555;font-weight:700;text-align:center">Model B1<br><span style="font-size:20px;color:#00695C">R²=${COEF_B1.r2.toFixed(3)}</span></div>
+      </div>
+    </div>`;
 
   let histRowsB1='', futureRowsB1='', hcnt=0;
   d.time.forEach((date,i)=>{
@@ -1199,7 +1220,7 @@ function renderPredB1(){
     const emoji=wxEmoji(tmax,prec);
     const holiday=HOLIDAYS_2026[date]||null;
     const hm=holiday?holiday.mult:1;
-    const pred=Math.round(predictB1(tmax,prec,sunH,woy,dow)*GROWTH*hm);
+    const pred=Math.round(predictB1(tmax,prec,sunH,woy,dow)*hm);
     const predBg=heatColor(pred,predMin,predMax);
     const realVal=loadReal(date);
     const holidayBadge=holiday?`<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holiday.emoji} ${holiday.name}</span>`:'';
@@ -1227,12 +1248,12 @@ function renderPredB1(){
       📂 Zobrazit historická data (${hcnt} dní zpět)</button>
     <table class="fx-pred-tbl teal" style="font-size:12px">
       <thead><tr><th>Datum</th><th>🌤️</th><th>Tmax/min</th><th>Srážky</th><th>Slunce</th>
-        <th style="background:#00695C;color:#fff">Predikce +20% (2026)</th>
+        <th style="background:#00695C;color:#fff">Predikce B1 (2026)</th>
         <th>Skutečný obrat 2026</th><th>vs predikce</th></tr></thead>
       <tbody id="fb1-hist-rows" style="display:none">${histRowsB1}</tbody>
       <tbody>${futureRowsB1}</tbody>
     </table>
-    <p style="font-size:11px;color:#888;margin-top:8px">💡 B1 = baseline(ISO týden×den, Gauss σ=2 týdny) + Ridge(tmax, srážky, slunce) × 1.20 · začátek dubna ≠ konec dubna · svátky zohledněny.</p>`;
+    <p style="font-size:11px;color:#888;margin-top:8px">💡 B1 = baseline(ISO týden×den, Gauss σ=2 týdny) + Ridge(tmax, srážky, slunce) · začátek dubna ≠ konec dubna · svátky zohledněny.</p>`;
 
   document.getElementById('fb1-r2').textContent   = m.r2.toFixed(3);
   document.getElementById('fb1-rmse').textContent = Math.round(m.rmse).toLocaleString('cs-CZ')+' Kč';
@@ -1254,7 +1275,7 @@ function renderPredB2(){
   document.getElementById('fb2-formula').innerHTML =
     `<strong>B2 predikce 2026 (Kč)</strong> = [ baseline(měsíc, den) × korekce_týdne + `+
     `${m.intercept} + <b>+${m.coef_roll_dev}</b>×(roll4 − průměr_měsíce) + `+
-    `<b>+${m.coef_sunshine}</b>×slunce(h) ] × <strong>${GROWTH}</strong><br>`+
+    `<b>+${m.coef_sunshine}</b>×slunce(h) ]<br>`+
     `<span style="font-size:11px;color:#666">Korekce týdne v měsíci: duben wk1=×0.49, wk2=×0.80, wk3=×0.98, wk4=×1.51. roll4 = 4-denní klouzavý průměr teploty − průměr měsíce.</span>`;
 
   const predVals = [];
@@ -1265,9 +1286,28 @@ function renderPredB2(){
     const sunH=(d.sunshine_duration?d.sunshine_duration[i]:0)/3600||5;
     const roll4=computeRoll4(d.temperature_2m_max, i);
     const hm=(HOLIDAYS_2026[date]||{mult:1}).mult;
-    predVals.push(Math.round(predictB2(roll4,sunH,dow,month,wom)*GROWTH*hm));
+    predVals.push(Math.round(predictB2(roll4,sunH,dow,month,wom)*hm));
   });
   const predMin=Math.min(...predVals), predMax=Math.max(...predVals);
+
+  // ── Über-souhrn: budoucí predikce ──
+  const futurePreds2 = predVals.filter((_,i)=>{ const dt=new Date(d.time[i]); dt.setHours(0,0,0,0); return dt>=today; });
+  const total2 = futurePreds2.reduce((a,b)=>a+b,0);
+  const avg2   = futurePreds2.length ? Math.round(total2/futurePreds2.length) : 0;
+  document.getElementById('fb2-summary').innerHTML =
+    `<div style="display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;align-items:stretch">
+      <div style="background:#ede7f6;border-radius:12px;padding:14px 22px;flex:1;min-width:150px;border:2px solid #4527A0">
+        <div style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.6px">Celkem výhled (${futurePreds2.length} dní)</div>
+        <div style="font-size:24px;font-weight:800;color:#4527A0;margin-top:6px;font-variant-numeric:tabular-nums">${total2.toLocaleString('cs-CZ')} Kč</div>
+      </div>
+      <div style="background:#f3f0fb;border-radius:12px;padding:14px 22px;flex:1;min-width:150px;border:1.5px solid #b39ddb">
+        <div style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.6px">Průměr / den</div>
+        <div style="font-size:24px;font-weight:800;color:#4527A0;margin-top:6px;font-variant-numeric:tabular-nums">${avg2.toLocaleString('cs-CZ')} Kč</div>
+      </div>
+      <div style="background:#f3f0fb;border-radius:12px;padding:14px 22px;flex:0 0 auto;min-width:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;border:1.5px solid #b39ddb">
+        <div style="font-size:11px;color:#555;font-weight:700;text-align:center">Model B2<br><span style="font-size:20px;color:#4527A0">R²=${COEF_B2.r2.toFixed(3)}</span></div>
+      </div>
+    </div>`;
 
   let histRowsB2='', futureRowsB2='', hcnt2=0;
   d.time.forEach((date,i)=>{
@@ -1285,7 +1325,7 @@ function renderPredB2(){
     const emoji=wxEmoji(tmax,prec);
     const holiday=HOLIDAYS_2026[date]||null;
     const hm=holiday?holiday.mult:1;
-    const pred=Math.round(predictB2(roll4,sunH,dow,month,wom)*GROWTH*hm);
+    const pred=Math.round(predictB2(roll4,sunH,dow,month,wom)*hm);
     const predBg=heatColor(pred,predMin,predMax);
     const realVal=loadReal(date);
     const holidayBadge=holiday?`<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holiday.emoji} ${holiday.name}</span>`:'';
@@ -1318,12 +1358,12 @@ function renderPredB2(){
     <table class="fx-pred-tbl" style="font-size:12px">
       <thead><tr><th>Datum</th><th>🌤️</th><th>Tmax/min</th><th>Slunce</th>
         <th>Odchylka roll4 od průměru</th>
-        <th style="background:#4527A0;color:#fff">Predikce +20% (2026)</th>
+        <th style="background:#4527A0;color:#fff">Predikce B2 (2026)</th>
         <th>Skutečný obrat 2026</th><th>vs predikce</th></tr></thead>
       <tbody id="fb2-hist-rows" style="display:none">${histRowsB2}</tbody>
       <tbody>${futureRowsB2}</tbody>
     </table>
-    <p style="font-size:11px;color:#888;margin-top:8px">💡 B2 = baseline(měsíc×den) + Ridge(roll4_dev, slunce) × 1.20 · déšť implicitní v sunshine · svátky zohledněny.</p>`;
+    <p style="font-size:11px;color:#888;margin-top:8px">💡 B2 = baseline(měsíc×den) + Ridge(roll4_dev, slunce) · déšť implicitní v sunshine · svátky zohledněny.</p>`;
 
   document.getElementById('fb2-r2').textContent   = m.r2.toFixed(3);
   document.getElementById('fb2-rmse').textContent = Math.round(m.rmse).toLocaleString('cs-CZ')+' Kč';
