@@ -884,16 +884,34 @@ function fmtDate(dateStr){
 
 let FORECAST = null;
 
-async function loadForecast(){
+async function loadForecast(isRetry){
+  const loading = '<div class="fx-loading">⏳ Načítám předpověď počasí…</div>';
+  if(isRetry){
+    document.getElementById('fa-table-wrap').innerHTML  = loading;
+    document.getElementById('fb1-table-wrap').innerHTML = loading;
+    document.getElementById('fb2-table-wrap').innerHTML = loading;
+  }
   try {
-    const res = await fetch(WX_URL);
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort(), 10000);
+    const res = await fetch(WX_URL, {signal: controller.signal});
+    clearTimeout(timeout);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
     FORECAST = (await res.json()).daily;
     renderPredA();
     renderPredB1();
     renderPredB2();
   } catch(e) {
-    const err = `<div class="fx-err">❌ Nepodařilo se načíst předpověď počasí: ${e.message}</div>`;
-    document.getElementById('fa-table-wrap').innerHTML = err;
+    const msg = e.name==='AbortError' ? 'Timeout — API neodpovědělo do 10 s' : e.message;
+    const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+      <span>❌ Nepodařilo se načíst předpověď počasí: <b>${msg}</b></span>
+      <button onclick="loadForecast(true)"
+        style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
+        🔄 Zkusit znovu
+      </button>
+      <span style="font-size:11px;color:#888">Možné příčiny: výpadek připojení · dočasný výpadek Open-Meteo API · blokování v síti.<br>Zkus stránku znovu načíst (F5) nebo klikni na tlačítko výše.</span>
+    </div>`;
+    document.getElementById('fa-table-wrap').innerHTML  = err;
     document.getElementById('fb1-table-wrap').innerHTML = err;
     document.getElementById('fb2-table-wrap').innerHTML = err;
   }
