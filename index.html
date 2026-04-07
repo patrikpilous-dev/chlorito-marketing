@@ -848,9 +848,22 @@ buildSvatkyTable('tbl-svatky-wrap', SVATKY);
 // ═══════════════════════════════════════════════
 // ─── FORECASTING A + B ───
 // ═══════════════════════════════════════════════
-const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=49.8&longitude=15.5' +
+const WX_BASE = 'https://api.open-meteo.com/v1/forecast?latitude=49.8&longitude=15.5' +
   '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration' +
-  '&past_days=14&forecast_days=7&timezone=Europe%2FPrague';
+  '&timezone=Europe%2FPrague';
+const WX_URL          = WX_BASE + '&past_days=14&forecast_days=7';   // plný (hist + výhled)
+const WX_URL_FALLBACK = WX_BASE + '&forecast_days=7';                // záloha – jen výhled
+
+async function wxFetch(url, ms){
+  const ctrl = new AbortController();
+  const t = setTimeout(()=>ctrl.abort(), ms);
+  try {
+    const res = await fetch(url, {signal: ctrl.signal});
+    clearTimeout(t);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    return (await res.json()).daily;
+  } catch(e) { clearTimeout(t); throw e; }
+}
 
 const DOW_CZ = ['Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota','Neděle'];
 const MON_CZ = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
@@ -929,41 +942,64 @@ async function loadForecast(isRetry){
     document.getElementById('fb1-table-wrap').innerHTML = loading;
     document.getElementById('fb2-table-wrap').innerHTML = loading;
   }
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(()=>controller.abort(), 10000);
-    const res = await fetch(WX_URL, {signal: controller.signal});
-    clearTimeout(timeout);
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    FORECAST = (await res.json()).daily;
-    saveForecastCache(FORECAST);
+
+  let data = null;
+  let errMsg = '';
+  let usedFallback = false;
+
+  // 1) zkus plný URL (hist 14 dní + 7 výhled)
+  try { data = await wxFetch(WX_URL, 8000); }
+  catch(e) {
+    errMsg = e.name==='AbortError' ? 'Timeout 8 s' : e.message;
+    // 2) zkus zálohu bez historických dat (jen 7 dní výhled) — rychlejší
+    try {
+      data = await wxFetch(WX_URL_FALLBACK, 8000);
+      usedFallback = true;
+    } catch(e2) {
+      errMsg = (e2.name==='AbortError' ? 'Timeout 8 s' : e2.message);
+    }
+  }
+
+  if(data){
+    FORECAST = data;
+    saveForecastCache(data);
     renderPredA();
     renderPredB1();
     renderPredB2();
-  } catch(e) {
-    const msg = e.name==='AbortError' ? 'Timeout (10 s)' : e.message;
-    const cache = loadForecastCache();
-    if(cache && cache.data){
-      // Zobrazit z cache, přidat varování
-      FORECAST = cache.data;
-      renderPredA();
-      renderPredB1();
-      renderPredB2();
-      showCacheWarning(cache.ts, msg);
-    } else {
-      // Žádná cache — zobrazit chybu
-      const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-        <span>❌ Nepodařilo se načíst předpověď počasí a nemáme žádná uložená data: <b>${msg}</b></span>
-        <button onclick="loadForecast(true)"
-          style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
-          🔄 Zkusit znovu
-        </button>
-        <span style="font-size:11px;color:#888">Stránka se musí alespoň jednou úspěšně načíst s připojením k internetu.</span>
+    if(usedFallback){
+      // Zobrazit info: funguje, ale bez historických řádků
+      const note = `<div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#1565C0">
+        ℹ️ Hlavní API bylo pomalé — zobrazena jen předpověď (7 dní). Historická data dočasně nejsou k dispozici.
+        <button onclick="loadForecast(true)" style="margin-left:10px;padding:3px 10px;background:#1565C0;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px">🔄 Zkusit znovu</button>
       </div>`;
-      document.getElementById('fa-table-wrap').innerHTML  = err;
-      document.getElementById('fb1-table-wrap').innerHTML = err;
-      document.getElementById('fb2-table-wrap').innerHTML = err;
+      ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el) el.insertAdjacentHTML('afterbegin', note);
+      });
     }
+    return;
+  }
+
+  // 3) obě API selhala — zkus cache
+  const cache = loadForecastCache();
+  if(cache && cache.data){
+    FORECAST = cache.data;
+    renderPredA();
+    renderPredB1();
+    renderPredB2();
+    showCacheWarning(cache.ts, errMsg);
+  } else {
+    const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+      <span>❌ Nepodařilo se načíst předpověď počasí: <b>${errMsg}</b></span>
+      <button onclick="loadForecast(true)"
+        style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
+        🔄 Zkusit znovu
+      </button>
+      <span style="font-size:11px;color:#888">Open-Meteo API je pravděpodobně dočasně nedostupné. Zkus za pár minut.</span>
+    </div>`;
+    document.getElementById('fa-table-wrap').innerHTML  = err;
+    document.getElementById('fb1-table-wrap').innerHTML = err;
+    document.getElementById('fb2-table-wrap').innerHTML = err;
   }
 }
 
