@@ -884,6 +884,44 @@ function fmtDate(dateStr){
 
 let FORECAST = null;
 
+const WX_CACHE_KEY = 'chlorito_wx_cache';
+
+function saveForecastCache(data){
+  try {
+    localStorage.setItem(WX_CACHE_KEY, JSON.stringify({
+      ts: new Date().toISOString(),
+      data: data
+    }));
+  } catch(e) {}
+}
+
+function loadForecastCache(){
+  try {
+    const raw = localStorage.getItem(WX_CACHE_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function showCacheWarning(ts, msg){
+  const dtStr = ts ? new Date(ts).toLocaleString('cs-CZ') : '?';
+  const banner = `<div style="background:#fff8e1;border:1.5px solid #ffe082;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:18px">⚠️</span>
+    <span style="font-size:12px;color:#5d4037">
+      <b>Počasí se nepodařilo aktualizovat</b> (${msg}) —
+      zobrazena naposledy uložená data z <b>${dtStr}</b>.
+    </span>
+    <button onclick="loadForecast(true)"
+      style="padding:5px 14px;background:#f57f17;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;margin-left:auto">
+      🔄 Zkusit znovu
+    </button>
+  </div>`;
+  ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.insertAdjacentHTML('afterbegin', banner);
+  });
+}
+
 async function loadForecast(isRetry){
   const loading = '<div class="fx-loading">⏳ Načítám předpověď počasí…</div>';
   if(isRetry){
@@ -898,22 +936,34 @@ async function loadForecast(isRetry){
     clearTimeout(timeout);
     if(!res.ok) throw new Error('HTTP ' + res.status);
     FORECAST = (await res.json()).daily;
+    saveForecastCache(FORECAST);
     renderPredA();
     renderPredB1();
     renderPredB2();
   } catch(e) {
-    const msg = e.name==='AbortError' ? 'Timeout — API neodpovědělo do 10 s' : e.message;
-    const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-      <span>❌ Nepodařilo se načíst předpověď počasí: <b>${msg}</b></span>
-      <button onclick="loadForecast(true)"
-        style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
-        🔄 Zkusit znovu
-      </button>
-      <span style="font-size:11px;color:#888">Možné příčiny: výpadek připojení · dočasný výpadek Open-Meteo API · blokování v síti.<br>Zkus stránku znovu načíst (F5) nebo klikni na tlačítko výše.</span>
-    </div>`;
-    document.getElementById('fa-table-wrap').innerHTML  = err;
-    document.getElementById('fb1-table-wrap').innerHTML = err;
-    document.getElementById('fb2-table-wrap').innerHTML = err;
+    const msg = e.name==='AbortError' ? 'Timeout (10 s)' : e.message;
+    const cache = loadForecastCache();
+    if(cache && cache.data){
+      // Zobrazit z cache, přidat varování
+      FORECAST = cache.data;
+      renderPredA();
+      renderPredB1();
+      renderPredB2();
+      showCacheWarning(cache.ts, msg);
+    } else {
+      // Žádná cache — zobrazit chybu
+      const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+        <span>❌ Nepodařilo se načíst předpověď počasí a nemáme žádná uložená data: <b>${msg}</b></span>
+        <button onclick="loadForecast(true)"
+          style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
+          🔄 Zkusit znovu
+        </button>
+        <span style="font-size:11px;color:#888">Stránka se musí alespoň jednou úspěšně načíst s připojením k internetu.</span>
+      </div>`;
+      document.getElementById('fa-table-wrap').innerHTML  = err;
+      document.getElementById('fb1-table-wrap').innerHTML = err;
+      document.getElementById('fb2-table-wrap').innerHTML = err;
+    }
   }
 }
 
