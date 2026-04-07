@@ -988,19 +988,44 @@ async function loadForecast(isRetry){
     renderPredB1();
     renderPredB2();
     showCacheWarning(cache.ts, errMsg);
-  } else {
-    const err = `<div class="fx-err" style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-      <span>❌ Nepodařilo se načíst předpověď počasí: <b>${errMsg}</b></span>
-      <button onclick="loadForecast(true)"
-        style="padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
-        🔄 Zkusit znovu
-      </button>
-      <span style="font-size:11px;color:#888">Open-Meteo API je pravděpodobně dočasně nedostupné. Zkus za pár minut.</span>
-    </div>`;
-    document.getElementById('fa-table-wrap').innerHTML  = err;
-    document.getElementById('fb1-table-wrap').innerHTML = err;
-    document.getElementById('fb2-table-wrap').innerHTML = err;
+    return;
   }
+
+  // 4) žádná cache — vygeneruj sezónní odhad z měsíčních průměrů
+  FORECAST = generateSeasonalForecast();
+  renderPredA();
+  renderPredB1();
+  renderPredB2();
+  const seasonBanner = `<div style="background:#fce4ec;border:1.5px solid #ef9a9a;border-radius:8px;padding:9px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:18px">🌦️</span>
+    <span style="font-size:12px;color:#b71c1c">
+      <b>Open-Meteo API není dostupné</b> — zobrazeny jsou <b>sezónní průměry</b> místo skutečné předpovědi.
+      Predikce jsou orientační.
+    </span>
+    <button onclick="loadForecast(true)" style="margin-left:auto;padding:5px 14px;background:#c62828;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">🔄 Zkusit znovu</button>
+  </div>`;
+  ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.insertAdjacentHTML('afterbegin', seasonBanner);
+  });
+}
+
+// ─── Záložní sezónní předpověď (bez API) ───
+function generateSeasonalForecast(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const times=[], tmax=[], tmin=[], prec=[], sun=[];
+  for(let i=-14; i<=7; i++){
+    const d = new Date(today); d.setDate(d.getDate()+i);
+    const m = String(d.getMonth()+1);
+    const avg = MON_AVG[m] || {tmax:15, sun:5};
+    times.push(d.toISOString().slice(0,10));
+    tmax.push(avg.tmax);
+    tmin.push(Math.round(avg.tmax - 7));
+    prec.push(1.0);
+    sun.push(avg.sun * 3600);
+  }
+  return {time:times, temperature_2m_max:tmax, temperature_2m_min:tmin,
+          precipitation_sum:prec, sunshine_duration:sun};
 }
 
 // ─── STORAGE pro skutečný obrat 2026 ───
