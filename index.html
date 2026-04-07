@@ -851,11 +851,18 @@ buildSvatkyTable('tbl-svatky-wrap', SVATKY);
 // ═══════════════════════════════════════════════
 // ─── FORECASTING A + B ───
 // ═══════════════════════════════════════════════
+// ── Primární API: Open-Meteo (open-meteo.com) ──────────────────────────────
 const WX_BASE = 'https://api.open-meteo.com/v1/forecast?latitude=49.8&longitude=15.5' +
   '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration' +
   '&timezone=Europe%2FPrague';
 const WX_URL          = WX_BASE + '&past_days=14&forecast_days=7';   // plný (hist + výhled)
-const WX_URL_FALLBACK = WX_BASE + '&forecast_days=7';                // záloha – jen výhled
+const WX_URL_FALLBACK = WX_BASE + '&forecast_days=7';                // jen výhled
+
+// ── Sekundární API: wttr.in (různá infrastruktura) ─────────────────────────
+const WX_URL_WTTR = 'https://wttr.in/49.8,15.5?format=j1';
+
+// ── Aktuální zdroj dat (zobrazuje se v dashboardu) ─────────────────────────
+let WX_SOURCE = '';
 
 async function wxFetch(url, ms){
   const ctrl = new AbortController();
@@ -866,6 +873,46 @@ async function wxFetch(url, ms){
     if(!res.ok) throw new Error('HTTP '+res.status);
     return (await res.json()).daily;
   } catch(e) { clearTimeout(t); throw e; }
+}
+
+// ── Převod wttr.in JSON → Open-Meteo formát (budoucí dny z wttr, minulé ze sezóny) ──
+function parseWttr(json){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const times=[], tmax=[], tmin=[], prec=[], sun=[];
+  const wttrMap={};
+  (json.weather||[]).forEach(d=>{ wttrMap[d.date]=d; });
+  for(let i=-14; i<=7; i++){
+    const d=new Date(today); d.setDate(d.getDate()+i);
+    const ds=d.toISOString().slice(0,10);
+    const m=String(d.getMonth()+1);
+    const avg=MON_AVG[m]||{tmax:15,sun:5};
+    const w=wttrMap[ds];
+    times.push(ds);
+    if(w){
+      tmax.push(parseFloat(w.maxtempC));
+      tmin.push(parseFloat(w.mintempC));
+      const p=w.hourly.reduce((s,h)=>s+parseFloat(h.precipMM||0),0);
+      const sh=w.hourly.reduce((s,h)=>s+parseFloat(h.sunHour||0),0);
+      prec.push(Math.round(p*10)/10);
+      sun.push(sh*3600);
+    }else{
+      tmax.push(avg.tmax); tmin.push(Math.round(avg.tmax-7));
+      prec.push(1.0); sun.push(avg.sun*3600);
+    }
+  }
+  return {time:times,temperature_2m_max:tmax,temperature_2m_min:tmin,precipitation_sum:prec,sunshine_duration:sun};
+}
+async function wxFetchWttr(){
+  const ctrl=new AbortController();
+  const t=setTimeout(()=>ctrl.abort(),8000);
+  try{
+    const res=await fetch(WX_URL_WTTR,{signal:ctrl.signal});
+    clearTimeout(t);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const ct=res.headers.get('content-type')||'';
+    if(!ct.includes('json')) throw new Error('Neplatná odpověď (ne JSON)');
+    return parseWttr(await res.json());
+  }catch(e){clearTimeout(t);throw e;}
 }
 
 const DOW_CZ = ['Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota','Neděle'];
@@ -946,70 +993,73 @@ async function loadForecast(isRetry){
     document.getElementById('fb2-table-wrap').innerHTML = loading;
   }
 
-  let data = null;
-  let errMsg = '';
-  let usedFallback = false;
+  let data = null, errMsg = '', banner = null;
 
-  // 1) zkus plný URL (hist 14 dní + 7 výhled)
-  try { data = await wxFetch(WX_URL, 8000); }
-  catch(e) {
+  // 1) Open-Meteo primární (hist 14 dní + výhled 7 dní)
+  try {
+    data = await wxFetch(WX_URL, 8000);
+    WX_SOURCE = 'Open-Meteo (primární)';
+  } catch(e) {
     errMsg = e.name==='AbortError' ? 'Timeout 8 s' : e.message;
-    // 2) zkus zálohu bez historických dat (jen 7 dní výhled) — rychlejší
+
+    // 2) Open-Meteo záloha (jen výhled 7 dní)
     try {
       data = await wxFetch(WX_URL_FALLBACK, 8000);
-      usedFallback = true;
+      WX_SOURCE = 'Open-Meteo (výhled 7 dní)';
+      banner = `<div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#1565C0;display:flex;align-items:center;gap:8px">
+        ℹ️ Open-Meteo primární API pomalé — historická data nejsou k dispozici (jen výhled).
+        <button onclick="loadForecast(true)" style="margin-left:auto;padding:3px 10px;background:#1565C0;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px">🔄 Zkusit znovu</button>
+      </div>`;
     } catch(e2) {
-      errMsg = (e2.name==='AbortError' ? 'Timeout 8 s' : e2.message);
+      errMsg = e2.name==='AbortError' ? 'Timeout 8 s' : e2.message;
+
+      // 3) Sekundární API: wttr.in (jiná infrastruktura)
+      try {
+        data = await wxFetchWttr();
+        WX_SOURCE = 'wttr.in (sekundární)';
+        banner = `<div style="background:#f3e5f5;border:1.5px solid #ce93d8;border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#6a1b9a;display:flex;align-items:center;gap:8px">
+          🌐 Open-Meteo nedostupné — data z <b>sekundárního API wttr.in</b> (předpověď 3 dny, zbytek sezónní odhad).
+          <button onclick="loadForecast(true)" style="margin-left:auto;padding:3px 10px;background:#7b1fa2;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px">🔄 Zkusit znovu</button>
+        </div>`;
+      } catch(e3) {
+        errMsg = e3.name==='AbortError' ? 'Timeout 8 s' : e3.message;
+      }
     }
   }
 
   if(data){
     FORECAST = data;
     saveForecastCache(data);
-    renderPredA();
-    renderPredB1();
-    renderPredB2();
-    if(usedFallback){
-      // Zobrazit info: funguje, ale bez historických řádků
-      const note = `<div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#1565C0">
-        ℹ️ Hlavní API bylo pomalé — zobrazena jen předpověď (7 dní). Historická data dočasně nejsou k dispozici.
-        <button onclick="loadForecast(true)" style="margin-left:10px;padding:3px 10px;background:#1565C0;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px">🔄 Zkusit znovu</button>
-      </div>`;
-      ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
-        const el=document.getElementById(id);
-        if(el) el.insertAdjacentHTML('afterbegin', note);
-      });
-    }
+    renderPredA(); renderPredB1(); renderPredB2();
+    if(banner) ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.insertAdjacentHTML('afterbegin',banner);
+    });
     return;
   }
 
-  // 3) obě API selhala — zkus cache
+  // 4) Obě API i sekundární selhaly — zkus localStorage cache
   const cache = loadForecastCache();
   if(cache && cache.data){
     FORECAST = cache.data;
-    renderPredA();
-    renderPredB1();
-    renderPredB2();
+    WX_SOURCE = 'cache (' + new Date(cache.ts).toLocaleString('cs-CZ') + ')';
+    renderPredA(); renderPredB1(); renderPredB2();
     showCacheWarning(cache.ts, errMsg);
     return;
   }
 
-  // 4) žádná cache — vygeneruj sezónní odhad z měsíčních průměrů
+  // 5) Nic nefunguje — sezónní odhad z měsíčních průměrů
   FORECAST = generateSeasonalForecast();
-  renderPredA();
-  renderPredB1();
-  renderPredB2();
+  WX_SOURCE = 'sezónní odhad';
+  renderPredA(); renderPredB1(); renderPredB2();
   const seasonBanner = `<div style="background:#fce4ec;border:1.5px solid #ef9a9a;border-radius:8px;padding:9px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
     <span style="font-size:18px">🌦️</span>
     <span style="font-size:12px;color:#b71c1c">
-      <b>Open-Meteo API není dostupné</b> — zobrazeny jsou <b>sezónní průměry</b> místo skutečné předpovědi.
-      Predikce jsou orientační.
+      <b>Obě API nedostupná</b> — zobrazeny <b>sezónní průměry</b>. Predikce jsou orientační.
     </span>
     <button onclick="loadForecast(true)" style="margin-left:auto;padding:5px 14px;background:#c62828;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">🔄 Zkusit znovu</button>
   </div>`;
   ['fa-table-wrap','fb1-table-wrap','fb2-table-wrap'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.insertAdjacentHTML('afterbegin', seasonBanner);
+    const el=document.getElementById(id); if(el) el.insertAdjacentHTML('afterbegin',seasonBanner);
   });
 }
 
@@ -1157,7 +1207,7 @@ function renderPredA(){
     </table>
     <p style="font-size:11px;color:#888;margin-top:8px">💡 Predikce = průměr 2025 daného pásma × den × 1.20 (plánovaný růst). Hist. = minulé dny s historickým počasím.</p>`;
   document.getElementById('fa-updated').textContent =
-    '⏱ Počasí: ' + new Date().toLocaleString('cs-CZ') + ' · Open-Meteo · středočeská ČR · past_days=14+7 výhled';
+    '⏱ Aktualizováno: ' + new Date().toLocaleString('cs-CZ') + ' · Zdroj: ' + (WX_SOURCE||'Open-Meteo') + ' · API: Open-Meteo (primární) + wttr.in (sekundární)';
 
   buildLookupHeatmap('fa-heatmap-wrap');
 }
@@ -1392,7 +1442,7 @@ function renderPredB1(){
   document.getElementById('fb1-mae').textContent  = Math.round(m.mae).toLocaleString('cs-CZ')+' Kč';
   document.getElementById('fb1-n').textContent    = m.n_train+' dní';
   document.getElementById('fb1-updated').textContent =
-    '⏱ Počasí: '+new Date().toLocaleString('cs-CZ')+' · Open-Meteo · past_days=14+7 · Ridge α=100';
+    '⏱ Aktualizováno: '+new Date().toLocaleString('cs-CZ')+' · Zdroj: '+(WX_SOURCE||'Open-Meteo')+' · API: Open-Meteo (primární) + wttr.in (sekundární) · Ridge α=100';
 
   buildCoefTableB1('fb1-coef-wrap');
 }
@@ -1502,7 +1552,7 @@ function renderPredB2(){
   document.getElementById('fb2-mae').textContent  = Math.round(m.mae).toLocaleString('cs-CZ')+' Kč';
   document.getElementById('fb2-n').textContent    = m.n_train+' dní';
   document.getElementById('fb2-updated').textContent =
-    '⏱ Počasí: '+new Date().toLocaleString('cs-CZ')+' · Open-Meteo · past_days=14+7 · Ridge α=100';
+    '⏱ Aktualizováno: '+new Date().toLocaleString('cs-CZ')+' · Zdroj: '+(WX_SOURCE||'Open-Meteo')+' · API: Open-Meteo (primární) + wttr.in (sekundární) · Ridge α=100';
 
   buildCoefTableB2('fb2-coef-wrap');
 }
