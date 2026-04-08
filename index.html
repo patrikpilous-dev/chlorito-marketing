@@ -367,6 +367,16 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <div class="fx-section">
 
     <div class="fx-card">
+      <div class="fx-card-header blue" style="display:flex;align-items:center;justify-content:space-between">
+        <span>📰 Aktuální zprávy o počasí</span>
+        <span style="font-size:11px;font-weight:400;opacity:.8">Google News · ČR</span>
+      </div>
+      <div class="fx-card-body" style="padding:12px 16px">
+        <div id="wx-news-wrap"><div class="fx-loading" style="font-size:12px">⏳ Načítám zprávy…</div></div>
+      </div>
+    </div>
+
+    <div class="fx-card">
       <div class="fx-card-header blue">📊 Predikce A — Lookup teplota × den (živá předpověď počasí)</div>
       <div class="fx-card-body">
         <div class="fx-metrics">
@@ -847,6 +857,42 @@ function buildSvatkyTable(wrapperId, data){
   wrap.innerHTML=html;
 }
 buildSvatkyTable('tbl-svatky-wrap', SVATKY);
+
+// ═══════════════════════════════════════════════
+// ─── WEATHER NEWS ───
+// ═══════════════════════════════════════════════
+async function loadWxNews(){
+  const wrap = document.getElementById('wx-news-wrap');
+  if(!wrap) return;
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=po%C4%8Das%C3%AD+v%C3%BDhled+%C4%8CR&hl=cs&gl=CZ&ceid=CZ:cs');
+  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + rssUrl + '&count=4';
+  try {
+    const ctrl = new AbortController();
+    setTimeout(()=>ctrl.abort(), 8000);
+    const res = await fetch(apiUrl, {signal:ctrl.signal});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    if(data.status!=='ok' || !data.items?.length) throw new Error('no items');
+    let h = '<div style="display:flex;flex-direction:column;gap:6px">';
+    data.items.slice(0,4).forEach(item=>{
+      const pub = item.pubDate ? new Date(item.pubDate) : null;
+      const dateStr = pub ? pub.toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'}) : '';
+      let src = '';
+      try { src = new URL(item.link).hostname.replace('www.',''); } catch(e) { src = item.author||''; }
+      const title = item.title.replace(/ - [^-]+$/, '').trim(); // odstraní " - Zdroj" z titulku
+      h += `<a href="${item.link}" target="_blank" rel="noopener"
+          style="display:flex;flex-direction:column;padding:9px 12px;border-radius:8px;border:1px solid #e3eaf6;text-decoration:none;background:#f8fbff;transition:background .15s"
+          onmouseover="this.style.background='#e8f0fe'" onmouseout="this.style.background='#f8fbff'">
+        <span style="font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.4">${title}</span>
+        <span style="font-size:11px;color:#888;margin-top:3px">${dateStr}${dateStr&&src?' · ':''}${src}</span>
+      </a>`;
+    });
+    h += '</div>';
+    wrap.innerHTML = h;
+  } catch(e) {
+    wrap.innerHTML = '<p style="font-size:11px;color:#aaa;margin:0">Zprávy se nepodařilo načíst.</p>';
+  }
+}
 
 // ═══════════════════════════════════════════════
 // ─── FORECASTING A + B ───
@@ -1705,8 +1751,9 @@ function buildCoefTableB2(wrapperId){
   document.getElementById(wrapperId).innerHTML=h;
 }
 
-// Spustit načtení předpovědi
+// Spustit načtení předpovědi + zpráv o počasí
 loadForecast();
+loadWxNews();
 
 // ═══════════════════════════════════════════════
 // ─── B2B vs B2C ───
