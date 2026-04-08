@@ -865,7 +865,7 @@ async function loadWxNews(){
   const wrap = document.getElementById('wx-news-wrap');
   if(!wrap) return;
   const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=po%C4%8Das%C3%AD+v%C3%BDhled+%C4%8CR&hl=cs&gl=CZ&ceid=CZ:cs');
-  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + rssUrl + '&count=4';
+  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + rssUrl;
   try {
     const ctrl = new AbortController();
     setTimeout(()=>ctrl.abort(), 8000);
