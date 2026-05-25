@@ -417,6 +417,14 @@ tbody td{padding:10px 14px;vertical-align:middle}
       </div>
     </div>
 
+    <div class="fx-card">
+      <div class="fx-card-header blue">📦 Archiv predikcí A — dny mimo aktuální výhledové okno</div>
+      <div class="fx-card-body">
+        <p style="font-size:12px;color:#555;margin-bottom:10px">Predikce uložené v prohlížeči z minulých návštěv. Skutečnosti označené <span style="background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;font-size:10px">z feedu</span> pocházejí přímo z dat objednávek.</p>
+        <div id="fa-archive-wrap"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -449,6 +457,13 @@ tbody td{padding:10px 14px;vertical-align:middle}
     <div class="fx-card">
       <div class="fx-card-header teal">📈 Koeficienty B1 — vliv absolutního počasí na denní obrat</div>
       <div class="fx-card-body"><div id="fb1-coef-wrap"></div></div>
+    </div>
+    <div class="fx-card">
+      <div class="fx-card-header teal">📦 Archiv predikcí B1 — dny mimo aktuální výhledové okno</div>
+      <div class="fx-card-body">
+        <p style="font-size:12px;color:#555;margin-bottom:10px">Predikce uložené v prohlížeči z minulých návštěv. <span style="background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;font-size:10px">z feedu</span> = reálná data z objednávek.</p>
+        <div id="fb1-archive-wrap"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -488,6 +503,15 @@ tbody td{padding:10px 14px;vertical-align:middle}
         📈 Koeficienty B2 — vliv odchylky od průměru na denní obrat
       </div>
       <div class="fx-card-body"><div id="fb2-coef-wrap"></div></div>
+    </div>
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#4527A0,#5E35B1);color:#fff;padding:14px 20px;font-size:14px;font-weight:700">
+        📦 Archiv predikcí B2 — dny mimo aktuální výhledové okno
+      </div>
+      <div class="fx-card-body">
+        <p style="font-size:12px;color:#555;margin-bottom:10px">Predikce uložené v prohlížeči z minulých návštěv. <span style="background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;font-size:10px">z feedu</span> = reálná data z objednávek.</p>
+        <div id="fb2-archive-wrap"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -597,8 +621,11 @@ const WOM_FACTORS = {"1": {"1": 1.189, "2": 1.28, "3": 0.782, "4": 0.915, "5": 0
 const MON_AVG     = {"1": {"tmax": 4.5, "sun": 5.2}, "2": {"tmax": 4.0, "sun": 7.3}, "3": {"tmax": 11.0, "sun": 9.5}, "4": {"tmax": 16.8, "sun": 10.3}, "5": {"tmax": 18.7, "sun": 11.2}, "6": {"tmax": 26.3, "sun": 13.2}, "7": {"tmax": 25.3, "sun": 11.9}, "8": {"tmax": 26.0, "sun": 11.6}, "9": {"tmax": 20.2, "sun": 9.4}, "10": {"tmax": 13.1, "sun": 6.4}, "11": {"tmax": 6.8, "sun": 7.7}, "12": {"tmax": 4.2, "sun": 6.0}};    // měsíční průměry tmax+sun (B2 roll4_dev)
 const DAILY_2025  = {"2025-01-01": 42626, "2025-01-02": 82242, "2025-01-03": 61939, "2025-01-04": 14249, "2025-01-05": 33430, "2025-01-06": 204331, "2025-01-07": 131620, "2025-01-08": 112659, "2025-01-09": 63389, "2025-01-10": 57559, "2025-01-11": 39843, "2025-01-12": 31180, "2025-01-13": 221871, "2025-01-14": 87490, "2025-01-15": 158447, "2025-01-16": 55900, "2025-01-17": 20502, "2025-01-18": 10188, "2025-01-19": 31237, "2025-01-20": 65385, "2025-01-21": 33349, "2025-01-22": 128641, "2025-01-23": 103429, "2025-01-24": 69433, "2025-01-25": 12239, "2025-01-26": 41385, "2025-01-27": 53137, "2025-01-28": 30531, "2025-01-29": 42492, "2025-01-30": 42627, "2025-01-31": 41292, "2025-02-01": 28277, "2025-02-02": 55519, "2025-02-03": 72460, "2025-02-04": 50605, "2025-02-05": 96947, "2025-02-06": 31709, "2025-02-07": 29276, "2025-02-08": 26717, "2025-02-09": 30982, "2025-02-10": 80845, "2025-02-11": 42512, "2025-02-12": 93694, "2025-02-13": 56195, "2025-02-14": 34730, "2025-02-15": 12601, "2025-02-16": 21937, "2025-02-17": 120278, "2025-02-18": 68264, "2025-02-19": 31931, "2025-02-20": 38778, "2025-02-21": 35617, "2025-02-22": 22384, "2025-02-23": 66901, "2025-02-24": 127441, "2025-02-25": 46865, "2025-02-26": 31096, "2025-02-27": 42236, "2025-02-28": 67207, "2025-03-01": 36759, "2025-03-02": 38626, "2025-03-03": 62648, "2025-03-04": 52579, "2025-03-05": 111779, "2025-03-06": 44994, "2025-03-07": 83133, "2025-03-08": 30291, "2025-03-09": 85900, "2025-03-10": 112177, "2025-03-11": 113981, "2025-03-12": 79389, "2025-03-13": 100297, "2025-03-14": 53427, "2025-03-15": 33670, "2025-03-16": 39559, "2025-03-17": 76536, "2025-03-18": 76300, "2025-03-19": 111533, "2025-03-20": 40921, "2025-03-21": 77487, "2025-03-22": 92616, "2025-03-23": 79863, "2025-03-24": 103540, "2025-03-25": 168271, "2025-03-26": 142662, "2025-03-27": 104466, "2025-03-28": 145684, "2025-03-29": 69403, "2025-03-30": 62452, "2025-03-31": 124278, "2025-04-01": 80564, "2025-04-02": 95345, "2025-04-03": 116237, "2025-04-04": 106153, "2025-04-05": 50636, "2025-04-06": 70770, "2025-04-07": 116723, "2025-04-08": 153270, "2025-04-09": 150550, "2025-04-10": 140526, "2025-04-11": 105745, "2025-04-12": 80477, "2025-04-13": 158039, "2025-04-14": 249908, "2025-04-15": 182919, "2025-04-16": 263342, "2025-04-17": 239207, "2025-04-18": 78492, "2025-04-19": 117880, "2025-04-20": 154992, "2025-04-21": 227576, "2025-04-22": 411207, "2025-04-23": 335439, "2025-04-24": 168980, "2025-04-25": 198155, "2025-04-26": 119542, "2025-04-27": 288726, "2025-04-28": 434212, "2025-04-29": 443418, "2025-04-30": 216680, "2025-05-01": 274126, "2025-05-02": 370670, "2025-05-03": 185985, "2025-05-04": 344107, "2025-05-05": 347857, "2025-05-06": 218030, "2025-05-07": 289265, "2025-05-08": 182491, "2025-05-09": 184911, "2025-05-10": 143168, "2025-05-11": 257969, "2025-05-12": 425454, "2025-05-13": 298691, "2025-05-14": 350294, "2025-05-15": 372336, "2025-05-16": 128025, "2025-05-17": 140232, "2025-05-18": 251845, "2025-05-19": 262426, "2025-05-20": 164841, "2025-05-21": 282345, "2025-05-22": 189645, "2025-05-23": 116497, "2025-05-24": 88927, "2025-05-25": 212126, "2025-05-26": 359719, "2025-05-27": 237551, "2025-05-28": 255488, "2025-05-29": 243392, "2025-05-30": 129114, "2025-05-31": 217599, "2025-06-01": 322913, "2025-06-02": 376233, "2025-06-03": 262538, "2025-06-04": 338600, "2025-06-05": 281413, "2025-06-06": 267173, "2025-06-07": 123577, "2025-06-08": 178905, "2025-06-09": 374436, "2025-06-10": 281781, "2025-06-11": 344044, "2025-06-12": 285557, "2025-06-13": 313663, "2025-06-14": 227390, "2025-06-15": 519754, "2025-06-16": 523700, "2025-06-17": 506599, "2025-06-18": 491594, "2025-06-19": 411687, "2025-06-20": 321648, "2025-06-21": 235796, "2025-06-22": 446756, "2025-06-23": 617015, "2025-06-24": 460045, "2025-06-25": 457750, "2025-06-26": 363865, "2025-06-27": 242567, "2025-06-28": 173131, "2025-06-29": 303864, "2025-06-30": 486575, "2025-07-01": 473616, "2025-07-02": 531553, "2025-07-03": 302500, "2025-07-04": 180663, "2025-07-05": 189774, "2025-07-06": 258671, "2025-07-07": 331515, "2025-07-08": 180148, "2025-07-09": 242607, "2025-07-10": 187640, "2025-07-11": 132949, "2025-07-12": 74421, "2025-07-13": 133146, "2025-07-14": 250503, "2025-07-15": 214430, "2025-07-16": 174706, "2025-07-17": 141061, "2025-07-18": 76998, "2025-07-19": 62221, "2025-07-20": 157697, "2025-07-21": 314707, "2025-07-22": 238697, "2025-07-23": 191781, "2025-07-24": 202416, "2025-07-25": 104440, "2025-07-26": 88347, "2025-07-27": 70601, "2025-07-28": 167882, "2025-07-29": 125315, "2025-07-30": 139276, "2025-07-31": 63890, "2025-08-01": 48995, "2025-08-02": 31401, "2025-08-03": 93364, "2025-08-04": 165774, "2025-08-05": 97831, "2025-08-06": 157768, "2025-08-07": 145585, "2025-08-08": 104061, "2025-08-09": 82721, "2025-08-10": 139553, "2025-08-11": 241202, "2025-08-12": 169187, "2025-08-13": 175129, "2025-08-14": 158750, "2025-08-15": 157154, "2025-08-16": 49800, "2025-08-17": 104634, "2025-08-18": 152902, "2025-08-19": 163268, "2025-08-20": 198758, "2025-08-21": 50055, "2025-08-22": 96938, "2025-08-23": 28750, "2025-08-24": 57526, "2025-08-25": 117681, "2025-08-26": 163404, "2025-08-27": 70292, "2025-08-28": 116568, "2025-08-29": 31128, "2025-08-30": 67159, "2025-08-31": 78956, "2025-09-01": 156158, "2025-09-02": 187443, "2025-09-03": 104637, "2025-09-04": 61590, "2025-09-05": 60845, "2025-09-06": 21873, "2025-09-07": 53778, "2025-09-08": 121634, "2025-09-09": 136130, "2025-09-10": 66352, "2025-09-11": 49261, "2025-09-12": 79378, "2025-09-13": 21831, "2025-09-14": 33888, "2025-09-15": 101332, "2025-09-16": 72800, "2025-09-17": 73041, "2025-09-18": 56542, "2025-09-19": 38773, "2025-09-20": 37316, "2025-09-21": 56935, "2025-09-22": 89996, "2025-09-23": 82820, "2025-09-24": 89354, "2025-09-25": 57691, "2025-09-26": 52188, "2025-09-27": 13543, "2025-09-28": 30803, "2025-09-29": 104625, "2025-09-30": 48655, "2025-10-01": 41496, "2025-10-02": 70561, "2025-10-03": 88657, "2025-10-04": 39446, "2025-10-05": 33761, "2025-10-06": 52878, "2025-10-07": 53331, "2025-10-08": 37897, "2025-10-09": 70860, "2025-10-10": 70503, "2025-10-11": 37291, "2025-10-12": 37641, "2025-10-13": 72869, "2025-10-14": 49765, "2025-10-15": 35891, "2025-10-16": 23982, "2025-10-17": 43018, "2025-10-18": 3481, "2025-10-19": 20670, "2025-10-20": 91121, "2025-10-21": 144270, "2025-10-22": 76823, "2025-10-23": 34521, "2025-10-24": 19882, "2025-10-25": 9827, "2025-10-26": 16102, "2025-10-27": 65820, "2025-10-28": 31840, "2025-10-29": 117328, "2025-10-30": 51017, "2025-10-31": 63475, "2025-11-01": 23830, "2025-11-02": 25619, "2025-11-03": 72807, "2025-11-04": 106268, "2025-11-05": 56475, "2025-11-06": 48310, "2025-11-07": 19546, "2025-11-08": 43873, "2025-11-09": 37752, "2025-11-10": 81769, "2025-11-11": 69870, "2025-11-12": 92356, "2025-11-13": 76739, "2025-11-14": 100201, "2025-11-15": 19806, "2025-11-16": 36987, "2025-11-17": 89043, "2025-11-18": 131317, "2025-11-19": 161771, "2025-11-20": 81145, "2025-11-21": 38276, "2025-11-22": 20756, "2025-11-23": 42628, "2025-11-24": 224710, "2025-11-25": 212165, "2025-11-26": 149358, "2025-11-27": 40680, "2025-11-28": 58578, "2025-11-29": 57676, "2025-11-30": 29654, "2025-12-01": 41688, "2025-12-02": 34719, "2025-12-03": 65062, "2025-12-04": 76683, "2025-12-05": 63990, "2025-12-06": 11505, "2025-12-07": 24836, "2025-12-08": 120702, "2025-12-09": 77321, "2025-12-10": 53008, "2025-12-11": 54699, "2025-12-12": 58150, "2025-12-13": 17998, "2025-12-14": 19662, "2025-12-15": 84279, "2025-12-16": 19117, "2025-12-17": 81000, "2025-12-18": 17833, "2025-12-19": 18611, "2025-12-20": 2426, "2025-12-21": 19049, "2025-12-22": 27628, "2025-12-23": 18396, "2025-12-24": 135, "2025-12-25": 6009, "2025-12-26": 10466, "2025-12-27": 9504, "2025-12-28": 66835, "2025-12-29": 55264, "2025-12-30": 54784, "2025-12-31": 3399}; // skutečný denní obrat 2025
 const DAILY_2026  = {"2026-01-01": 9869, "2026-01-02": 80930, "2026-01-03": 38014, "2026-01-04": 78747, "2026-01-05": 217655, "2026-01-06": 145815, "2026-01-07": 75229, "2026-01-08": 93793, "2026-01-09": 105576, "2026-01-10": 16397, "2026-01-11": 89239, "2026-01-12": 152160, "2026-01-13": 260083, "2026-01-14": 113883, "2026-01-15": 102852, "2026-01-16": 75429, "2026-01-17": 18256, "2026-01-18": 52102, "2026-01-19": 90148, "2026-01-20": 56762, "2026-01-21": 189910, "2026-01-22": 59105, "2026-01-23": 92164, "2026-01-24": 34302, "2026-01-25": 16823, "2026-01-26": 143451, "2026-01-27": 284419, "2026-01-28": 138172, "2026-01-29": 110534, "2026-01-30": 33956, "2026-01-31": 11035, "2026-02-01": 18713, "2026-02-02": 58851, "2026-02-03": 102687, "2026-02-04": 213366, "2026-02-05": 114380, "2026-02-06": 27657, "2026-02-07": 7214, "2026-02-08": 18628, "2026-02-09": 123366, "2026-02-10": 163904, "2026-02-11": 54381, "2026-02-12": 62045, "2026-02-13": 36002, "2026-02-14": 8783, "2026-02-15": 27958, "2026-02-16": 320913, "2026-02-17": 212986, "2026-02-18": 72146, "2026-02-19": 74756, "2026-02-20": 40069, "2026-02-21": 27685, "2026-02-22": 58778, "2026-02-23": 95826, "2026-02-24": 25468, "2026-02-25": 76068, "2026-02-26": 111523, "2026-02-27": 50543, "2026-02-28": 33072, "2026-03-01": 60282, "2026-03-02": 91763, "2026-03-03": 74816, "2026-03-04": 49278, "2026-03-05": 79150, "2026-03-06": 68912, "2026-03-07": 44791, "2026-03-08": 81735, "2026-03-09": 168210, "2026-03-10": 130505, "2026-03-11": 95148, "2026-03-12": 112414, "2026-03-13": 89488, "2026-03-14": 73228, "2026-03-15": 63400, "2026-03-16": 132415, "2026-03-17": 112299, "2026-03-18": 136587, "2026-03-19": 94535, "2026-03-20": 81363, "2026-03-21": 30115, "2026-03-22": 171549, "2026-03-23": 136386, "2026-03-24": 147920, "2026-03-25": 77796, "2026-03-26": 74190, "2026-03-27": 38299, "2026-03-28": 47998, "2026-03-29": 98614, "2026-03-30": 96323, "2026-03-31": 128844, "2026-04-01": 56251, "2026-04-02": 95411, "2026-04-03": 63025, "2026-04-04": 38530, "2026-04-05": 56929, "2026-04-06": 120856, "2026-04-07": 172398, "2026-04-08": 205319, "2026-04-09": 156240, "2026-04-10": 128278, "2026-04-11": 59109, "2026-04-12": 81983, "2026-04-13": 159011, "2026-04-14": 184549, "2026-04-15": 124753, "2026-04-16": 134835, "2026-04-17": 125826, "2026-04-18": 89865, "2026-04-19": 147566, "2026-04-20": 202188, "2026-04-21": 150983, "2026-04-22": 209396, "2026-04-23": 147950, "2026-04-24": 144131, "2026-04-25": 80658, "2026-04-26": 212293, "2026-04-27": 334982, "2026-04-28": 342768, "2026-04-29": 286172, "2026-04-30": 224768, "2026-05-01": 132528, "2026-05-02": 184999, "2026-05-03": 416255, "2026-05-04": 540150, "2026-05-05": 474442, "2026-05-06": 364790, "2026-05-07": 184010, "2026-05-08": 142273, "2026-05-09": 172502, "2026-05-10": 300077, "2026-05-11": 418878, "2026-05-12": 367400, "2026-05-13": 345967, "2026-05-14": 240911, "2026-05-15": 175138, "2026-05-16": 103495, "2026-05-17": 242083, "2026-05-18": 410572, "2026-05-19": 367867, "2026-05-20": 425788, "2026-05-21": 335308, "2026-05-22": 280573, "2026-05-23": 218054, "2026-05-24": 555618, "2026-05-25": 347468}; // skutečný denní obrat 2026
+const HOUR_AVG_ALL    = [662, 276, 122, 95, 226, 687, 2234, 5820, 8684, 10316, 12777, 10433, 9450, 9615, 9084, 7967, 6987, 6350, 6679, 6079, 5992, 5329, 3735, 1606];    // průměrný obrat na hodinu (celý rok)
+const HOUR_AVG_SPRSUM = [1031, 419, 200, 178, 287, 926, 3217, 7784, 10912, 13668, 16787, 14800, 13076, 13287, 12833, 11647, 10909, 9846, 10002, 9636, 9748, 8755, 5948, 2509]; // jaro+léto (březen–srpen)
+const HOUR_AVG_AUTWIN = [247, 115, 33, 3, 156, 418, 1128, 3609, 6178, 6545, 8265, 5521, 5370, 5485, 4867, 3827, 2576, 2416, 2942, 2078, 1767, 1474, 1246, 590]; // podzim+zima (září–únor)
 const YOY_KPI     = {"obj25": 9861, "obj26": 10588, "rev25": 19224700, "rev26": 20397101, "avg25": 1950, "avg26": 1926};
-const YOY_MONTHLY = {"rev25": {"1": 2124641, "2": 1464005, "3": 2555218, "4": 5555711, "5": 7525124}, "rev26": {"1": 2986811, "2": 2237769, "3": 2888354, "4": 4537022, "5": 7747145}, "cnt25": {"1": 775, "2": 607, "3": 1337, "4": 3123, "5": 4019}, "cnt26": {"1": 874, "2": 695, "3": 1375, "4": 2641, "5": 5003}};
+const YOY_MONTHLY = {"rev25": {"1": 2124641, "2": 1464005, "3": 2555218, "4": 5555711, "5": 7525124}, "rev26": {"1": 2986811, "2": 2237769, "3": 2888354, "4": 4537022, "5": 7747145}, "cnt25": {"1": 775, "2": 607, "3": 1337, "4": 3123, "5": 4019}, "cnt26": {"1": 874, "2": 695, "3": 1375, "4": 2641, "5": 5003}, "avg25": {"1": 2741, "2": 2412, "3": 1911, "4": 1779, "5": 1872}, "avg26": {"1": 3417, "2": 3220, "3": 2101, "4": 1718, "5": 1548}};
 const YOY_PRODS   = [{"name": "Posypová sůl 1000kg (40x25 kg)", "rev25": 71131, "rev26": 1341381}, {"name": "Posypová sůl 1000 kg 40x25 kg doprava zdarma", "rev25": 0, "rev26": 790283}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "rev25": 86560, "rev26": 779758}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "rev25": 121338, "rev26": 610244}, {"name": "Tabletová regenerační sůl 1000 kg Solivary 40x25 kg", "rev25": 44078, "rev26": 428321}, {"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "rev25": 113035, "rev26": 413280}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "rev25": 81103, "rev26": 386207}, {"name": "Mořská sůl Margharita 25 kg", "rev25": 51221, "rev26": 377662}, {"name": "PWS Multi tablety 11v1 MAXI EKO 10kg", "rev25": 0, "rev26": 289916}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "rev25": 44975, "rev26": 278028}, {"name": "PWS Multi tablety do bazénu 11v1 MAXI EKO 5kg", "rev25": 0, "rev26": 249074}, {"name": "Čtvercová regenerační sůl 1000 kg Solivary 40x25 kg", "rev25": 42470, "rev26": 244719}, {"name": "Mořská sůl Margharita 1000 kg (40x25 kg)", "rev25": 49715, "rev26": 222384}, {"name": "Tabletová regenerační sůl SuperTab 25 kg", "rev25": 0, "rev26": 218058}, {"name": "Posypová sůl 750 kg (30x25 kg)", "rev25": 0, "rev26": 208081}];
 const HOUR_DOW    = [{"dow": 0, "hours": {"0": {"rev": 79171, "cnt": 46}, "1": {"rev": 36875, "cnt": 17}, "2": {"rev": 15794, "cnt": 11}, "3": {"rev": 4498, "cnt": 9}, "4": {"rev": 8689, "cnt": 6}, "5": {"rev": 65989, "cnt": 47}, "6": {"rev": 301014, "cnt": 124}, "7": {"rev": 644654, "cnt": 304}, "8": {"rev": 982398, "cnt": 464}, "9": {"rev": 1118344, "cnt": 592}, "10": {"rev": 1538218, "cnt": 673}, "11": {"rev": 1110528, "cnt": 578}, "12": {"rev": 1029525, "cnt": 513}, "13": {"rev": 1050411, "cnt": 480}, "14": {"rev": 1123486, "cnt": 472}, "15": {"rev": 914006, "cnt": 407}, "16": {"rev": 697313, "cnt": 356}, "17": {"rev": 609198, "cnt": 358}, "18": {"rev": 588076, "cnt": 371}, "19": {"rev": 467623, "cnt": 312}, "20": {"rev": 585561, "cnt": 346}, "21": {"rev": 499664, "cnt": 312}, "22": {"rev": 352070, "cnt": 166}, "23": {"rev": 161724, "cnt": 103}}}, {"dow": 1, "hours": {"0": {"rev": 59397, "cnt": 30}, "1": {"rev": 20623, "cnt": 9}, "2": {"rev": 15600, "cnt": 9}, "3": {"rev": 3855, "cnt": 4}, "4": {"rev": 45206, "cnt": 17}, "5": {"rev": 78505, "cnt": 28}, "6": {"rev": 236942, "cnt": 119}, "7": {"rev": 602624, "cnt": 245}, "8": {"rev": 952418, "cnt": 390}, "9": {"rev": 895768, "cnt": 464}, "10": {"rev": 1277524, "cnt": 498}, "11": {"rev": 980285, "cnt": 439}, "12": {"rev": 874546, "cnt": 436}, "13": {"rev": 815336, "cnt": 421}, "14": {"rev": 880512, "cnt": 409}, "15": {"rev": 694465, "cnt": 353}, "16": {"rev": 512843, "cnt": 326}, "17": {"rev": 494469, "cnt": 273}, "18": {"rev": 496989, "cnt": 320}, "19": {"rev": 476075, "cnt": 279}, "20": {"rev": 564453, "cnt": 349}, "21": {"rev": 386802, "cnt": 290}, "22": {"rev": 349030, "cnt": 200}, "23": {"rev": 153374, "cnt": 96}}}, {"dow": 2, "hours": {"0": {"rev": 76100, "cnt": 32}, "1": {"rev": 20452, "cnt": 16}, "2": {"rev": 10907, "cnt": 13}, "3": {"rev": 11726, "cnt": 4}, "4": {"rev": 15349, "cnt": 10}, "5": {"rev": 66354, "cnt": 44}, "6": {"rev": 202654, "cnt": 136}, "7": {"rev": 629987, "cnt": 245}, "8": {"rev": 847890, "cnt": 394}, "9": {"rev": 1241071, "cnt": 528}, "10": {"rev": 1023536, "cnt": 542}, "11": {"rev": 1021019, "cnt": 505}, "12": {"rev": 723947, "cnt": 406}, "13": {"rev": 852550, "cnt": 390}, "14": {"rev": 663526, "cnt": 351}, "15": {"rev": 610657, "cnt": 334}, "16": {"rev": 429692, "cnt": 283}, "17": {"rev": 534482, "cnt": 323}, "18": {"rev": 630933, "cnt": 324}, "19": {"rev": 560318, "cnt": 284}, "20": {"rev": 490356, "cnt": 311}, "21": {"rev": 427339, "cnt": 245}, "22": {"rev": 341630, "cnt": 189}, "23": {"rev": 119812, "cnt": 76}}}, {"dow": 3, "hours": {"0": {"rev": 55224, "cnt": 43}, "1": {"rev": 21529, "cnt": 16}, "2": {"rev": 8459, "cnt": 8}, "3": {"rev": 12553, "cnt": 4}, "4": {"rev": 7148, "cnt": 7}, "5": {"rev": 65491, "cnt": 39}, "6": {"rev": 177923, "cnt": 110}, "7": {"rev": 394747, "cnt": 206}, "8": {"rev": 657485, "cnt": 321}, "9": {"rev": 809859, "cnt": 382}, "10": {"rev": 835334, "cnt": 419}, "11": {"rev": 728305, "cnt": 383}, "12": {"rev": 748227, "cnt": 335}, "13": {"rev": 756255, "cnt": 353}, "14": {"rev": 555858, "cnt": 320}, "15": {"rev": 502371, "cnt": 267}, "16": {"rev": 446996, "cnt": 264}, "17": {"rev": 383103, "cnt": 244}, "18": {"rev": 358038, "cnt": 226}, "19": {"rev": 466839, "cnt": 256}, "20": {"rev": 337179, "cnt": 223}, "21": {"rev": 351399, "cnt": 205}, "22": {"rev": 167740, "cnt": 135}, "23": {"rev": 93751, "cnt": 59}}}, {"dow": 4, "hours": {"0": {"rev": 34729, "cnt": 23}, "1": {"rev": 20167, "cnt": 15}, "2": {"rev": 7405, "cnt": 8}, "3": {"rev": 2408, "cnt": 4}, "4": {"rev": 16515, "cnt": 11}, "5": {"rev": 40332, "cnt": 32}, "6": {"rev": 127614, "cnt": 93}, "7": {"rev": 463000, "cnt": 184}, "8": {"rev": 509400, "cnt": 284}, "9": {"rev": 495097, "cnt": 305}, "10": {"rev": 810110, "cnt": 356}, "11": {"rev": 633785, "cnt": 332}, "12": {"rev": 648788, "cnt": 299}, "13": {"rev": 612795, "cnt": 277}, "14": {"rev": 533351, "cnt": 288}, "15": {"rev": 440808, "cnt": 210}, "16": {"rev": 350327, "cnt": 204}, "17": {"rev": 245155, "cnt": 164}, "18": {"rev": 287033, "cnt": 156}, "19": {"rev": 271479, "cnt": 173}, "20": {"rev": 200819, "cnt": 137}, "21": {"rev": 237080, "cnt": 127}, "22": {"rev": 137599, "cnt": 90}, "23": {"rev": 44322, "cnt": 34}}}, {"dow": 5, "hours": {"0": {"rev": 17822, "cnt": 17}, "1": {"rev": 4239, "cnt": 5}, "2": {"rev": 1919, "cnt": 3}, "3": {"rev": 2531, "cnt": 3}, "4": {"rev": 19232, "cnt": 9}, "5": {"rev": 15138, "cnt": 12}, "6": {"rev": 62258, "cnt": 40}, "7": {"rev": 103288, "cnt": 77}, "8": {"rev": 211102, "cnt": 154}, "9": {"rev": 327490, "cnt": 192}, "10": {"rev": 443711, "cnt": 229}, "11": {"rev": 322625, "cnt": 218}, "12": {"rev": 326968, "cnt": 188}, "13": {"rev": 286710, "cnt": 221}, "14": {"rev": 300847, "cnt": 174}, "15": {"rev": 339858, "cnt": 211}, "16": {"rev": 356765, "cnt": 225}, "17": {"rev": 358666, "cnt": 205}, "18": {"rev": 302423, "cnt": 192}, "19": {"rev": 262867, "cnt": 170}, "20": {"rev": 238714, "cnt": 166}, "21": {"rev": 207220, "cnt": 146}, "22": {"rev": 153154, "cnt": 97}, "23": {"rev": 72707, "cnt": 56}}}, {"dow": 6, "hours": {"0": {"rev": 15250, "cnt": 17}, "1": {"rev": 16698, "cnt": 8}, "2": {"rev": 1931, "cnt": 3}, "3": {"rev": 10994, "cnt": 3}, "4": {"rev": 2949, "cnt": 5}, "5": {"rev": 18384, "cnt": 21}, "6": {"rev": 30947, "cnt": 24}, "7": {"rev": 129674, "cnt": 103}, "8": {"rev": 268360, "cnt": 170}, "9": {"rev": 373450, "cnt": 236}, "10": {"rev": 587673, "cnt": 325}, "11": {"rev": 524468, "cnt": 339}, "12": {"rev": 467288, "cnt": 321}, "13": {"rev": 529820, "cnt": 369}, "14": {"rev": 575476, "cnt": 370}, "15": {"rev": 561138, "cnt": 385}, "16": {"rev": 769594, "cnt": 444}, "17": {"rev": 613328, "cnt": 424}, "18": {"rev": 743010, "cnt": 402}, "19": {"rev": 595204, "cnt": 397}, "20": {"rev": 638987, "cnt": 423}, "21": {"rev": 608135, "cnt": 372}, "22": {"rev": 403832, "cnt": 246}, "23": {"rev": 173269, "cnt": 104}}}];
 const GROWTH    = 1.20;               // plánovaný růst 2026 vs 2025
@@ -1147,6 +1174,81 @@ function loadReal(dateStr){
   return d[dateStr]!==undefined ? d[dateStr] : null;
 }
 
+// ─── ARCHIV PREDIKCÍ (long-term, mimo weather window) ───────────────────────
+function savePredHistory(model, date, predVal){
+  const key = 'chlorito_pred_' + model;
+  const d = JSON.parse(localStorage.getItem(key)||'{}');
+  if(d[date]===undefined){ // Uložíme jen poprvé — nechceme přepsat starší předpověď novými daty
+    d[date] = {pred: predVal, ts: Date.now()};
+    try{ localStorage.setItem(key, JSON.stringify(d)); }catch(e){}
+  }
+}
+function loadPredHistory(model){
+  return JSON.parse(localStorage.getItem('chlorito_pred_'+model)||'{}');
+}
+function clearOldPredHistory(model, keepDays){
+  const key = 'chlorito_pred_' + model;
+  const d = JSON.parse(localStorage.getItem(key)||'{}');
+  const cutoff = Date.now() - keepDays*86400000;
+  let changed=false;
+  Object.keys(d).forEach(date=>{ if(d[date].ts<cutoff){ delete d[date]; changed=true; } });
+  if(changed) try{ localStorage.setItem(key, JSON.stringify(d)); }catch(e){}
+}
+function renderPredArchive(model, wrapperId){
+  const archWrap = document.getElementById(wrapperId);
+  if(!archWrap) return;
+  clearOldPredHistory(model, 365);
+  const hist = loadPredHistory(model);
+  const forecastDates = new Set(FORECAST ? FORECAST.time : []);
+  const archiveDates = Object.keys(hist).filter(d=>!forecastDates.has(d)).sort().reverse();
+  if(!archiveDates.length){
+    archWrap.innerHTML='<p style="color:#aaa;font-size:12px;padding:10px">Archiv zatím prázdný — predikce se uloží automaticky při dalším otevření tohoto tabu.</p>';
+    return;
+  }
+  const accentColor = model==='A'?'#1565C0':model==='B1'?'#00695C':'#4527A0';
+  let h=`<table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr style="background:#f5f5f5">
+      <th style="padding:7px 10px;text-align:left;font-size:11px">Datum</th>
+      <th style="padding:7px 10px;text-align:right;font-size:11px">Predikce</th>
+      <th style="padding:7px 10px;text-align:right;font-size:11px">Skutečnost</th>
+      <th style="padding:7px 10px;text-align:right;font-size:11px">Odchylka</th>
+      <th style="padding:7px 10px;text-align:left;font-size:11px">Zdroj</th>
+    </tr></thead><tbody>`;
+  archiveDates.slice(0,60).forEach((date,i)=>{
+    const predVal = hist[date].pred;
+    const fromFeed = DAILY_2026[date]!==undefined;
+    const realVal = fromFeed ? DAILY_2026[date] : loadReal(date);
+    let diffHtml='<span style="color:#ccc">—</span>';
+    if(realVal!==null && predVal>0){
+      const diff=realVal-predVal;
+      const pct=((realVal/predVal-1)*100).toFixed(1);
+      const c=diff>=0?'#1a7f37':'#c62828';
+      diffHtml=`<span style="color:${c};font-weight:700">${diff>=0?'+':''}${pct}%<span style="font-size:10px;color:#888"> (${diff>=0?'+':''}${diff.toLocaleString('cs-CZ')} Kč)</span></span>`;
+    }
+    const feedBadge = fromFeed
+      ? `<span style="font-size:9px;background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1">z feedu</span>`
+      : realVal!==null ? `<span style="font-size:9px;background:#f3e5f5;border:1px solid #ce93d8;border-radius:4px;padding:1px 5px;color:#6a1b9a">ručně</span>`
+      : `<span style="color:#ccc;font-size:10px">—</span>`;
+    const dt=new Date(date); const dow=['Ne','Po','Út','St','Čt','Pá','So'][dt.getDay()];
+    h+=`<tr style="background:${i%2?'#fafafa':'#fff'}">
+      <td style="padding:6px 10px;white-space:nowrap">
+        ${fmtDate(date)} <span style="font-size:11px;color:#888">${dow}</span>
+      </td>
+      <td style="padding:6px 10px;text-align:right;font-weight:700;color:${accentColor};font-variant-numeric:tabular-nums">
+        ${predVal.toLocaleString('cs-CZ')} Kč
+      </td>
+      <td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums">
+        ${realVal!==null ? realVal.toLocaleString('cs-CZ')+' Kč' : '<span style="color:#ccc">—</span>'}
+      </td>
+      <td style="padding:6px 10px;text-align:right">${diffHtml}</td>
+      <td style="padding:6px 10px">${feedBadge}</td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  if(archiveDates.length>60) h+=`<p style="color:#888;font-size:11px;margin-top:8px">Zobrazeno 60 z ${archiveDates.length} archivovaných dní.</p>`;
+  archWrap.innerHTML=h;
+}
+
 // ─── VARIANTA A ───
 function renderPredA(){
   if(!FORECAST) return;
@@ -1195,12 +1297,21 @@ function renderPredA(){
     const predBg = predRaw!==null ? heatColor(predRaw, predMin, predMax) : '#eee';
     const predTxt= predRaw!==null ? predRaw.toLocaleString('cs-CZ')+' Kč' : '?';
 
-    const realVal = DAILY_2026[date] !== undefined ? DAILY_2026[date] : loadReal(date);
+    const fromFeedA = DAILY_2026[date] !== undefined;
+    const realVal = fromFeedA ? DAILY_2026[date] : loadReal(date);
+    // Uložíme predikci do archivu (budoucí dny, ne historické)
+    if(!isPast && predRaw!==null) savePredHistory('A', date, predRaw);
+
     const realCell = isPast
-      ? `<input type="number" step="100" value="${realVal!==null?realVal:''}"
-           style="width:110px;padding:4px 6px;border:1.5px solid #c5cae9;border-radius:6px;font-size:12px;text-align:right"
-           placeholder="zadej Kč"
-           onchange="saveReal('${date}',this.value);renderPredA()">`
+      ? (fromFeedA
+          ? `<div style="text-align:right;padding:2px 0">
+               <span style="font-weight:700;font-variant-numeric:tabular-nums">${realVal.toLocaleString('cs-CZ')} Kč</span>
+               <span style="display:block;font-size:9px;background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;margin-top:2px">z feedu</span>
+             </div>`
+          : `<input type="number" step="100" value="${realVal!==null?realVal:''}"
+               style="width:110px;padding:4px 6px;border:1.5px solid #c5cae9;border-radius:6px;font-size:12px;text-align:right"
+               placeholder="zadej Kč"
+               onchange="saveReal('${date}',this.value);renderPredA()">`)
       : '<span style="color:#ccc;font-size:11px">—</span>';
 
     let diffCell = '';
@@ -1265,6 +1376,7 @@ function renderPredA(){
     '⏱ Aktualizováno: ' + new Date().toLocaleString('cs-CZ') + ' · Zdroj: ' + (WX_SOURCE||'Open-Meteo') + ' · API: Open-Meteo (primární) + wttr.in (sekundární)';
 
   buildLookupHeatmap('fa-heatmap-wrap');
+  renderPredArchive('A','fa-archive-wrap');
 }
 
 function buildLookupHeatmap(wrapperId){
@@ -1459,12 +1571,14 @@ function renderPredB1(){
     const hm=holiday?holiday.mult:1;
     const pred=Math.round(predictB1(tmax,prec,sunH,woy,dow)*hm);
     const predBg=heatColor(pred,predMin,predMax);
-    const realVal=loadReal(date);
+    if(!isPast) savePredHistory('B1', date, pred);
+    const fromFeedB1 = DAILY_2026[date]!==undefined;
+    const realVal = fromFeedB1 ? DAILY_2026[date] : loadReal(date);
     const holidayBadge=holiday?`<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holiday.emoji} ${holiday.name}</span>`:'';
     const multNote=holiday?`<span style="display:block;font-size:9px;color:#e65100">×${holiday.mult}</span>`:'';
     let diffCell='';
     if(isPast&&realVal!==null&&pred>0){const diff=realVal-pred;const pct=((realVal/pred-1)*100).toFixed(1);const c=diff>=0?'#27ae60':'#e74c3c';diffCell=`<span style="color:${c};font-size:11px;font-weight:700">${diff>=0?'+':''}${pct}%</span>`;}
-    const realCell=isPast?`<input type="number" step="100" value="${realVal!==null?realVal:''}" style="width:110px;padding:4px 6px;border:1.5px solid #b2dfdb;border-radius:6px;font-size:12px;text-align:right" placeholder="zadej Kč" onchange="saveReal('${date}',this.value);renderPredB1();renderPredB2()">` :'<span style="color:#ccc;font-size:11px">—</span>';
+    const realCell=isPast?(fromFeedB1?`<div style="text-align:right;padding:2px 0"><span style="font-weight:700;font-variant-numeric:tabular-nums">${realVal.toLocaleString('cs-CZ')} Kč</span><span style="display:block;font-size:9px;background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;margin-top:2px">z feedu</span></div>`:`<input type="number" step="100" value="${realVal!==null?realVal:''}" style="width:110px;padding:4px 6px;border:1.5px solid #b2dfdb;border-radius:6px;font-size:12px;text-align:right" placeholder="zadej Kč" onchange="saveReal('${date}',this.value);renderPredB1();renderPredB2()">`):'<span style="color:#ccc;font-size:11px">—</span>';
     const rowBg=isToday?'#fff8e1':(isPast?'#fafafa':holiday?'#fff8e0':'');
     const rowHtml=`<tr style="background:${rowBg}">
       <td style="white-space:nowrap;padding:8px 10px"><span style="font-size:13px">${fmtDate(date)}</span><span style="font-size:11px;color:#888;display:block">${DOW_CZ[dow]}</span>${isPast?'<span style="font-size:9px;background:#e3e8f0;border-radius:4px;padding:1px 5px;color:#666">hist.</span>':isToday?'<span style="font-size:9px;background:#fff176;border-radius:4px;padding:1px 5px;color:#333">dnes</span>':'<span style="font-size:9px;background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#333">výhled</span>'}${holidayBadge}</td>
@@ -1500,6 +1614,7 @@ function renderPredB1(){
     '⏱ Aktualizováno: '+new Date().toLocaleString('cs-CZ')+' · Zdroj: '+(WX_SOURCE||'Open-Meteo')+' · API: Open-Meteo (primární) + wttr.in (sekundární) · Ridge α=100';
 
   buildCoefTableB1('fb1-coef-wrap');
+  renderPredArchive('B1','fb1-archive-wrap');
 }
 
 // ─── RENDER B2 ───
@@ -1564,12 +1679,14 @@ function renderPredB2(){
     const hm=holiday?holiday.mult:1;
     const pred=Math.round(predictB2(roll4,sunH,dow,month,wom)*hm);
     const predBg=heatColor(pred,predMin,predMax);
-    const realVal = DAILY_2026[date] !== undefined ? DAILY_2026[date] : loadReal(date);
+    if(!isPast) savePredHistory('B2', date, pred);
+    const fromFeedB2 = DAILY_2026[date]!==undefined;
+    const realVal = fromFeedB2 ? DAILY_2026[date] : loadReal(date);
     const holidayBadge=holiday?`<span style="display:block;font-size:9px;background:#fff3e0;border:1px solid #ffcc80;border-radius:4px;padding:1px 5px;color:#e65100;margin-top:2px">${holiday.emoji} ${holiday.name}</span>`:'';
     const multNote=holiday?`<span style="display:block;font-size:9px;color:#e65100">×${holiday.mult}</span>`:'';
     let diffCell='';
     if(isPast&&realVal!==null&&pred>0){const diff=realVal-pred;const pct=((realVal/pred-1)*100).toFixed(1);const c=diff>=0?'#27ae60':'#e74c3c';diffCell=`<span style="color:${c};font-size:11px;font-weight:700">${diff>=0?'+':''}${pct}%</span>`;}
-    const realCell=isPast?`<input type="number" step="100" value="${realVal!==null?realVal:''}" style="width:110px;padding:4px 6px;border:1.5px solid #c5cae9;border-radius:6px;font-size:12px;text-align:right" placeholder="zadej Kč" onchange="saveReal('${date}',this.value);renderPredB1();renderPredB2()">` :'<span style="color:#ccc;font-size:11px">—</span>';
+    const realCell=isPast?(fromFeedB2?`<div style="text-align:right;padding:2px 0"><span style="font-weight:700;font-variant-numeric:tabular-nums">${realVal.toLocaleString('cs-CZ')} Kč</span><span style="display:block;font-size:9px;background:#e3f2fd;border:1px solid #90caf9;border-radius:4px;padding:1px 5px;color:#0d47a1;margin-top:2px">z feedu</span></div>`:`<input type="number" step="100" value="${realVal!==null?realVal:''}" style="width:110px;padding:4px 6px;border:1.5px solid #c5cae9;border-radius:6px;font-size:12px;text-align:right" placeholder="zadej Kč" onchange="saveReal('${date}',this.value);renderPredB1();renderPredB2()">`):'<span style="color:#ccc;font-size:11px">—</span>';
     const rowBg=isToday?'#fff8e1':(isPast?'#fafafa':holiday?'#fff8e0':'');
     const devColor=rollDev>=0?'#27ae60':'#e74c3c';
     const devSign=rollDev>=0?'+':'';
@@ -1610,6 +1727,7 @@ function renderPredB2(){
     '⏱ Aktualizováno: '+new Date().toLocaleString('cs-CZ')+' · Zdroj: '+(WX_SOURCE||'Open-Meteo')+' · API: Open-Meteo (primární) + wttr.in (sekundární) · Ridge α=100';
 
   buildCoefTableB2('fb2-coef-wrap');
+  renderPredArchive('B2','fb2-archive-wrap');
 }
 
 // ─── KOEFICIENTY B1 ───
@@ -1930,6 +2048,24 @@ initB2B();
 // ═══════════════════════════════════════════
 // ─── YoY SROVNÁNÍ ───
 // ═══════════════════════════════════════════
+
+// Tooltip helper (sdílený pro YoY grafy)
+let _yoyTip = null;
+function yoyTip(){
+  if(!_yoyTip){
+    _yoyTip = document.createElement('div');
+    _yoyTip.style.cssText='position:fixed;pointer-events:none;background:rgba(0,0,0,.82);color:#fff;'+
+      'padding:7px 11px;border-radius:7px;font-size:12px;line-height:1.5;display:none;z-index:9999;max-width:200px';
+    document.body.appendChild(_yoyTip);
+  }
+  return _yoyTip;
+}
+function showTip(e, html){
+  const t=yoyTip(); t.innerHTML=html; t.style.display='block';
+  t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY-10)+'px';
+}
+function hideTip(){ yoyTip().style.display='none'; }
+
 function renderYoY(){
   // KPI tiles
   const wrap = document.getElementById('yoy-kpi-wrap');
@@ -1938,7 +2074,7 @@ function renderYoY(){
   const yoyObj = ((k.obj26/k.obj25-1)*100).toFixed(1);
   const yoyRev = ((k.rev26/k.rev25-1)*100).toFixed(1);
   const yoyAvg = ((k.avg26/k.avg25-1)*100).toFixed(1);
-  const kpiStyle = `background:#f8f9fa;border-radius:8px;padding:14px 20px;min-width:160px;flex:1`;
+  const kpiStyle = `background:#f8f9fa;border-radius:8px;padding:14px 20px;min-width:160px;flex:1;border:1.5px solid #e8edf3`;
   const sign = v => parseFloat(v)>=0 ? '+'+v+'%' : v+'%';
   const col  = v => parseFloat(v)>=0 ? '#1a7f37' : '#c62828';
   wrap.innerHTML = `
@@ -1952,74 +2088,219 @@ function renderYoY(){
       <div style="font-size:22px;font-weight:700;margin:4px 0">${k.avg26.toLocaleString('cs-CZ')} Kč</div>
       <div style="font-size:13px;color:${col(yoyAvg)};font-weight:600">${sign(yoyAvg)} vs 2025 (${k.avg25.toLocaleString('cs-CZ')} Kč)</div></div>`;
 
+  // Interpretace KPI
+  const interpWrap = document.getElementById('yoy-interp');
+  if(interpWrap){
+    const revDiff = k.rev26 - k.rev25;
+    const objDiff = k.obj26 - k.obj25;
+    const avgDiff = k.avg26 - k.avg25;
+    const revPct = parseFloat(yoyRev);
+    const objPct = parseFloat(yoyObj);
+    const avgPct = parseFloat(yoyAvg);
+    const revGrowthNote = revPct>=0
+      ? `Obrat meziročně rostl o <b>${sign(yoyRev)}</b> (${Math.abs(revDiff).toLocaleString('cs-CZ')} Kč navíc).`
+      : `Obrat meziročně klesl o <b>${sign(yoyRev)}</b> (${Math.abs(revDiff).toLocaleString('cs-CZ')} Kč méně).`;
+    const objNote = objPct>=0
+      ? `Objednávek přibylo o ${objDiff.toLocaleString('cs-CZ')} (${sign(yoyObj)}).`
+      : `Objednávek ubylo o ${Math.abs(objDiff).toLocaleString('cs-CZ')} (${sign(yoyObj)}).`;
+    const avgNote = avgPct>=0
+      ? `Průměrný košík vzrostl o ${avgDiff.toLocaleString('cs-CZ')} Kč na ${k.avg26.toLocaleString('cs-CZ')} Kč.`
+      : `Průměrný košík klesl o ${Math.abs(avgDiff).toLocaleString('cs-CZ')} Kč na ${k.avg26.toLocaleString('cs-CZ')} Kč.`;
+    const revenueDriver = Math.abs(objPct) > Math.abs(avgPct)
+      ? 'Hlavním motorem růstu je <b>větší počet objednávek</b> — průměrný košík se příliš nemění.'
+      : 'Hlavním motorem růstu je <b>vyšší hodnota košíku</b> — zákazníci objednávají méně, ale za více.';
+    interpWrap.innerHTML = `<div style="background:#f0f7ff;border-left:4px solid #1565C0;border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;line-height:1.7;color:#333">
+      📊 ${revGrowthNote} ${objNote} ${avgNote}<br>
+      💡 ${revenueDriver}
+    </div>`;
+  }
+
   // Grafy
   const MONTHS = ['Led','Úno','Bře','Dub','Kvě'];
+  const MONTHS_FULL = ['Leden','Únor','Březen','Duben','Květen'];
   const rev25 = [1,2,3,4,5].map(m=>YOY_MONTHLY.rev25[m]||0);
   const rev26 = [1,2,3,4,5].map(m=>YOY_MONTHLY.rev26[m]||0);
   const cnt25 = [1,2,3,4,5].map(m=>YOY_MONTHLY.cnt25[m]||0);
   const cnt26 = [1,2,3,4,5].map(m=>YOY_MONTHLY.cnt26[m]||0);
+  const avg25 = [1,2,3,4,5].map(m=>YOY_MONTHLY.avg25?YOY_MONTHLY.avg25[m]||0:0);
+  const avg26 = [1,2,3,4,5].map(m=>YOY_MONTHLY.avg26?YOY_MONTHLY.avg26[m]||0:0);
 
-  function drawBarChart(canvasId, labels, data25, data26){
+  // Interpretace grafů
+  const bestMonIdx26 = rev26.indexOf(Math.max(...rev26));
+  const worstMonIdx26 = rev26.indexOf(Math.min(...rev26));
+  const chartInterps = document.getElementById('yoy-chart-interp');
+  if(chartInterps){
+    const growthMons = MONTHS_FULL.filter((_,i)=>rev26[i]>rev25[i]);
+    const declineMons = MONTHS_FULL.filter((_,i)=>rev26[i]<rev25[i]);
+    const bestGrowthPct = Math.max(...[1,2,3,4,5].map((m,i)=>rev25[i]>0?(rev26[i]/rev25[i]-1)*100:0)).toFixed(0);
+    chartInterps.innerHTML = `<div style="background:#f0f7ff;border-left:4px solid #42a5f5;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#444;line-height:1.6;margin-bottom:10px">
+      📅 Nejsilnější měsíc 2026: <b>${MONTHS_FULL[bestMonIdx26]}</b> (${rev26[bestMonIdx26].toLocaleString('cs-CZ')} Kč).
+      ${growthMons.length>0?`Růst YoY v: <b>${growthMons.join(', ')}</b>.`:''}
+      ${declineMons.length>0?`Pokles YoY v: <b>${declineMons.join(', ')}</b>.`:''}
+      Maximální měsíční růst: <b>+${bestGrowthPct}%</b>.
+    </div>`;
+  }
+
+  // ── Interaktivní bar chart s hover tooltipem ──
+  function drawInteractiveBarChart(canvasId, labels, data25, data26, formatFn){
     const canvas = document.getElementById(canvasId);
     if(!canvas) return;
     const ctx = canvas.getContext('2d');
-    const W = canvas.offsetWidth || 400;
-    const H = canvas.height;
-    canvas.width = W;
-    ctx.clearRect(0,0,W,H);
-    const maxVal = Math.max(...data25, ...data26) * 1.1 || 1;
-    const padL=30, padR=10, padT=10, padB=25;
-    const chartW = W-padL-padR;
-    const chartH = H-padT-padB;
-    const n = labels.length;
-    const groupW = chartW/n;
-    const barW = groupW*0.35;
-    data25.forEach((v,i)=>{
-      const x = padL + i*groupW + groupW*0.1;
-      const bH = v/maxVal*chartH;
-      ctx.fillStyle='#90caf9';
-      ctx.fillRect(x, padT+chartH-bH, barW, bH);
-    });
-    data26.forEach((v,i)=>{
-      const x = padL + i*groupW + groupW*0.1 + barW+2;
-      const bH = v/maxVal*chartH;
-      ctx.fillStyle='#1565c0';
-      ctx.fillRect(x, padT+chartH-bH, barW, bH);
-    });
-    ctx.fillStyle='#888'; ctx.font='11px sans-serif'; ctx.textAlign='center';
-    labels.forEach((l,i)=>{ ctx.fillText(l, padL+i*groupW+groupW/2, H-5); });
-    // Legenda
-    ctx.fillStyle='#90caf9'; ctx.fillRect(padL,padT,10,8); ctx.fillStyle='#888'; ctx.textAlign='left'; ctx.fillText('2025',padL+13,padT+8);
-    ctx.fillStyle='#1565c0'; ctx.fillRect(padL+50,padT,10,8); ctx.fillStyle='#888'; ctx.fillText('2026',padL+63,padT+8);
-  }
-  setTimeout(()=>{
-    drawBarChart('yoy-rev-chart', MONTHS, rev25, rev26);
-    drawBarChart('yoy-cnt-chart', MONTHS, cnt25, cnt26);
-  }, 50);
+    // Barcharts se ukládají do closure pro hit testing
+    const barRects = []; // {x,y,w,h,year,label,val}
 
-  // Produktová tabulka
-  const prodWrap = document.getElementById('yoy-prods-wrap');
-  let th = `<table style="width:100%;border-collapse:collapse;font-size:12px">
-    <thead><tr style="background:#e3f2fd">
-      <th style="text-align:left;padding:8px 10px">Produkt</th>
-      <th style="text-align:right;padding:8px 10px">2025 Kč</th>
-      <th style="text-align:right;padding:8px 10px">2026 Kč</th>
-      <th style="text-align:right;padding:8px 10px">YoY</th>
-    </tr></thead><tbody>`;
-  YOY_PRODS.forEach((p,i)=>{
-    const yoy = p.rev25>0 ? ((p.rev26/p.rev25-1)*100).toFixed(0) : (p.rev26>0?'nový':'—');
-    const yoyNum = parseFloat(yoy);
-    const yoyColor = isNaN(yoyNum) ? '#888' : yoyNum>=0 ? '#1a7f37':'#c62828';
-    const yoyStr  = isNaN(yoyNum) ? yoy : (yoyNum>=0?'+':'')+yoy+'%';
-    th += `<tr style="background:${i%2?'#f9f9f9':'#fff'}">
-      <td style="padding:6px 10px">${p.name}</td>
-      <td style="text-align:right;padding:6px 10px;color:#666">${p.rev25>0?p.rev25.toLocaleString('cs-CZ'):'—'}</td>
-      <td style="text-align:right;padding:6px 10px;font-weight:600">${p.rev26>0?p.rev26.toLocaleString('cs-CZ'):'—'}</td>
-      <td style="text-align:right;padding:6px 10px;font-weight:700;color:${yoyColor}">${yoyStr}</td>
-    </tr>`;
-  });
-  th += '</tbody></table>';
-  prodWrap.innerHTML = th;
+    function draw(){
+      const W = canvas.offsetWidth || 400;
+      const H = canvas.height || 180;
+      canvas.width = W;
+      ctx.clearRect(0,0,W,H);
+      barRects.length = 0;
+      const maxVal = Math.max(...data25, ...data26) * 1.12 || 1;
+      const padL=38, padR=12, padT=22, padB=28;
+      const chartW = W-padL-padR;
+      const chartH = H-padT-padB;
+      const n = labels.length;
+      const groupW = chartW/n;
+      const barW = Math.min(groupW*0.36, 28);
+      // Grid lines
+      ctx.strokeStyle='#eeeeee'; ctx.lineWidth=1;
+      for(let t=0;t<=4;t++){
+        const yy = padT+chartH*(1-t/4);
+        ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(W-padR,yy); ctx.stroke();
+        const val=maxVal*t/4;
+        ctx.fillStyle='#bbb'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+        ctx.fillText(val>=1000000?Math.round(val/100000)/10+'M':val>=1000?Math.round(val/1000)+'k':Math.round(val), padL-3, yy+3);
+      }
+      // Bars 2025
+      data25.forEach((v,i)=>{
+        const x = padL + i*groupW + groupW*0.1;
+        const bH = v/maxVal*chartH;
+        const by = padT+chartH-bH;
+        ctx.fillStyle='#90caf9';
+        ctx.fillRect(x, by, barW, bH);
+        barRects.push({x,y:by,w:barW,h:bH,year:'2025',label:labels[i],val:v});
+      });
+      // Bars 2026
+      data26.forEach((v,i)=>{
+        const x = padL + i*groupW + groupW*0.1 + barW+3;
+        const bH = v/maxVal*chartH;
+        const by = padT+chartH-bH;
+        ctx.fillStyle='#1565c0';
+        ctx.fillRect(x, by, barW, bH);
+        barRects.push({x,y:by,w:barW,h:bH,year:'2026',label:labels[i],val:v});
+      });
+      // Měsíční labely
+      ctx.fillStyle='#666'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      labels.forEach((l,i)=>{ ctx.fillText(l, padL+i*groupW+groupW/2, H-6); });
+      // Legenda
+      ctx.fillStyle='#90caf9'; ctx.fillRect(padL,4,10,8);
+      ctx.fillStyle='#555'; ctx.textAlign='left'; ctx.font='11px sans-serif';
+      ctx.fillText('2025', padL+13, 12);
+      ctx.fillStyle='#1565c0'; ctx.fillRect(padL+55,4,10,8);
+      ctx.fillStyle='#555'; ctx.fillText('2026', padL+68, 12);
+    }
+
+    draw();
+
+    canvas.onmousemove = function(e){
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const mx = (e.clientX - rect.left) * scaleX;
+      const my = (e.clientY - rect.top) * scaleY;
+      let found = null;
+      for(const b of barRects){
+        if(mx>=b.x && mx<=b.x+b.w && my>=b.y && my<=b.y+b.h){ found=b; break; }
+      }
+      if(found){
+        canvas.style.cursor='pointer';
+        const idx25 = barRects.find(b=>b.year==='2025'&&b.label===found.label);
+        const idx26 = barRects.find(b=>b.year==='2026'&&b.label===found.label);
+        const v25 = idx25?idx25.val:0, v26=idx26?idx26.val:0;
+        const yoyPct = v25>0?((v26/v25-1)*100).toFixed(1):null;
+        const fmt = formatFn || (v=>v.toLocaleString('cs-CZ'));
+        showTip(e, `<b>${found.label}</b><br>2025: <span style="color:#90caf9">${fmt(v25)}</span><br>2026: <span style="color:#7cc8ff;font-weight:700">${fmt(v26)}</span>${yoyPct!==null?`<br>YoY: <span style="color:${parseFloat(yoyPct)>=0?'#6fcf97':'#ff8a80'};font-weight:700">${parseFloat(yoyPct)>=0?'+':''}${yoyPct}%</span>`:''}`);
+      } else {
+        canvas.style.cursor='default';
+        hideTip();
+      }
+    };
+    canvas.onmouseleave = function(){ hideTip(); canvas.style.cursor='default'; };
+
+    // Resize
+    const ro = new ResizeObserver(()=>draw());
+    ro.observe(canvas.parentElement);
+  }
+
+  setTimeout(()=>{
+    drawInteractiveBarChart('yoy-rev-chart', MONTHS, rev25, rev26, v=>v.toLocaleString('cs-CZ')+' Kč');
+    drawInteractiveBarChart('yoy-cnt-chart', MONTHS, cnt25, cnt26, v=>v.toLocaleString('cs-CZ')+' obj.');
+    drawInteractiveBarChart('yoy-avg-chart', MONTHS, avg25, avg26, v=>v.toLocaleString('cs-CZ')+' Kč');
+  }, 60);
+
+  // Interpretace avg košíku po měsících
+  const avgInterp = document.getElementById('yoy-avg-interp');
+  if(avgInterp){
+    const highAvgIdx = avg26.indexOf(Math.max(...avg26.filter(v=>v>0)));
+    const lowAvgIdx  = avg26.indexOf(Math.min(...avg26.filter(v=>v>0)));
+    const growing = MONTHS_FULL.filter((_,i)=>avg26[i]>avg25[i] && avg25[i]>0);
+    avgInterp.innerHTML = `<div style="background:#f0f7ff;border-left:4px solid #42a5f5;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#444;line-height:1.6;margin-bottom:10px">
+      🛒 Nejvyšší průměrný košík: <b>${MONTHS_FULL[highAvgIdx]}</b> (${avg26[highAvgIdx].toLocaleString('cs-CZ')} Kč).
+      Nejnižší: <b>${MONTHS_FULL[lowAvgIdx]}</b> (${avg26[lowAvgIdx].toLocaleString('cs-CZ')} Kč).
+      ${growing.length?`Košík roste YoY v: <b>${growing.join(', ')}</b>.`:''}
+    </div>`;
+  }
+
+  // Produktová tabulka s řazením
+  let _prodSortCol = 'rev26', _prodSortAsc = false;
+  function renderProdTable(){
+    const prodWrap = document.getElementById('yoy-prods-wrap');
+    let data = [...YOY_PRODS];
+    // Filtr
+    const filterVal = (document.getElementById('yoy-prod-filter')||{}).value||'';
+    if(filterVal) data = data.filter(p=>p.name.toLowerCase().includes(filterVal.toLowerCase()));
+    // Řazení
+    data.sort((a,b)=>{
+      if(_prodSortCol==='name') return _prodSortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      const va=a[_prodSortCol]||0, vb=b[_prodSortCol]||0;
+      return _prodSortAsc ? va-vb : vb-va;
+    });
+    const arrow = col => col===_prodSortCol ? (_prodSortAsc?'▲':'▼') : '⬍';
+    let th = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="background:#e3f2fd">
+        <th style="text-align:left;padding:8px 10px;cursor:pointer;user-select:none" onclick="yoySortBy('name')">Produkt ${arrow('name')}</th>
+        <th style="text-align:right;padding:8px 10px;cursor:pointer;user-select:none" onclick="yoySortBy('rev25')">2025 Kč ${arrow('rev25')}</th>
+        <th style="text-align:right;padding:8px 10px;cursor:pointer;user-select:none" onclick="yoySortBy('rev26')">2026 Kč ${arrow('rev26')}</th>
+        <th style="text-align:right;padding:8px 10px;cursor:pointer;user-select:none" onclick="yoySortBy('yoy')">YoY ${arrow('yoy')}</th>
+      </tr></thead><tbody>`;
+    data.forEach((p,i)=>{
+      const yoyNum = p.rev25>0 ? (p.rev26/p.rev25-1)*100 : (p.rev26>0?999:NaN);
+      const yoyStr = isNaN(yoyNum) ? '—' : yoyNum===999 ? '<span style="background:#e8f5e9;border-radius:4px;padding:1px 5px;color:#2e7d32;font-size:10px">nový</span>' : (yoyNum>=0?'<span style="color:#1a7f37;font-weight:700">+'+yoyNum.toFixed(0)+'%</span>':'<span style="color:#c62828;font-weight:700">'+yoyNum.toFixed(0)+'%</span>');
+      // Bar
+      const maxR = Math.max(...YOY_PRODS.map(x=>Math.max(x.rev25,x.rev26)));
+      const bar25 = `<div style="display:inline-block;width:${Math.round(p.rev25/maxR*60)}px;height:4px;background:#90caf9;border-radius:2px;vertical-align:middle;margin-right:4px"></div>`;
+      const bar26 = `<div style="display:inline-block;width:${Math.round(p.rev26/maxR*60)}px;height:4px;background:#1565c0;border-radius:2px;vertical-align:middle;margin-right:4px"></div>`;
+      th += `<tr style="background:${i%2?'#f9f9f9':'#fff'}">
+        <td style="padding:6px 10px">${p.name}</td>
+        <td style="text-align:right;padding:6px 10px;color:#666">${p.rev25>0?bar25+p.rev25.toLocaleString('cs-CZ'):'—'}</td>
+        <td style="text-align:right;padding:6px 10px;font-weight:600">${p.rev26>0?bar26+p.rev26.toLocaleString('cs-CZ'):'—'}</td>
+        <td style="text-align:right;padding:6px 10px">${yoyStr}</td>
+      </tr>`;
+    });
+    th += '</tbody></table>';
+    prodWrap.innerHTML = th;
+  }
+  window.yoySortBy = function(col){
+    if(_prodSortCol===col) _prodSortAsc = !_prodSortAsc;
+    else { _prodSortCol=col; _prodSortAsc=(col==='name'); }
+    // Append yoy field for sort
+    YOY_PRODS.forEach(p=>{ p.yoy=p.rev25>0?(p.rev26/p.rev25-1)*100:(p.rev26>0?999:-999); });
+    renderProdTable();
+  };
+  window.yoyFilterProds = function(){ renderProdTable(); };
+  // Init yoy field
+  YOY_PRODS.forEach(p=>{ p.yoy=p.rev25>0?(p.rev26/p.rev25-1)*100:(p.rev26>0?999:-999); });
+  renderProdTable();
 }
 
 // ═══════════════════════════════════════════
@@ -2052,8 +2333,74 @@ function renderHourDow(){
     html+='</tr>';
   });
   html+='</tbody></table>';
-
   wrap.innerHTML = html;
+
+  // ── Sumární tabulka: průměrný obrat na hodinu ──
+  const sumWrap = document.getElementById('hod-sum-wrap');
+  if(sumWrap){
+    const allMax  = Math.max(...HOUR_AVG_ALL);
+    const ssMax   = Math.max(...HOUR_AVG_SPRSUM);
+    const awMax   = Math.max(...HOUR_AVG_AUTWIN);
+    const peakH   = HOUR_AVG_ALL.indexOf(allMax);
+    const morningPeak = HOUR_AVG_ALL.slice(6,12).indexOf(Math.max(...HOUR_AVG_ALL.slice(6,12)))+6;
+    const evePeak = HOUR_AVG_ALL.slice(18,24).indexOf(Math.max(...HOUR_AVG_ALL.slice(18,24)))+18;
+
+    // Sparkline-style bar table (2 rows: Jaro+Léto, Podzim+Zima)
+    let s = `<div style="font-weight:700;font-size:13px;color:#333;margin-bottom:8px">Průměrný denní obrat na hodinu (celý rok)</div>`;
+    s += `<div style="font-size:11px;color:#888;margin-bottom:10px">Kolik Kč v průměru přišlo v danou hodinu za jeden den (součet 2025+2026 / počet dní).</div>`;
+    s += `<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:12px;min-width:600px;width:100%">`;
+    s += `<thead><tr style="background:#e8f0fe"><th style="padding:6px 8px;text-align:left;font-size:11px;color:#333;min-width:80px">Metrika</th>`;
+    for(let h=0;h<24;h++) s+=`<th style="padding:4px 3px;text-align:center;font-size:10px;color:#555">${h.toString().padStart(2,'0')}</th>`;
+    s+='</tr></thead><tbody>';
+
+    // Řádek: Celý rok
+    s+=`<tr><td style="padding:6px 8px;font-weight:700;white-space:nowrap;background:#f5f5f5">Celý rok</td>`;
+    for(let h=0;h<24;h++){
+      const v = HOUR_AVG_ALL[h];
+      const pct = allMax>0 ? v/allMax : 0;
+      const bg = `rgba(21,101,192,${(0.08+pct*0.85).toFixed(2)})`;
+      const tc = pct>0.55 ? '#fff' : '#222';
+      const lbl = v>=1000 ? Math.round(v/1000)+'k' : v>0 ? v : '';
+      s+=`<td title="${h}:00 — ${v.toLocaleString('cs-CZ')} Kč/den" style="padding:5px 2px;text-align:center;background:${bg};color:${tc};font-size:11px;font-variant-numeric:tabular-nums">${lbl}</td>`;
+    }
+    s+='</tr>';
+
+    // Řádek: Jaro+Léto
+    s+=`<tr><td style="padding:6px 8px;font-weight:700;white-space:nowrap;background:#f5f5f5;color:#2e7d32">Jaro+Léto<br><span style="font-size:10px;color:#888;font-weight:400">březen–srpen</span></td>`;
+    for(let h=0;h<24;h++){
+      const v = HOUR_AVG_SPRSUM[h];
+      const pct = ssMax>0 ? v/ssMax : 0;
+      const bg = `rgba(46,125,50,${(0.08+pct*0.85).toFixed(2)})`;
+      const tc = pct>0.55 ? '#fff' : '#222';
+      const lbl = v>=1000 ? Math.round(v/1000)+'k' : v>0 ? v : '';
+      s+=`<td title="${h}:00 — ${v.toLocaleString('cs-CZ')} Kč/den" style="padding:5px 2px;text-align:center;background:${bg};color:${tc};font-size:11px;font-variant-numeric:tabular-nums">${lbl}</td>`;
+    }
+    s+='</tr>';
+
+    // Řádek: Podzim+Zima
+    s+=`<tr><td style="padding:6px 8px;font-weight:700;white-space:nowrap;background:#f5f5f5;color:#6a1b9a">Podzim+Zima<br><span style="font-size:10px;color:#888;font-weight:400">září–únor</span></td>`;
+    for(let h=0;h<24;h++){
+      const v = HOUR_AVG_AUTWIN[h];
+      const pct = awMax>0 ? v/awMax : 0;
+      const bg = `rgba(106,27,154,${(0.08+pct*0.85).toFixed(2)})`;
+      const tc = pct>0.55 ? '#fff' : '#222';
+      const lbl = v>=1000 ? Math.round(v/1000)+'k' : v>0 ? v : '';
+      s+=`<td title="${h}:00 — ${v.toLocaleString('cs-CZ')} Kč/den" style="padding:5px 2px;text-align:center;background:${bg};color:${tc};font-size:11px;font-variant-numeric:tabular-nums">${lbl}</td>`;
+    }
+    s+='</tr>';
+
+    s+='</tbody></table></div>';
+
+    // Interpretace
+    s+=`<div style="background:#f0f7ff;border-left:4px solid #1565C0;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#444;line-height:1.7;margin-top:14px">
+      ⏰ Celkový peak: <b>${peakH.toString().padStart(2,'0')}:00</b> (${allMax.toLocaleString('cs-CZ')} Kč/den v průměru).
+      Ranní maximum (6–11h): <b>${morningPeak.toString().padStart(2,'0')}:00</b>.
+      Večerní maximum (18–23h): <b>${evePeak.toString().padStart(2,'0')}:00</b>.<br>
+      🌿 Jaro+Léto dominuje — sezónní průměr ${(HOUR_AVG_SPRSUM.reduce((a,b)=>a+b,0)/24).toFixed(0)} Kč/h vs ${(HOUR_AVG_AUTWIN.reduce((a,b)=>a+b,0)/24).toFixed(0)} Kč/h mimo sezónu.
+    </div>`;
+
+    sumWrap.innerHTML = s;
+  }
 }
 
 </script>
@@ -2063,18 +2410,30 @@ function renderHourDow(){
   <div class="fx-card">
     <div class="fx-card-header blue">📈 Srovnání 2025 vs 2026 — Jan až Máj</div>
     <div class="fx-card-body" style="padding:16px">
-      <div id="yoy-kpi-wrap" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+      <div id="yoy-kpi-wrap" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px"></div>
+      <div id="yoy-interp" style="margin-bottom:20px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:8px">
         <div>
-          <div style="font-weight:700;margin-bottom:8px;font-size:13px;color:#555">Obrat po měsících (Kč)</div>
+          <div style="font-weight:700;margin-bottom:6px;font-size:13px;color:#555">Obrat po měsících (Kč) <span style="font-size:11px;color:#aaa;font-weight:400">— najeďte myší</span></div>
           <canvas id="yoy-rev-chart" height="180"></canvas>
         </div>
         <div>
-          <div style="font-weight:700;margin-bottom:8px;font-size:13px;color:#555">Počet objednávek</div>
+          <div style="font-weight:700;margin-bottom:6px;font-size:13px;color:#555">Počet objednávek <span style="font-size:11px;color:#aaa;font-weight:400">— najeďte myší</span></div>
           <canvas id="yoy-cnt-chart" height="180"></canvas>
         </div>
       </div>
-      <div style="font-weight:700;margin-bottom:10px;font-size:13px;color:#555">Top produkty — obrat Jan–Máj</div>
+      <div id="yoy-chart-interp" style="margin-bottom:20px"></div>
+      <div style="margin-bottom:20px">
+        <div style="font-weight:700;margin-bottom:6px;font-size:13px;color:#555">Průměrný košík po měsících (Kč) <span style="font-size:11px;color:#aaa;font-weight:400">— najeďte myší</span></div>
+        <canvas id="yoy-avg-chart" height="160"></canvas>
+        <div id="yoy-avg-interp" style="margin-top:8px"></div>
+      </div>
+      <div style="font-weight:700;margin-bottom:8px;font-size:13px;color:#555">Top produkty — obrat Jan–Máj</div>
+      <div style="margin-bottom:10px">
+        <input id="yoy-prod-filter" type="text" placeholder="Hledat produkt..." oninput="yoyFilterProds()"
+          style="padding:6px 12px;border:1.5px solid #c5cae9;border-radius:8px;font-size:12px;width:240px">
+        <span style="font-size:11px;color:#888;margin-left:10px">Klikněte na záhlaví sloupce pro řazení</span>
+      </div>
       <div id="yoy-prods-wrap" style="overflow-x:auto"></div>
     </div>
   </div>
@@ -2085,8 +2444,14 @@ function renderHourDow(){
   <div class="fx-card">
     <div class="fx-card-header blue">🕐 Nákupní aktivita — Den × Hodina (2025+2026)</div>
     <div class="fx-card-body" style="padding:16px;overflow-x:auto">
-      <p style="font-size:12px;color:#888;margin:0 0 12px">Hodnota = celkový obrat za daný den týdne a hodinu. Podbarven od červené (nízký) přes žlutou k zelené (nejvyšší).</p>
+      <p style="font-size:12px;color:#888;margin:0 0 12px">Hodnota = celkový obrat za daný den týdne a hodinu (2025+2026 dohromady). Podbarven od červené přes žlutou k zelené.</p>
       <div id="hod-matrix-wrap"></div>
+    </div>
+  </div>
+  <div class="fx-card" style="margin-top:16px">
+    <div class="fx-card-header blue">⏰ Průměrný obrat na hodinu — celoroční + sezónní split</div>
+    <div class="fx-card-body" style="padding:16px;overflow-x:auto">
+      <div id="hod-sum-wrap"></div>
     </div>
   </div>
 </div>
