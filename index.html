@@ -619,7 +619,7 @@ function showPage(id, btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   if(id==='yoy-porovnani') renderYoY();
   if(id==='hod-heatmap') renderHourDow();
 }
@@ -2059,7 +2059,7 @@ function renderHourDow(){
 </script>
 
 <!-- ══ YoY SROVNÁNÍ 2025 vs 2026 ══ -->
-<div id="yoy-porovnani" class="page" style="display:none">
+<div id="yoy-porovnani" class="page">
   <div class="fx-card">
     <div class="fx-card-header blue">📈 Srovnání 2025 vs 2026 — Jan až Máj</div>
     <div class="fx-card-body" style="padding:16px">
@@ -2081,7 +2081,7 @@ function renderHourDow(){
 </div>
 
 <!-- ══ HODINY × DNY HEATMAP ══ -->
-<div id="hod-heatmap" class="page" style="display:none">
+<div id="hod-heatmap" class="page">
   <div class="fx-card">
     <div class="fx-card-header blue">🕐 Nákupní aktivita — Den × Hodina (2025+2026)</div>
     <div class="fx-card-body" style="padding:16px;overflow-x:auto">
