@@ -183,6 +183,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('okres-tabulka',this)">📋 Tabulka okresů</button>
   <button class="nav-btn" onclick="showPage('yoy-porovnani',this)">📈 2025 vs 2026</button>
   <button class="nav-btn" onclick="showPage('hod-heatmap',this)">🕐 Hodiny × Dny</button>
+  <button class="nav-btn" onclick="showPage('acq-produkty',this)">🎯 Akviziční produkty</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -640,6 +641,8 @@ const B2C_PRODS = [{"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "qty": 2252, 
 const B2B_BASKET= [{"range": "<500", "cnt": 333, "pct": 10.0, "kc": 114781}, {"range": "500–1K", "cnt": 457, "pct": 13.7, "kc": 343365}, {"range": "1K–2K", "cnt": 664, "pct": 20.0, "kc": 949424}, {"range": "2K–5K", "cnt": 907, "pct": 27.3, "kc": 2886931}, {"range": "5K–10K", "cnt": 497, "pct": 14.9, "kc": 3532769}, {"range": "10K–50K", "cnt": 341, "pct": 10.3, "kc": 5387297}, {"range": ">50K", "cnt": 3, "pct": 0.1, "kc": 184680}];
 const B2C_BASKET= [{"range": "<500", "cnt": 4953, "pct": 22.2, "kc": 1575041}, {"range": "500–1K", "cnt": 5493, "pct": 24.6, "kc": 4184346}, {"range": "1K–2K", "cnt": 6419, "pct": 28.8, "kc": 8892287}, {"range": "2K–5K", "cnt": 3707, "pct": 16.6, "kc": 11079207}, {"range": "5K–10K", "cnt": 654, "pct": 2.9, "kc": 4343860}, {"range": "10K–50K", "cnt": 159, "pct": 0.7, "kc": 2991471}, {"range": ">50K", "cnt": 1, "pct": 0.0, "kc": 52231}];
 const HOLIDAYS_2026 = {"2026-01-01": {"name": "Nový rok", "emoji": "🎆", "mult": 0.313}, "2026-04-03": {"name": "Velký pátek", "emoji": "🙏", "mult": 0.643}, "2026-04-06": {"name": "Velikonoční pondělí", "emoji": "🐣", "mult": 0.885}, "2026-05-01": {"name": "Svátek práce", "emoji": "🌷", "mult": 1.086}, "2026-05-08": {"name": "Den vítězství", "emoji": "✌️", "mult": 0.723}, "2026-07-05": {"name": "Den Cyrila a Metoděje", "emoji": "✨", "mult": 1.83}, "2026-07-06": {"name": "Den upálení Jana Husa", "emoji": "🔥", "mult": 1.669}, "2026-09-28": {"name": "Den české státnosti", "emoji": "🇨🇿", "mult": 0.702}, "2026-10-28": {"name": "Vznik Československa", "emoji": "🎗️", "mult": 0.456}, "2026-11-17": {"name": "Den svobody a demokracie", "emoji": "🕊️", "mult": 0.761}, "2026-12-24": {"name": "Štědrý den", "emoji": "🎄", "mult": 0.003}, "2026-12-25": {"name": "1. svátek vánoční", "emoji": "🎁", "mult": 0.155}, "2026-12-26": {"name": "2. svátek vánoční", "emoji": "🎅", "mult": 0.277}};  // státní svátky 2026 s multiplikátory z dat 2025
+const ACQ_PRODS   = [{"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "prvoni": 2131, "celkem": 2426, "podil_pct": 7.5, "akv_ratio": 87.8, "rev_f": 600288}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "prvoni": 1428, "celkem": 1694, "podil_pct": 5.0, "akv_ratio": 84.3, "rev_f": 743571}, {"name": "Chlor šok 1kg - organický granulát - DOPLNĚNÍ", "prvoni": 949, "celkem": 1229, "podil_pct": 3.3, "akv_ratio": 77.2, "rev_f": 78549}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "prvoni": 793, "celkem": 1175, "podil_pct": 2.8, "akv_ratio": 67.5, "rev_f": 298133}, {"name": "Mořská sůl Margherita 25 kg", "prvoni": 792, "celkem": 918, "podil_pct": 2.8, "akv_ratio": 86.3, "rev_f": 200809}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "prvoni": 788, "celkem": 912, "podil_pct": 2.8, "akv_ratio": 86.4, "rev_f": 316514}, {"name": "Chlornan sodný stabilizovaný 10l ADR", "prvoni": 782, "celkem": 1047, "podil_pct": 2.7, "akv_ratio": 74.7, "rev_f": 173529}, {"name": "Mořská sůl Margharita 25 kg", "prvoni": 604, "celkem": 797, "podil_pct": 2.1, "akv_ratio": 75.8, "rev_f": 250595}, {"name": "Chlornan sodný stabilizovaný 5l ADR", "prvoni": 597, "celkem": 764, "podil_pct": 2.1, "akv_ratio": 78.1, "rev_f": 77125}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "prvoni": 576, "celkem": 930, "podil_pct": 2.0, "akv_ratio": 61.9, "rev_f": 377401}, {"name": "PWS Multi tablety 11v1 MAXI EKO 1kg", "prvoni": 537, "celkem": 647, "podil_pct": 1.9, "akv_ratio": 83.0, "rev_f": 52487}, {"name": "Tabletová regenerační sůl SuperTab 25 kg", "prvoni": 478, "celkem": 668, "podil_pct": 1.7, "akv_ratio": 71.6, "rev_f": 169539}, {"name": "PWS Multi tablety 11v1 MAXI EKO 3kg", "prvoni": 461, "celkem": 536, "podil_pct": 1.6, "akv_ratio": 86.0, "rev_f": 112033}, {"name": "Sůl do bazénu 25kg čistá vysokoprocentní Solivary", "prvoni": 420, "celkem": 485, "podil_pct": 1.5, "akv_ratio": 86.6, "rev_f": 118429}, {"name": "Multi tablety 5v1 do bazénu 200g 3 kg", "prvoni": 394, "celkem": 463, "podil_pct": 1.4, "akv_ratio": 85.1, "rev_f": 92246}, {"name": "Geotextilní podložka pod bazén 3,6 m - 300 g/m2", "prvoni": 392, "celkem": 406, "podil_pct": 1.4, "akv_ratio": 96.6, "rev_f": 84750}, {"name": "Projasňovač bazénové vody 1l", "prvoni": 388, "celkem": 490, "podil_pct": 1.4, "akv_ratio": 79.2, "rev_f": 16539}, {"name": "Filtrační náplň zeolit 1 - 2,5 mm 20 kg", "prvoni": 358, "celkem": 407, "podil_pct": 1.3, "akv_ratio": 88.0, "rev_f": 67328}, {"name": "Chlor šok 3kg - organický granulát - DOPLNĚNÍ", "prvoni": 342, "celkem": 437, "podil_pct": 1.2, "akv_ratio": 78.3, "rev_f": 52546}, {"name": "Tříventilový obtok - Obtokový ventil k tepelnému čerpadlu 32 a 38", "prvoni": 331, "celkem": 357, "podil_pct": 1.2, "akv_ratio": 92.7, "rev_f": 111306}, {"name": "Phenol Red náhradní tablety na měření pH (10ks)", "prvoni": 327, "celkem": 404, "podil_pct": 1.1, "akv_ratio": 80.9, "rev_f": 11678}, {"name": "Chlor šok 1kg - organický granulát", "prvoni": 326, "celkem": 416, "podil_pct": 1.1, "akv_ratio": 78.4, "rev_f": 30276}, {"name": "Filtrační náplň zeolit 0,5 - 1,0 mm 25 kg", "prvoni": 317, "celkem": 361, "podil_pct": 1.1, "akv_ratio": 87.8, "rev_f": 61263}, {"name": "Testovací proužky Pool and Spa Test Strips 5 in 1, 50 ks", "prvoni": 309, "celkem": 388, "podil_pct": 1.1, "akv_ratio": 79.6, "rev_f": 26980}, {"name": "Hadicová spona 32 – 50 mm nerezová", "prvoni": 308, "celkem": 366, "podil_pct": 1.1, "akv_ratio": 84.2, "rev_f": 14064}, {"name": "DPD 1 náhradní tablety na měření Cl (10ks)", "prvoni": 289, "celkem": 350, "podil_pct": 1.0, "akv_ratio": 82.6, "rev_f": 9111}, {"name": "PVC tvarovka - Úhel 90° 50 mm, koleno", "prvoni": 289, "celkem": 414, "podil_pct": 1.0, "akv_ratio": 69.8, "rev_f": 15532}, {"name": "Multi tablety 6v1 do bazénu 200g 10kg", "prvoni": 288, "celkem": 328, "podil_pct": 1.0, "akv_ratio": 87.8, "rev_f": 186781}, {"name": "Multi tablety 6v1 do bazénu 200g 1 kg", "prvoni": 284, "celkem": 335, "podil_pct": 1.0, "akv_ratio": 84.8, "rev_f": 33307}, {"name": "PVC Trubka, 50 mm, 1m", "prvoni": 283, "celkem": 382, "podil_pct": 1.0, "akv_ratio": 74.1, "rev_f": 37264}, {"name": "Multi tablety 6v1 do bazénu 200g 3kg", "prvoni": 283, "celkem": 347, "podil_pct": 1.0, "akv_ratio": 81.6, "rev_f": 78286}, {"name": "pH mínus 35 kg cca 30 l kapalný ADR", "prvoni": 276, "celkem": 401, "podil_pct": 1.0, "akv_ratio": 68.8, "rev_f": 107264}, {"name": "pH plus 1 kg pro úpravu pH vody, DOPLNĚNÍ", "prvoni": 273, "celkem": 352, "podil_pct": 1.0, "akv_ratio": 77.6, "rev_f": 8182}, {"name": "Kapkový tester bazénové vody pH a Cl", "prvoni": 268, "celkem": 333, "podil_pct": 0.9, "akv_ratio": 80.5, "rev_f": 16109}, {"name": "Zazimovač 1l pro zazimování bazénu", "prvoni": 265, "celkem": 399, "podil_pct": 0.9, "akv_ratio": 66.4, "rev_f": 14393}, {"name": "Sůl bazénová 25kg pro elektrolytickou úpravu bazénové vody", "prvoni": 259, "celkem": 340, "podil_pct": 0.9, "akv_ratio": 76.2, "rev_f": 77596}, {"name": "PWS Multi tablety 11v1 MAXI EKO 10kg", "prvoni": 257, "celkem": 319, "podil_pct": 0.9, "akv_ratio": 80.6, "rev_f": 250343}, {"name": "Projasňovač bazénové vody 3l", "prvoni": 252, "celkem": 362, "podil_pct": 0.9, "akv_ratio": 69.6, "rev_f": 35918}, {"name": "Síťka hlubinná profesionální", "prvoni": 247, "celkem": 314, "podil_pct": 0.9, "akv_ratio": 78.7, "rev_f": 27667}, {"name": "Chlor šok 5kg - organický granulát - DOPLNĚNÍ", "prvoni": 238, "celkem": 298, "podil_pct": 0.8, "akv_ratio": 79.9, "rev_f": 69328}];   // akviziční produkty (prvonákupčí)
+const ACQ_TOTAL   = 28545;   // celkem prvonákupních objednávek
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -649,6 +652,7 @@ function showPage(id, btn){
   if(btn) btn.classList.add('active');
   if(id==='yoy-porovnani') renderYoY();
   if(id==='hod-heatmap') renderHourDow();
+  if(id==='acq-produkty') renderAcq();
 }
 
 // ─── TOGGLE HISTORICKÁ DATA ───
@@ -2046,6 +2050,192 @@ function buildBasketTable(wrapperId){
 initB2B();
 
 // ═══════════════════════════════════════════
+// ─── AKVIZIČNÍ PRODUKTY ───
+// ═══════════════════════════════════════════
+let _acqRendered = false;
+function renderAcq(){
+  if(_acqRendered) return;
+  _acqRendered = true;
+
+  const top15  = ACQ_PRODS.slice(0,15);
+  const maxAbs = top15[0].prvoni;
+
+  // ── KPI tiles ──────────────────────────────────────────────────────────
+  const top3pct = ACQ_PRODS.slice(0,3).reduce((s,p)=>s+p.podil_pct,0).toFixed(1);
+  const top10abs= ACQ_PRODS.slice(0,10).reduce((s,p)=>s+p.prvoni,0);
+  const avgRatio= (ACQ_PRODS.slice(0,15).reduce((s,p)=>s+p.akv_ratio,0)/15).toFixed(1);
+  document.getElementById('acq-kpi-wrap').innerHTML=`
+    <div style="background:#f0f7ff;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #90caf9">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px">Prvonákupních obj.</div>
+      <div style="font-size:24px;font-weight:800;color:#1565C0;margin:4px 0">${ACQ_TOTAL.toLocaleString('cs-CZ')}</div>
+      <div style="font-size:11px;color:#888">základ analýzy (2025+2026)</div>
+    </div>
+    <div style="background:#f0f7ff;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #90caf9">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px">Top 3 produkty pokryjí</div>
+      <div style="font-size:24px;font-weight:800;color:#1565C0;margin:4px 0">${top3pct} %</div>
+      <div style="font-size:11px;color:#888">prvonákupčích (z celku)</div>
+    </div>
+    <div style="background:#f0f7ff;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #90caf9">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px">Top 10 produktů absolut.</div>
+      <div style="font-size:24px;font-weight:800;color:#1565C0;margin:4px 0">${top10abs.toLocaleString('cs-CZ')}</div>
+      <div style="font-size:11px;color:#888">${(top10abs/ACQ_TOTAL*100).toFixed(1)} % všech prvonákupů</div>
+    </div>
+    <div style="background:#f0f7ff;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #90caf9">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px">Průměrný akv.ratio top15</div>
+      <div style="font-size:24px;font-weight:800;color:#1565C0;margin:4px 0">${avgRatio} %</div>
+      <div style="font-size:11px;color:#888">% obj. daného produktu = prvonákup</div>
+    </div>`;
+
+  // ── Horizontální bar chart (canvas) ─────────────────────────────────────
+  const barWrap = document.getElementById('acq-bar-wrap');
+  const canvasH = top15.length * 32 + 30;
+  barWrap.innerHTML = `<canvas id="acq-bar-canvas" height="${canvasH}" style="width:100%"></canvas>`;
+  setTimeout(()=>{
+    const canvas = document.getElementById('acq-bar-canvas');
+    if(!canvas) return;
+    const W = canvas.offsetWidth || 600;
+    canvas.width = W;
+    const ctx = canvas.getContext('2d');
+    const padL=8, padR=60, padT=10, rowH=32;
+    const barAreaW = W*0.42;
+    const nameAreaW = W*0.44;
+    const barX = padL + nameAreaW;
+
+    top15.forEach((p,i)=>{
+      const y = padT + i*rowH;
+      const bg = i<3 ? '#1565C0' : i<7 ? '#42a5f5' : '#90caf9';
+      // Název — zkrácen
+      ctx.fillStyle='#333'; ctx.font=`${i<3?'bold ':''}12px Segoe UI`; ctx.textAlign='left';
+      const nm = p.name.length>38 ? p.name.slice(0,38)+'…' : p.name;
+      ctx.fillText(nm, padL, y+16);
+      // Bar
+      const bw = Math.max(p.prvoni/maxAbs*barAreaW, 4);
+      ctx.fillStyle=bg;
+      ctx.fillRect(barX, y+4, bw, 18);
+      // Čísla
+      ctx.fillStyle='#333'; ctx.font='11px Segoe UI'; ctx.textAlign='left';
+      ctx.fillText(`${p.prvoni.toLocaleString('cs-CZ')}  (${p.podil_pct}% zákazníků · akv.${p.akv_ratio}%)`, barX+bw+6, y+16);
+    });
+  },60);
+
+  // ── Scatter quadrant (canvas) ─────────────────────────────────────────
+  const scWrap = document.getElementById('acq-scatter-wrap');
+  scWrap.innerHTML = `<canvas id="acq-scatter-canvas" height="320" style="width:100%"></canvas>`;
+  setTimeout(()=>{
+    const canvas = document.getElementById('acq-scatter-canvas');
+    if(!canvas) return;
+    const W = canvas.offsetWidth || 500;
+    canvas.width = W;
+    const ctx = canvas.getContext('2d');
+    const padL=40, padR=20, padT=30, padB=40;
+    const cW=W-padL-padR, cH=320-padT-padB;
+    const maxX = ACQ_PRODS[0].prvoni * 1.1;
+    const xToP = x => padL + x/maxX*cW;
+    const yToP = y => padT + (1-y/100)*cH;
+
+    // Quadrant tíny
+    ctx.fillStyle='rgba(46,125,50,0.06)';  ctx.fillRect(padL+cW/2, padT,       cW/2, cH/2); // top-right green
+    ctx.fillStyle='rgba(21,101,192,0.05)'; ctx.fillRect(padL,      padT,       cW/2, cH/2); // top-left blue
+    ctx.fillStyle='rgba(249,168,37,0.06)'; ctx.fillRect(padL+cW/2, padT+cH/2, cW/2, cH/2); // bottom-right yellow
+    ctx.fillStyle='rgba(150,150,150,0.05)';ctx.fillRect(padL,      padT+cH/2, cW/2, cH/2); // bottom-left grey
+
+    // Popisky kvadrantů
+    ctx.font='10px Segoe UI'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(46,125,50,0.7)';  ctx.fillText('★ HERO PRODUKTY',  padL+cW*0.75, padT+12);
+    ctx.fillStyle='rgba(21,101,192,0.6)'; ctx.fillText('⬡ Niche vstupní',  padL+cW*0.25, padT+12);
+    ctx.fillStyle='rgba(180,120,0,0.6)';  ctx.fillText('↻ Smíšený segment',padL+cW*0.75, padT+cH/2+12);
+    ctx.fillStyle='rgba(120,120,120,0.5)';ctx.fillText('○ Věrní zákazníci',padL+cW*0.25, padT+cH/2+12);
+
+    // Středové osy
+    ctx.strokeStyle='#ccc'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(padL+cW/2,padT); ctx.lineTo(padL+cW/2,padT+cH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(padL,padT+cH/2); ctx.lineTo(padL+cW,padT+cH/2); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Body
+    ACQ_PRODS.slice(0,30).forEach((p,i)=>{
+      const cx = xToP(p.prvoni), cy = yToP(p.akv_ratio);
+      const r = i<3 ? 8 : i<10 ? 6 : 4;
+      const col = p.akv_ratio>=80&&p.prvoni>=maxX/2*0.4 ? '#1a7f37'
+                : p.akv_ratio>=80 ? '#1565C0'
+                : p.prvoni>=maxX/2*0.4 ? '#e65100' : '#9e9e9e';
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle=col+'cc'; ctx.fill();
+      ctx.strokeStyle=col; ctx.lineWidth=1.5; ctx.stroke();
+      if(i<6){
+        ctx.fillStyle='#333'; ctx.font=`${i<3?'bold ':''}10px Segoe UI`;
+        ctx.textAlign = cx > padL+cW*0.7 ? 'right' : 'left';
+        const nm = p.name.length>22 ? p.name.slice(0,22)+'…' : p.name;
+        ctx.fillText(nm, cx+(cx>padL+cW*0.7?-r-3:r+3), cy+3);
+      }
+    });
+
+    // Osy
+    ctx.strokeStyle='#aaa'; ctx.lineWidth=1; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,padT+cH); ctx.lineTo(padL+cW,padT+cH); ctx.stroke();
+    ctx.fillStyle='#666'; ctx.font='11px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('Absolutní počet prvonákupů →', padL+cW/2, padT+cH+28);
+    ctx.save(); ctx.translate(12, padT+cH/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText('Akviziční ratio % →', 0, 0); ctx.restore();
+  },60);
+
+  // ── Tabulka top 40 se sortováním ────────────────────────────────────────
+  let _acqSort='prvoni', _acqAsc=false;
+  function buildAcqTable(){
+    const data = [...ACQ_PRODS];
+    data.sort((a,b)=>{
+      const va=a[_acqSort]||0, vb=b[_acqSort]||0;
+      return _acqAsc?va-vb:vb-va;
+    });
+    const fl = (document.getElementById('acq-filter')||{}).value||'';
+    const rows = fl ? data.filter(p=>p.name.toLowerCase().includes(fl.toLowerCase())) : data;
+    const maxP = ACQ_PRODS[0].prvoni;
+    const arr = c => c===_acqSort?(_acqAsc?'▲':'▼'):'⬍';
+    let h=`<table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="background:#e8f0fe">
+        <th style="padding:8px 10px;text-align:left;cursor:pointer" onclick="acqSort('name')">Produkt</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="acqSort('prvoni')">Prvon.obj ${arr('prvoni')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="acqSort('podil_pct')">% zákazníků ${arr('podil_pct')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="acqSort('akv_ratio')">Akv.ratio ${arr('akv_ratio')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="acqSort('celkem')">Celk.obj ${arr('celkem')}</th>
+        <th style="padding:8px 10px;text-align:left">Typ</th>
+      </tr></thead><tbody>`;
+    rows.forEach((p,i)=>{
+      const bw = Math.round(p.prvoni/maxP*60);
+      const ratioCol = p.akv_ratio>=87?'#1a7f37':p.akv_ratio>=75?'#1565C0':p.akv_ratio>=60?'#e65100':'#888';
+      const badge = p.akv_ratio>=87
+        ? `<span style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:10px;font-size:9px;padding:1px 7px;font-weight:700">Hero</span>`
+        : p.akv_ratio>=80
+        ? `<span style="background:#e3f2fd;color:#1565C0;border:1px solid #90caf9;border-radius:10px;font-size:9px;padding:1px 7px">Silný</span>`
+        : p.akv_ratio>=65
+        ? `<span style="background:#fff8e1;color:#f57f17;border:1px solid #ffe082;border-radius:10px;font-size:9px;padding:1px 7px">Smíšený</span>`
+        : `<span style="background:#f5f5f5;color:#888;border-radius:10px;font-size:9px;padding:1px 7px">Věrní</span>`;
+      h+=`<tr style="background:${i%2?'#fafafa':'#fff'}">
+        <td style="padding:6px 10px">${p.name}</td>
+        <td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums">
+          <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end">
+            <div style="width:${bw}px;height:5px;background:#1565C0;border-radius:2px;min-width:2px"></div>
+            ${p.prvoni.toLocaleString('cs-CZ')}
+          </div>
+        </td>
+        <td style="padding:6px 10px;text-align:right;font-weight:600">${p.podil_pct.toFixed(1)} %</td>
+        <td style="padding:6px 10px;text-align:right;font-weight:700;color:${ratioCol}">${p.akv_ratio.toFixed(1)} %</td>
+        <td style="padding:6px 10px;text-align:right;color:#888">${p.celkem.toLocaleString('cs-CZ')}</td>
+        <td style="padding:6px 10px">${badge}</td>
+      </tr>`;
+    });
+    h+='</tbody></table>';
+    document.getElementById('acq-tbl-wrap').innerHTML=h;
+  }
+  window.acqSort = function(col){
+    if(_acqSort===col) _acqAsc=!_acqAsc; else {_acqSort=col;_acqAsc=col==='name';}
+    buildAcqTable();
+  };
+  window.acqFilter = function(){ buildAcqTable(); };
+  buildAcqTable();
+}
+
+// ═══════════════════════════════════════════
 // ─── YoY SROVNÁNÍ ───
 // ═══════════════════════════════════════════
 
@@ -2453,6 +2643,130 @@ function renderHourDow(){
     <div class="fx-card-body" style="padding:16px;overflow-x:auto">
       <div id="hod-sum-wrap"></div>
     </div>
+  </div>
+</div>
+
+<!-- ══ AKVIZIČNÍ PRODUKTY ══ -->
+<div id="acq-produkty" class="page">
+  <div class="fx-section">
+
+    <div class="fx-card">
+      <div class="fx-card-header blue">🎯 Akviziční produkty — co zákazníci kupují jako první</div>
+      <div class="fx-card-body" style="padding:16px">
+        <p style="font-size:12px;color:#666;margin-bottom:14px">Analýza prvonákupů podle e-mailu (2025+2026 dohromady). <b>Akv.ratio</b> = kolik % všech objednávek daného produktu pochází od prvonákupčích.</p>
+        <div id="acq-kpi-wrap" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+          <div>
+            <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:10px">Top 15 — absolutní počet prvonákupů</div>
+            <div id="acq-bar-wrap"></div>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:4px">Kvadrantová mapa: absolutní objem vs akviziční čistota</div>
+            <div style="font-size:11px;color:#aaa;margin-bottom:8px">★ Hero = vysoký abs. i ratio · ⬡ Niche = malý abs., vysoké ratio · ↻ Smíšený · ○ Věrní zákazníci</div>
+            <div id="acq-scatter-wrap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKETINGOVÉ TIPY -->
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1b5e20,#388e3c);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        💡 Marketingové tipy a interpretace
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px 16px;border-left:4px solid #2e7d32">
+            <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:8px">🥇 Multi tablety — hlavní vstupní produkt</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              <b>PWS Multi 11v1 5kg</b> (2 131 prvonák., 87 % ratio) a <b>Multi 6v1 5kg</b> (1 428, 84 %) jsou absolutní lídři.
+              Zákazník přichází na Chlorito konkrétně kvůli nim — jde do Shoppingu s jasným záměrem.<br><br>
+              <b>Doporučení:</b> Dát těmto SKU maximální Shopping budget. A/B testovat cenu vs konkurenci —
+              zákazník pravděpodobně srovnává. Každé +1 Kč pod konkurencí = měřitelný nárůst prvonákupů.
+            </div>
+          </div>
+
+          <div style="background:#e3f2fd;border-radius:10px;padding:14px 16px;border-left:4px solid #1565C0">
+            <div style="font-size:13px;font-weight:700;color:#0d47a1;margin-bottom:8px">🌊 Chlornan sodný — sezónní akviziční produkt</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Chlornan (5l, 10l, 35kg ADR) má ratio 62–78 % — stále silně akviziční, ale nižší než tablety.
+              Část zákazníků ho kupuje jako doplněk. Silně sezónní (jaro = otevírání bazénů).<br><br>
+              <b>Doporučení:</b> Spustit Performance Max kampaň na chlornan od <b>března</b>. Retargeting na zákazníky,
+              kteří koupili tablety v loňském roce — jsou nejpravděpodobnějšími opakovanými kupci.
+            </div>
+          </div>
+
+          <div style="background:#fff3e0;border-radius:10px;padding:14px 16px;border-left:4px solid #e65100">
+            <div style="font-size:13px;font-weight:700;color:#bf360c;margin-bottom:8px">🏗️ Instalační produkty — 93–97 % ratio, ale jednorázové</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Geotextilní podložky (97 %), tříventilový obtok (93 %), naviják na plachtu (92 %) mají extrémní ratio
+              — skoro každý zákazník je kupuje jen jednou (při instalaci bazénu).<br><br>
+              <b>Doporučení:</b> Necílit na retargeting těchto produktů. Místo toho je použít jako
+              <b>vstupní bod do životního cyklu</b> — zákazník koupí podložku → cross-sell tablety + sůl + chemii na první sezónu.
+              Email sekvence po prvním nákupu instalačního produktu.
+            </div>
+          </div>
+
+          <div style="background:#f3e5f5;border-radius:10px;padding:14px 16px;border-left:4px solid #6a1b9a">
+            <div style="font-size:13px;font-weight:700;color:#4a148c;margin-bottom:8px">🧪 Testovací a měřicí produkty — nízká cena, vysoké ratio</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Phenol Red tablety (80 % ratio, 327 prvonák.), testovací proužky (79 %), DPD 1 tablety (82 %) —
+              levné produkty, ale zákazník je kupuje jako svůj první nákup. Signál: zákazník testuje vodu
+              a Chlorito je řešením problému.<br><br>
+              <b>Doporučení:</b> Tyhle produkty neinzerovat samotné (nízká marže), ale použít je jako
+              <b>remarketing trigger</b> — kdo prohlíží testovací proužky, chce řešit chemii.
+              Zobrazit jim tablety + kompletní startovací sadu.
+            </div>
+          </div>
+
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px 16px;border-left:4px solid #388e3c">
+            <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:8px">🧂 Sůl — specifická skupina kupujících</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Mořská sůl Margherita (792 prvonák., 86 % ratio) a sůl do bazénu Solivary (420, 87 %) —
+              zákazníci se slanou vodou hledají sůl samostatně, ne v balíčku s chlorem.<br><br>
+              <b>Doporučení:</b> Kampaně na "sůl do bazénu" a "bazénová sůl" jako samostatná skupina.
+              Různá cílová skupina než chemie. V e-mailech po prvním nákupu soli cross-sell
+              <b>stabilizátor pH pro slanou vodu</b> (zvyšuje CLV).
+            </div>
+          </div>
+
+          <div style="background:#e3f2fd;border-radius:10px;padding:14px 16px;border-left:4px solid #1976d2">
+            <div style="font-size:13px;font-weight:700;color:#0d47a1;margin-bottom:8px">📊 Strategický závěr — koncentrace vs diverzifikace</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Top 3 produkty = <b>15,8 % všech prvonákupů</b>. Top 10 = 33 %. Top 30 = 58 %.
+              Akviziční base je relativně koncentrovaná — zdravé, ale zranitelné.<br><br>
+              <b>Doporučení:</b> Diversifikovat akviziční portfolio — například přidat do Shoppingu
+              <b>startovací sady</b> (tablet + pH mínus + tester) jako jeden produkt, který nekonkuruje
+              jednotlivým SKU, ale zachycuje zákazníky v fázi "chci začít s bazénem".
+            </div>
+          </div>
+
+        </div>
+
+        <div style="background:#f8f9fa;border:1.5px solid #e0e0e0;border-radius:8px;padding:12px 16px;font-size:12px;color:#555;line-height:1.7">
+          <b>Metodologie:</b> Prvonákupčí = zákazník, jehož první objednávka v systému (2025+2026) spadá do daného dne.
+          Identifikace přes e-mail. Akv.ratio = prvonákupní objednávky produktu / celkové objednávky produktu × 100.
+          N = 28545 prvonákupních objednávek.
+        </div>
+      </div>
+    </div>
+
+    <!-- TABULKA -->
+    <div class="fx-card">
+      <div class="fx-card-header blue">📋 Kompletní tabulka — top 40 akviziční produkty</div>
+      <div class="fx-card-body" style="padding:16px">
+        <div style="margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <input id="acq-filter" type="text" placeholder="Hledat produkt…" oninput="acqFilter()"
+            style="padding:6px 12px;border:1.5px solid #c5cae9;border-radius:8px;font-size:12px;width:220px">
+          <span style="font-size:11px;color:#888">Klikni na záhlaví pro řazení · <b>Hero</b> = akv.ratio ≥ 87 % · <b>Silný</b> ≥ 80 %</span>
+        </div>
+        <div id="acq-tbl-wrap" style="overflow-x:auto"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
