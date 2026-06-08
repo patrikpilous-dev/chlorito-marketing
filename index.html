@@ -184,6 +184,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('yoy-porovnani',this)">📈 2025 vs 2026</button>
   <button class="nav-btn" onclick="showPage('hod-heatmap',this)">🕐 Hodiny × Dny</button>
   <button class="nav-btn" onclick="showPage('acq-produkty',this)">🎯 Akviziční produkty</button>
+  <button class="nav-btn" onclick="showPage('ret-produkty',this)">🔁 Retenční produkty</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -643,6 +644,8 @@ const B2C_BASKET= [{"range": "<500", "cnt": 4953, "pct": 22.2, "kc": 1575041}, {
 const HOLIDAYS_2026 = {"2026-01-01": {"name": "Nový rok", "emoji": "🎆", "mult": 0.313}, "2026-04-03": {"name": "Velký pátek", "emoji": "🙏", "mult": 0.643}, "2026-04-06": {"name": "Velikonoční pondělí", "emoji": "🐣", "mult": 0.885}, "2026-05-01": {"name": "Svátek práce", "emoji": "🌷", "mult": 1.086}, "2026-05-08": {"name": "Den vítězství", "emoji": "✌️", "mult": 0.723}, "2026-07-05": {"name": "Den Cyrila a Metoděje", "emoji": "✨", "mult": 1.83}, "2026-07-06": {"name": "Den upálení Jana Husa", "emoji": "🔥", "mult": 1.669}, "2026-09-28": {"name": "Den české státnosti", "emoji": "🇨🇿", "mult": 0.702}, "2026-10-28": {"name": "Vznik Československa", "emoji": "🎗️", "mult": 0.456}, "2026-11-17": {"name": "Den svobody a demokracie", "emoji": "🕊️", "mult": 0.761}, "2026-12-24": {"name": "Štědrý den", "emoji": "🎄", "mult": 0.003}, "2026-12-25": {"name": "1. svátek vánoční", "emoji": "🎁", "mult": 0.155}, "2026-12-26": {"name": "2. svátek vánoční", "emoji": "🎅", "mult": 0.277}};  // státní svátky 2026 s multiplikátory z dat 2025
 const ACQ_PRODS   = [{"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "prvoni": 2131, "celkem": 2426, "podil_pct": 7.5, "akv_ratio": 87.8, "rev_f": 600288}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "prvoni": 1428, "celkem": 1694, "podil_pct": 5.0, "akv_ratio": 84.3, "rev_f": 743571}, {"name": "Chlor šok 1kg - organický granulát - DOPLNĚNÍ", "prvoni": 949, "celkem": 1229, "podil_pct": 3.3, "akv_ratio": 77.2, "rev_f": 78549}, {"name": "Tabletová regenerační sůl 25 kg Solivary", "prvoni": 793, "celkem": 1175, "podil_pct": 2.8, "akv_ratio": 67.5, "rev_f": 298133}, {"name": "Mořská sůl Margherita 25 kg", "prvoni": 792, "celkem": 918, "podil_pct": 2.8, "akv_ratio": 86.3, "rev_f": 200809}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "prvoni": 788, "celkem": 912, "podil_pct": 2.8, "akv_ratio": 86.4, "rev_f": 316514}, {"name": "Chlornan sodný stabilizovaný 10l ADR", "prvoni": 782, "celkem": 1047, "podil_pct": 2.7, "akv_ratio": 74.7, "rev_f": 173529}, {"name": "Mořská sůl Margharita 25 kg", "prvoni": 604, "celkem": 797, "podil_pct": 2.1, "akv_ratio": 75.8, "rev_f": 250595}, {"name": "Chlornan sodný stabilizovaný 5l ADR", "prvoni": 597, "celkem": 764, "podil_pct": 2.1, "akv_ratio": 78.1, "rev_f": 77125}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "prvoni": 576, "celkem": 930, "podil_pct": 2.0, "akv_ratio": 61.9, "rev_f": 377401}, {"name": "PWS Multi tablety 11v1 MAXI EKO 1kg", "prvoni": 537, "celkem": 647, "podil_pct": 1.9, "akv_ratio": 83.0, "rev_f": 52487}, {"name": "Tabletová regenerační sůl SuperTab 25 kg", "prvoni": 478, "celkem": 668, "podil_pct": 1.7, "akv_ratio": 71.6, "rev_f": 169539}, {"name": "PWS Multi tablety 11v1 MAXI EKO 3kg", "prvoni": 461, "celkem": 536, "podil_pct": 1.6, "akv_ratio": 86.0, "rev_f": 112033}, {"name": "Sůl do bazénu 25kg čistá vysokoprocentní Solivary", "prvoni": 420, "celkem": 485, "podil_pct": 1.5, "akv_ratio": 86.6, "rev_f": 118429}, {"name": "Multi tablety 5v1 do bazénu 200g 3 kg", "prvoni": 394, "celkem": 463, "podil_pct": 1.4, "akv_ratio": 85.1, "rev_f": 92246}, {"name": "Geotextilní podložka pod bazén 3,6 m - 300 g/m2", "prvoni": 392, "celkem": 406, "podil_pct": 1.4, "akv_ratio": 96.6, "rev_f": 84750}, {"name": "Projasňovač bazénové vody 1l", "prvoni": 388, "celkem": 490, "podil_pct": 1.4, "akv_ratio": 79.2, "rev_f": 16539}, {"name": "Filtrační náplň zeolit 1 - 2,5 mm 20 kg", "prvoni": 358, "celkem": 407, "podil_pct": 1.3, "akv_ratio": 88.0, "rev_f": 67328}, {"name": "Chlor šok 3kg - organický granulát - DOPLNĚNÍ", "prvoni": 342, "celkem": 437, "podil_pct": 1.2, "akv_ratio": 78.3, "rev_f": 52546}, {"name": "Tříventilový obtok - Obtokový ventil k tepelnému čerpadlu 32 a 38", "prvoni": 331, "celkem": 357, "podil_pct": 1.2, "akv_ratio": 92.7, "rev_f": 111306}, {"name": "Phenol Red náhradní tablety na měření pH (10ks)", "prvoni": 327, "celkem": 404, "podil_pct": 1.1, "akv_ratio": 80.9, "rev_f": 11678}, {"name": "Chlor šok 1kg - organický granulát", "prvoni": 326, "celkem": 416, "podil_pct": 1.1, "akv_ratio": 78.4, "rev_f": 30276}, {"name": "Filtrační náplň zeolit 0,5 - 1,0 mm 25 kg", "prvoni": 317, "celkem": 361, "podil_pct": 1.1, "akv_ratio": 87.8, "rev_f": 61263}, {"name": "Testovací proužky Pool and Spa Test Strips 5 in 1, 50 ks", "prvoni": 309, "celkem": 388, "podil_pct": 1.1, "akv_ratio": 79.6, "rev_f": 26980}, {"name": "Hadicová spona 32 – 50 mm nerezová", "prvoni": 308, "celkem": 366, "podil_pct": 1.1, "akv_ratio": 84.2, "rev_f": 14064}, {"name": "DPD 1 náhradní tablety na měření Cl (10ks)", "prvoni": 289, "celkem": 350, "podil_pct": 1.0, "akv_ratio": 82.6, "rev_f": 9111}, {"name": "PVC tvarovka - Úhel 90° 50 mm, koleno", "prvoni": 289, "celkem": 414, "podil_pct": 1.0, "akv_ratio": 69.8, "rev_f": 15532}, {"name": "Multi tablety 6v1 do bazénu 200g 10kg", "prvoni": 288, "celkem": 328, "podil_pct": 1.0, "akv_ratio": 87.8, "rev_f": 186781}, {"name": "Multi tablety 6v1 do bazénu 200g 1 kg", "prvoni": 284, "celkem": 335, "podil_pct": 1.0, "akv_ratio": 84.8, "rev_f": 33307}, {"name": "PVC Trubka, 50 mm, 1m", "prvoni": 283, "celkem": 382, "podil_pct": 1.0, "akv_ratio": 74.1, "rev_f": 37264}, {"name": "Multi tablety 6v1 do bazénu 200g 3kg", "prvoni": 283, "celkem": 347, "podil_pct": 1.0, "akv_ratio": 81.6, "rev_f": 78286}, {"name": "pH mínus 35 kg cca 30 l kapalný ADR", "prvoni": 276, "celkem": 401, "podil_pct": 1.0, "akv_ratio": 68.8, "rev_f": 107264}, {"name": "pH plus 1 kg pro úpravu pH vody, DOPLNĚNÍ", "prvoni": 273, "celkem": 352, "podil_pct": 1.0, "akv_ratio": 77.6, "rev_f": 8182}, {"name": "Kapkový tester bazénové vody pH a Cl", "prvoni": 268, "celkem": 333, "podil_pct": 0.9, "akv_ratio": 80.5, "rev_f": 16109}, {"name": "Zazimovač 1l pro zazimování bazénu", "prvoni": 265, "celkem": 399, "podil_pct": 0.9, "akv_ratio": 66.4, "rev_f": 14393}, {"name": "Sůl bazénová 25kg pro elektrolytickou úpravu bazénové vody", "prvoni": 259, "celkem": 340, "podil_pct": 0.9, "akv_ratio": 76.2, "rev_f": 77596}, {"name": "PWS Multi tablety 11v1 MAXI EKO 10kg", "prvoni": 257, "celkem": 319, "podil_pct": 0.9, "akv_ratio": 80.6, "rev_f": 250343}, {"name": "Projasňovač bazénové vody 3l", "prvoni": 252, "celkem": 362, "podil_pct": 0.9, "akv_ratio": 69.6, "rev_f": 35918}, {"name": "Síťka hlubinná profesionální", "prvoni": 247, "celkem": 314, "podil_pct": 0.9, "akv_ratio": 78.7, "rev_f": 27667}, {"name": "Chlor šok 5kg - organický granulát - DOPLNĚNÍ", "prvoni": 238, "celkem": 298, "podil_pct": 0.8, "akv_ratio": 79.9, "rev_f": 69328}];   // akviziční produkty (prvonákupčí)
 const ACQ_TOTAL   = 28545;   // celkem prvonákupních objednávek
+const RET_PRODS   = [{"name": "Tabletová regenerační sůl 25 kg Solivary", "total_cust": 859, "repeat_cust": 182, "reorder_rate": 21.2, "avg_days": 161, "avg_orders": 1.37, "max_orders": 12}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "total_cust": 664, "repeat_cust": 161, "reorder_rate": 24.2, "avg_days": 175, "avg_orders": 1.4, "max_orders": 12}, {"name": "Chlornan sodný stabilizovaný 10l ADR", "total_cust": 855, "repeat_cust": 151, "reorder_rate": 17.7, "avg_days": 185, "avg_orders": 1.22, "max_orders": 6}, {"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "total_cust": 2273, "repeat_cust": 132, "reorder_rate": 5.8, "avg_days": 126, "avg_orders": 1.07, "max_orders": 4}, {"name": "Tabletová regenerační sůl SuperTab 25 kg", "total_cust": 512, "repeat_cust": 103, "reorder_rate": 20.1, "avg_days": 182, "avg_orders": 1.3, "max_orders": 9}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "total_cust": 1588, "repeat_cust": 97, "reorder_rate": 6.1, "avg_days": 215, "avg_orders": 1.07, "max_orders": 4}, {"name": "Chlor šok 1kg - organický granulát - DOPLNĚNÍ", "total_cust": 1119, "repeat_cust": 84, "reorder_rate": 7.5, "avg_days": 148, "avg_orders": 1.1, "max_orders": 6}, {"name": "Chlornan sodný stabilizovaný 5l ADR", "total_cust": 665, "repeat_cust": 83, "reorder_rate": 12.5, "avg_days": 178, "avg_orders": 1.15, "max_orders": 4}, {"name": "Mořská sůl Margherita 25 kg", "total_cust": 837, "repeat_cust": 76, "reorder_rate": 9.1, "avg_days": 203, "avg_orders": 1.1, "max_orders": 3}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l - doprava zdarma po ce", "total_cust": 283, "repeat_cust": 62, "reorder_rate": 21.9, "avg_days": 134, "avg_orders": 1.4, "max_orders": 13}, {"name": "Mořská sůl Margharita 25 kg", "total_cust": 737, "repeat_cust": 57, "reorder_rate": 7.7, "avg_days": 273, "avg_orders": 1.08, "max_orders": 3}, {"name": "PWS Multi tablety 11v1 MAXI EKO 1kg", "total_cust": 572, "repeat_cust": 53, "reorder_rate": 9.3, "avg_days": 108, "avg_orders": 1.13, "max_orders": 8}, {"name": "PVC tvarovka - Úhel 90° 50 mm, koleno", "total_cust": 349, "repeat_cust": 52, "reorder_rate": 14.9, "avg_days": 44, "avg_orders": 1.19, "max_orders": 7}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "total_cust": 864, "repeat_cust": 45, "reorder_rate": 5.2, "avg_days": 138, "avg_orders": 1.06, "max_orders": 4}, {"name": "PVC Trubka, 50 mm, 1m", "total_cust": 335, "repeat_cust": 41, "reorder_rate": 12.2, "avg_days": 61, "avg_orders": 1.14, "max_orders": 4}, {"name": "PVC tvarovka - Úhel 90° 32 mm, koleno", "total_cust": 167, "repeat_cust": 39, "reorder_rate": 23.4, "avg_days": 80, "avg_orders": 1.37, "max_orders": 6}, {"name": "pH mínus 35 kg cca 30 l kapalný ADR", "total_cust": 352, "repeat_cust": 38, "reorder_rate": 10.8, "avg_days": 161, "avg_orders": 1.14, "max_orders": 7}, {"name": "Sůl bazénová 25kg pro elektrolytickou úpravu bazénové vody", "total_cust": 296, "repeat_cust": 36, "reorder_rate": 12.2, "avg_days": 125, "avg_orders": 1.15, "max_orders": 4}, {"name": "Sůl do bazénu 25kg čistá vysokoprocentní Solivary", "total_cust": 444, "repeat_cust": 36, "reorder_rate": 8.1, "avg_days": 188, "avg_orders": 1.09, "max_orders": 3}, {"name": "PVC Trubka, 32 mm, 1m", "total_cust": 221, "repeat_cust": 33, "reorder_rate": 14.9, "avg_days": 71, "avg_orders": 1.23, "max_orders": 6}, {"name": "Čtvercová tabletová regenerační sůl 25 kg Solivary (polštářky)", "total_cust": 188, "repeat_cust": 26, "reorder_rate": 13.8, "avg_days": 113, "avg_orders": 1.26, "max_orders": 7}, {"name": "pH mínus 10l kapalný ADR", "total_cust": 275, "repeat_cust": 26, "reorder_rate": 9.5, "avg_days": 146, "avg_orders": 1.12, "max_orders": 5}, {"name": "Chlornan sodný stabilizovaný 50kg včetně obalu ADR", "total_cust": 118, "repeat_cust": 26, "reorder_rate": 22.0, "avg_days": 140, "avg_orders": 1.31, "max_orders": 6}, {"name": "PVC tvarovka - mufna, 2x lepený spoj, 50 mm", "total_cust": 280, "repeat_cust": 24, "reorder_rate": 8.6, "avg_days": 65, "avg_orders": 1.1, "max_orders": 4}, {"name": "Multi tablety 6v1 do bazénu 200g 1 kg", "total_cust": 308, "repeat_cust": 24, "reorder_rate": 7.8, "avg_days": 174, "avg_orders": 1.09, "max_orders": 3}, {"name": "PWS Multi tablety 11v1 MAXI EKO 3kg", "total_cust": 507, "repeat_cust": 24, "reorder_rate": 4.7, "avg_days": 162, "avg_orders": 1.06, "max_orders": 6}, {"name": "Algicid 3l na řasy v bazénu", "total_cust": 293, "repeat_cust": 23, "reorder_rate": 7.8, "avg_days": 143, "avg_orders": 1.09, "max_orders": 3}, {"name": "pH plus 1 kg pro úpravu pH vody, DOPLNĚNÍ", "total_cust": 325, "repeat_cust": 22, "reorder_rate": 6.8, "avg_days": 141, "avg_orders": 1.08, "max_orders": 7}, {"name": "PVC Trubka, 20 mm, 1m", "total_cust": 124, "repeat_cust": 21, "reorder_rate": 16.9, "avg_days": 114, "avg_orders": 1.31, "max_orders": 7}, {"name": "PVC tvarovka - T kus 32 mm, 90°", "total_cust": 120, "repeat_cust": 21, "reorder_rate": 17.5, "avg_days": 88, "avg_orders": 1.31, "max_orders": 6}, {"name": "Chlorid hořečnatý pro zimní údržbu 25 kg", "total_cust": 198, "repeat_cust": 21, "reorder_rate": 10.6, "avg_days": 144, "avg_orders": 1.13, "max_orders": 5}, {"name": "Posypová sůl 1000kg (40x25 kg)", "total_cust": 79, "repeat_cust": 19, "reorder_rate": 24.1, "avg_days": 117, "avg_orders": 1.47, "max_orders": 5}, {"name": "Chlornan sodný Industry, 30 l ADR", "total_cust": 160, "repeat_cust": 19, "reorder_rate": 11.9, "avg_days": 55, "avg_orders": 1.15, "max_orders": 4}, {"name": "PVC Trubka, 25 mm, 1m", "total_cust": 155, "repeat_cust": 19, "reorder_rate": 12.3, "avg_days": 118, "avg_orders": 1.17, "max_orders": 5}, {"name": "Algicid 2l na řasy v bazénu", "total_cust": 260, "repeat_cust": 18, "reorder_rate": 6.9, "avg_days": 174, "avg_orders": 1.08, "max_orders": 4}, {"name": "Filtrační náplň zeolit 1 - 2,5 mm 20 kg", "total_cust": 389, "repeat_cust": 18, "reorder_rate": 4.6, "avg_days": 139, "avg_orders": 1.05, "max_orders": 2}, {"name": "Čtvercová regenerační sůl 25 kg Solivary", "total_cust": 165, "repeat_cust": 18, "reorder_rate": 10.9, "avg_days": 57, "avg_orders": 1.15, "max_orders": 5}, {"name": "Filtrační náplň zeolit 0,5 - 1,0 mm 25 kg", "total_cust": 341, "repeat_cust": 18, "reorder_rate": 5.3, "avg_days": 86, "avg_orders": 1.06, "max_orders": 3}, {"name": "PVC tvarovka - T kus 50 mm, 90°", "total_cust": 150, "repeat_cust": 18, "reorder_rate": 12.0, "avg_days": 47, "avg_orders": 1.15, "max_orders": 5}, {"name": "Multi tablety 5v1 do bazénu 200g 3 kg", "total_cust": 444, "repeat_cust": 18, "reorder_rate": 4.1, "avg_days": 140, "avg_orders": 1.04, "max_orders": 3}];   // retenční produkty
+const RET_IVL     = [{"name": "Tabletová regenerační sůl 25 kg Solivary", "counts": [22, 45, 44, 35, 54, 55, 34, 5]}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "counts": [44, 55, 36, 17, 16, 22, 48, 16]}, {"name": "Chlornan sodný stabilizovaný 10l ADR", "counts": [21, 34, 11, 7, 9, 10, 53, 19]}, {"name": "PWS Multi tablety 11v1 MAXI EKO 5kg", "counts": [15, 12, 12, 11, 5, 15, 28, 7]}, {"name": "Tabletová regenerační sůl SuperTab 25 kg", "counts": [10, 15, 17, 22, 27, 34, 19, 5]}, {"name": "Multi tablety 6v1 do bazénu 200g 5kg", "counts": [8, 5, 7, 5, 2, 7, 31, 21]}, {"name": "Chlor šok 1kg - organický granulát - DOPLNĚNÍ", "counts": [21, 23, 6, 11, 9, 8, 22, 2]}, {"name": "Chlornan sodný stabilizovaný 5l ADR", "counts": [11, 15, 3, 4, 2, 9, 30, 7]}]; // intervalové distribuce (top 8)
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -653,6 +656,7 @@ function showPage(id, btn){
   if(id==='yoy-porovnani') renderYoY();
   if(id==='hod-heatmap') renderHourDow();
   if(id==='acq-produkty') renderAcq();
+  if(id==='ret-produkty') renderRet();
 }
 
 // ─── TOGGLE HISTORICKÁ DATA ───
@@ -2052,6 +2056,244 @@ initB2B();
 // ═══════════════════════════════════════════
 // ─── AKVIZIČNÍ PRODUKTY ───
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// ─── RETENČNÍ PRODUKTY ───
+// ═══════════════════════════════════════════
+let _retRendered = false;
+function renderRet(){
+  if(_retRendered) return;
+  _retRendered = true;
+
+  const IVL_LABELS = ['<30','30–60','60–90','90–120','120–180','180–270','270–365','>365'];
+
+  // ── KPI tiles ──────────────────────────────────────────────────────────
+  const totalRepeat = RET_PRODS.reduce((s,p)=>s+p.repeat_cust,0);
+  const maxRate  = Math.max(...RET_PRODS.map(p=>p.reorder_rate));
+  const avgDays  = Math.round(RET_PRODS.filter(p=>p.avg_days).reduce((s,p)=>s+p.avg_days,0) /
+                               RET_PRODS.filter(p=>p.avg_days).length);
+  const prodOver20 = RET_PRODS.filter(p=>p.reorder_rate>=20).length;
+  document.getElementById('ret-kpi-wrap').innerHTML=`
+    <div style="background:#e8f5e9;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #a5d6a7">
+      <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px">Max. reorder rate</div>
+      <div style="font-size:24px;font-weight:800;color:#2e7d32;margin:4px 0">${maxRate.toFixed(1)} %</div>
+      <div style="font-size:11px;color:#888">nejsilnější retenční produkt</div>
+    </div>
+    <div style="background:#e8f5e9;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #a5d6a7">
+      <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px">Průměrný interval reobjednávky</div>
+      <div style="font-size:24px;font-weight:800;color:#2e7d32;margin:4px 0">${avgDays} dní</div>
+      <div style="font-size:11px;color:#888">přes produkty s naměřeným intervalem</div>
+    </div>
+    <div style="background:#e8f5e9;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #a5d6a7">
+      <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px">Produktů s ≥20 % ret.rate</div>
+      <div style="font-size:24px;font-weight:800;color:#2e7d32;margin:4px 0">${prodOver20}</div>
+      <div style="font-size:11px;color:#888">silně retenční produkty</div>
+    </div>
+    <div style="background:#e8f5e9;border-radius:8px;padding:14px 20px;flex:1;border:1.5px solid #a5d6a7">
+      <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px">Opak. zákazníků (top 40 prod.)</div>
+      <div style="font-size:24px;font-weight:800;color:#2e7d32;margin:4px 0">${totalRepeat.toLocaleString('cs-CZ')}</div>
+      <div style="font-size:11px;color:#888">zákazníků s 2+ nákupy</div>
+    </div>`;
+
+  // ── Bar chart: top 20 absolutně (opakující zákazníci) ──────────────────
+  setTimeout(()=>{
+    const canvas = document.getElementById('ret-bar-canvas');
+    if(!canvas) return;
+    const top20 = RET_PRODS.slice(0,20);
+    const rowH=26, H=top20.length*rowH+12;
+    canvas.height = H;
+    const W = canvas.offsetWidth||600;
+    canvas.width = W;
+    const ctx = canvas.getContext('2d');
+    const maxR = top20[0].repeat_cust;
+    const nameW=Math.floor(W*0.40), barAreaW=Math.floor(W*0.32);
+    const barX=6+nameW;
+
+    top20.forEach((p,i)=>{
+      const y=6+i*rowH;
+      if(i%2){ctx.fillStyle='#f9f9f9';ctx.fillRect(0,y,W,rowH-1);}
+      // Název
+      ctx.fillStyle=i<3?'#1b5e20':'#333';
+      ctx.font=`${i<3?'bold ':''}11px Segoe UI`;ctx.textAlign='left';
+      const nm=p.name.length>36?p.name.slice(0,36)+'…':p.name;
+      ctx.fillText(nm,6,y+17);
+      // Bar (zelené odstíny)
+      const bw=Math.max(p.repeat_cust/maxR*barAreaW,3);
+      const col=i<3?'#2e7d32':i<8?'#43a047':'#81c784';
+      ctx.fillStyle=col;
+      if(ctx.roundRect){ctx.beginPath();ctx.roundRect(barX,y+5,bw,rowH-10,2);ctx.fill();}
+      else{ctx.fillRect(barX,y+5,bw,rowH-10);}
+      // Čísla
+      ctx.fillStyle='#444';ctx.font='10px Segoe UI';ctx.textAlign='left';
+      ctx.fillText(`${p.repeat_cust} zák.`, barX+bw+5, y+17);
+      // Meta vpravo
+      ctx.fillStyle='#888';ctx.font='9.5px Segoe UI';ctx.textAlign='right';
+      const iv=p.avg_days?p.avg_days+'d':'—';
+      ctx.fillText(`ret.${p.reorder_rate.toFixed(0)}%  ø${iv}  avg${p.avg_orders}x`, W-4, y+17);
+    });
+  },60);
+
+  // ── Scatter: reorder_rate (Y) vs avg_days (X), vel = repeat_cust ───────
+  setTimeout(()=>{
+    const canvas = document.getElementById('ret-scatter-canvas');
+    if(!canvas) return;
+    const W=canvas.offsetWidth||500; canvas.width=W;
+    const ctx=canvas.getContext('2d');
+    const padL=42,padR=18,padT=28,padB=38;
+    const cW=W-padL-padR, cH=300-padT-padB;
+    const data=RET_PRODS.filter(p=>p.avg_days).slice(0,35);
+    const maxX=Math.max(...data.map(p=>p.avg_days))*1.1||400;
+    const maxY=Math.max(...data.map(p=>p.reorder_rate))*1.12||30;
+    const midX=maxX/2, midY=maxY/2;
+    const maxR=Math.max(...data.map(p=>p.repeat_cust));
+    const xp=x=>padL+x/maxX*cW, yp=y=>padT+(1-y/maxY)*cH;
+
+    // Quadrant tíny
+    ctx.fillStyle='rgba(46,125,50,0.07)'; ctx.fillRect(padL,padT,cW/2,cH/2);           // rychlé+vysoké
+    ctx.fillStyle='rgba(249,168,37,0.06)'; ctx.fillRect(padL+cW/2,padT,cW/2,cH/2);    // pomalé+vysoké
+    ctx.fillStyle='rgba(21,101,192,0.05)'; ctx.fillRect(padL,padT+cH/2,cW/2,cH/2);   // rychlé+nízké
+    ctx.fillStyle='rgba(150,150,150,0.04)';ctx.fillRect(padL+cW/2,padT+cH/2,cW/2,cH/2);
+
+    ctx.font='9.5px Segoe UI';ctx.textAlign='center';
+    ctx.fillStyle='rgba(46,125,50,.65)';  ctx.fillText('★ Rychlá retence',xp(midX/2),padT+11);
+    ctx.fillStyle='rgba(180,120,0,.60)';  ctx.fillText('⏳ Sezónní věrní',xp(midX*1.5),padT+11);
+    ctx.fillStyle='rgba(21,101,192,.55)'; ctx.fillText('↻ Opakují pomalu',xp(midX/2),padT+cH/2+12);
+    ctx.fillStyle='rgba(120,120,120,.45)';ctx.fillText('○ Slabá retence',xp(midX*1.5),padT+cH/2+12);
+
+    // Osy pomocné
+    ctx.strokeStyle='#ddd';ctx.lineWidth=1;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(xp(midX),padT);ctx.lineTo(xp(midX),padT+cH);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(padL,yp(midY));ctx.lineTo(padL+cW,yp(midY));ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Body — radius úměrný repeat_cust
+    data.forEach((p,i)=>{
+      const cx=xp(p.avg_days), cy=yp(p.reorder_rate);
+      const r=Math.max(4, Math.sqrt(p.repeat_cust/maxR)*18);
+      const col=p.reorder_rate>=midY&&p.avg_days<=midX?'#2e7d32'
+              :p.reorder_rate>=midY?'#f57f17'
+              :p.avg_days<=midX?'#1565C0':'#9e9e9e';
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle=col+'99';ctx.fill();
+      ctx.strokeStyle=col;ctx.lineWidth=1.2;ctx.stroke();
+      if(i<5){
+        ctx.fillStyle='#222';ctx.font=`${i<3?'bold ':''}9.5px Segoe UI`;
+        ctx.textAlign=cx>padL+cW*0.7?'right':'left';
+        const nm=p.name.length>20?p.name.slice(0,20)+'…':p.name;
+        ctx.fillText(nm,cx+(cx>padL+cW*0.7?-r-2:r+2),cy+3);
+      }
+    });
+
+    // Osy
+    ctx.strokeStyle='#aaa';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(padL,padT);ctx.lineTo(padL,padT+cH);ctx.lineTo(padL+cW,padT+cH);ctx.stroke();
+    ctx.fillStyle='#666';ctx.font='11px Segoe UI';ctx.textAlign='center';
+    ctx.fillText('Průměrný interval reobjednávky (dní) →',padL+cW/2,padT+cH+28);
+    ctx.save();ctx.translate(13,padT+cH/2);ctx.rotate(-Math.PI/2);
+    ctx.fillText('Reorder rate % →',0,0);ctx.restore();
+
+    // Tooltip
+    canvas.onmousemove=function(e){
+      const rect=canvas.getBoundingClientRect();
+      const mx=(e.clientX-rect.left)*(W/rect.width);
+      const my=(e.clientY-rect.top)*(canvas.height/rect.height);
+      const found=data.find(p=>{
+        const cx=xp(p.avg_days), cy=yp(p.reorder_rate);
+        const r=Math.max(4,Math.sqrt(p.repeat_cust/maxR)*18);
+        return Math.hypot(mx-cx,my-cy)<=r+3;
+      });
+      if(found) showTip(e,`<b>${found.name.slice(0,40)}</b><br>Ret.rate: <b>${found.reorder_rate.toFixed(1)}%</b><br>Avg interval: <b>${found.avg_days} dní</b><br>Opak. zákazníků: <b>${found.repeat_cust}</b><br>Avg obj./zák.: <b>${found.avg_orders}×</b>`);
+      else hideTip();
+    };
+    canvas.onmouseleave=()=>hideTip();
+  },80);
+
+  // ── Mini histogramy intervalů ──────────────────────────────────────────
+  const histWrap=document.getElementById('ret-hist-wrap');
+  if(histWrap){
+    let hh='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">';
+    RET_IVL.forEach(prod=>{
+      const mx=Math.max(...prod.counts,1);
+      const nm=prod.name.length>30?prod.name.slice(0,30)+'…':prod.name;
+      const total=prod.counts.reduce((a,b)=>a+b,0);
+      let bars='';
+      prod.counts.forEach((c,i)=>{
+        const h=Math.round(c/mx*48);
+        const pct=total>0?(c/total*100).toFixed(0):0;
+        const col=i<2?'#42a5f5':i<5?'#2e7d32':i<7?'#f57f17':'#e53935';
+        bars+=`<div title="${IVL_LABELS[i]}: ${c} zákazníků (${pct}%)" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default">
+          <div style="font-size:8px;color:#aaa">${c>0?c:''}</div>
+          <div style="height:${h}px;min-height:2px;background:${col};border-radius:2px 2px 0 0;width:100%"></div>
+          <div style="font-size:7.5px;color:#888;text-align:center;line-height:1.1">${IVL_LABELS[i]}</div>
+        </div>`;
+      });
+      hh+=`<div style="background:#f8f9fa;border-radius:8px;padding:10px 10px 6px;border:1px solid #e8e8e8">
+        <div style="font-size:10px;font-weight:700;color:#1b5e20;margin-bottom:8px;line-height:1.3">${nm}</div>
+        <div style="display:flex;align-items:flex-end;gap:2px;height:60px">${bars}</div>
+        <div style="font-size:9px;color:#aaa;margin-top:4px;text-align:center">intervaly v dnech</div>
+      </div>`;
+    });
+    hh+='</div>';
+    histWrap.innerHTML=hh;
+  }
+
+  // ── Tabulka top 40 ─────────────────────────────────────────────────────
+  let _retSort='repeat_cust',_retAsc=false;
+  function buildRetTable(){
+    const data=[...RET_PRODS];
+    data.sort((a,b)=>{
+      const va=a[_retSort]||0,vb=b[_retSort]||0;
+      if(_retSort==='name') return _retAsc?a.name.localeCompare(b.name):b.name.localeCompare(a.name);
+      return _retAsc?va-vb:vb-va;
+    });
+    const fl=(document.getElementById('ret-filter')||{}).value||'';
+    const rows=fl?data.filter(p=>p.name.toLowerCase().includes(fl.toLowerCase())):data;
+    const maxRC=RET_PRODS[0].repeat_cust;
+    const arr=c=>c===_retSort?(_retAsc?'▲':'▼'):'⬍';
+    let h=`<table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="background:#e8f5e9">
+        <th style="padding:8px 10px;text-align:left;cursor:pointer" onclick="retSort('name')">Produkt</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('repeat_cust')">Opak.zák. ${arr('repeat_cust')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('reorder_rate')">Ret.rate ${arr('reorder_rate')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('avg_days')">Avg.interval ${arr('avg_days')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('avg_orders')">Avg.obj./zák ${arr('avg_orders')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('max_orders')">Max.obj. ${arr('max_orders')}</th>
+        <th style="padding:8px 10px;text-align:right;cursor:pointer;white-space:nowrap" onclick="retSort('total_cust')">Celk.zák ${arr('total_cust')}</th>
+      </tr></thead><tbody>`;
+    rows.forEach((p,i)=>{
+      const bw=Math.round(p.repeat_cust/maxRC*50);
+      const rc=p.reorder_rate>=20?'#1b5e20':p.reorder_rate>=12?'#2e7d32':p.reorder_rate>=7?'#e65100':'#888';
+      const iv=p.avg_days?p.avg_days+' dní':'—';
+      const badge=p.reorder_rate>=20
+        ?`<span style="background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;border-radius:10px;font-size:9px;padding:1px 7px;font-weight:700">Silný</span>`
+        :p.avg_days&&p.avg_days<90&&p.reorder_rate>=10
+        ?`<span style="background:#e3f2fd;color:#1565C0;border:1px solid #90caf9;border-radius:10px;font-size:9px;padding:1px 7px">Rychlý</span>`
+        :``;
+      h+=`<tr style="background:${i%2?'#fafafa':'#fff'}">
+        <td style="padding:6px 10px">${p.name} ${badge}</td>
+        <td style="padding:6px 10px;text-align:right">
+          <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end">
+            <div style="width:${bw}px;height:5px;background:#2e7d32;border-radius:2px;min-width:2px"></div>
+            ${p.repeat_cust}
+          </div>
+        </td>
+        <td style="padding:6px 10px;text-align:right;font-weight:700;color:${rc}">${p.reorder_rate.toFixed(1)} %</td>
+        <td style="padding:6px 10px;text-align:right;color:#555">${iv}</td>
+        <td style="padding:6px 10px;text-align:right">${p.avg_orders.toFixed(2)}×</td>
+        <td style="padding:6px 10px;text-align:right;color:#888">${p.max_orders}×</td>
+        <td style="padding:6px 10px;text-align:right;color:#aaa">${p.total_cust.toLocaleString('cs-CZ')}</td>
+      </tr>`;
+    });
+    h+='</tbody></table>';
+    document.getElementById('ret-tbl-wrap').innerHTML=h;
+  }
+  window.retSort=function(col){
+    if(_retSort===col)_retAsc=!_retAsc;else{_retSort=col;_retAsc=col==='name';}
+    buildRetTable();
+  };
+  window.retFilter=function(){buildRetTable();};
+  buildRetTable();
+}
+
 let _acqRendered = false;
 function renderAcq(){
   if(_acqRendered) return;
@@ -2692,6 +2934,143 @@ function renderHourDow(){
     <div class="fx-card-body" style="padding:16px;overflow-x:auto">
       <div id="hod-sum-wrap"></div>
     </div>
+  </div>
+</div>
+
+<!-- ══ RETENČNÍ PRODUKTY ══ -->
+<div id="ret-produkty" class="page">
+  <div class="fx-section">
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🔁 Retenční produkty — co zákazníci kupují opakovaně
+      </div>
+      <div class="fx-card-body" style="padding:16px">
+        <p style="font-size:12px;color:#666;margin-bottom:14px">
+          <b>Reorder rate</b> = % zákazníků daného produktu, kteří ho koupili 2× nebo vícekrát.
+          <b>Avg. interval</b> = průměrný počet dní mezi opakovanými nákupy téhož zákazníka.
+          Základ: 2025+2026, identifikace emailem.
+        </p>
+        <div id="ret-kpi-wrap" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+          <div>
+            <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:8px">Top 20 — absolutní počet opakujících se zákazníků</div>
+            <div style="font-size:10px;color:#aaa;margin-bottom:6px">opak.zák · ret.rate% · ø interval · avg obj.× (pravý sloupec)</div>
+            <canvas id="ret-bar-canvas" style="width:100%"></canvas>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:4px">Scatter: reorder rate × interval reobjednávky</div>
+            <div style="font-size:11px;color:#aaa;margin-bottom:8px">Velikost bodu = počet opakujících se zákazníků. Najeďte pro detail.</div>
+            <canvas id="ret-scatter-canvas" height="300" style="width:100%"></canvas>
+          </div>
+        </div>
+
+        <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:10px">Rozložení intervalů reobjednávky — top 8 produktů</div>
+        <div id="ret-hist-wrap" style="margin-bottom:8px"></div>
+        <div style="font-size:11px;color:#aaa;margin-top:4px">Sloupce = počet zákazníků s daným intervalem (v dnech). Zelená = sezónní (60–180d), oranžová = přes rok.</div>
+      </div>
+    </div>
+
+    <!-- MARKETINGOVÉ TIPY -->
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1b5e20,#388e3c);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        💡 Marketingové tipy — jak zlepšit retenci
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+
+          <div style="background:#fce4ec;border-radius:10px;padding:14px 16px;border-left:4px solid #c62828">
+            <div style="font-size:13px;font-weight:700;color:#880e4f;margin-bottom:8px">⚠️ Multi tablety: akviziční past</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Top akviziční produkt, ale jen <b>6% zákazníků ho koupí podruhé</b>. 94 % zmizí po prvním nákupu.
+              Zákazníci zřejmě nakupují tablety u různých prodejců nebo přecházejí na jinou chemii.<br><br>
+              <b>Doporučení:</b> Email sekvence <b>60 dní</b> po prvním nákupu: „Jak se daří bazénu?
+              Máš ještě zásoby?" + offer s 5–10 % slevou na reobjednávku. Měřit open rate vs kontrolní skupinu.
+            </div>
+          </div>
+
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px 16px;border-left:4px solid #2e7d32">
+            <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:8px">💎 Sůl + velký chlornan: B2B kotva</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Tabletová sůl 25kg (21 % ret., 161d, 182 opak. zákazníků) a chlornan 35kg (24 %, 175d) jsou
+              nejsilnější retenční produkty. Pravděpodobně plovárny, hotely, aquaparky.<br><br>
+              <b>Doporučení:</b> Identifikovat tyto zákazníky a přiřadit <b>account managera</b>.
+              Nabídnout automatické objednávky / předplatné na sůl s fixní cenou. Nelze si dovolit je ztratit.
+            </div>
+          </div>
+
+          <div style="background:#fff3e0;border-radius:10px;padding:14px 16px;border-left:4px solid #e65100">
+            <div style="font-size:13px;font-weight:700;color:#bf360c;margin-bottom:8px">📅 Sezónní cyklus: dvě vlny nákupů</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Intervalová distribuce ukazuje <b>dva peaky</b>: krátký (30–90 dní = mid-season doplnění)
+              a dlouhý (120–270 dní = nová sezóna v příštím roce). Průměrný interval ~161–185 dní
+              = přesně jaro na jaro.<br><br>
+              <b>Doporučení:</b> Dva email triggery: <b>60 dní</b> po nákupu (mid-season top-up)
+              a <b>150 dní</b> po nákupu (příprava na novou sezónu). Obsah: předsezónní nabídka,
+              tipy na přípravu bazénu, early-bird sleva.
+            </div>
+          </div>
+
+          <div style="background:#e3f2fd;border-radius:10px;padding:14px 16px;border-left:4px solid #1565C0">
+            <div style="font-size:13px;font-weight:700;color:#0d47a1;margin-bottom:8px">🔧 PVC tvarovky: B2B s rychlou retencí</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              PVC kolena a trubky mají reorder rate 15–23 % a interval <b>44–94 dní</b> —
+              výrazně rychlejší než bazénová chemie. To jsou <b>instalační firmy</b>, které
+              pravidelně objednávají materiál na montáže.<br><br>
+              <b>Doporučení:</b> B2B věrnostní program: objemové slevy nad 5 obj./rok.
+              Proaktivní kontakt s top 20 zákazníky tohoto segmentu — pravidelné zásobování
+              za předem dohodnutou cenu.
+            </div>
+          </div>
+
+          <div style="background:#f3e5f5;border-radius:10px;padding:14px 16px;border-left:4px solid #6a1b9a">
+            <div style="font-size:13px;font-weight:700;color:#4a148c;margin-bottom:8px">📈 CLV: z 1.1× na 2× = hlavní cíl</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Průměrný zákazník nakoupí <b>1.07–1.40×</b>. Zdvojení CLV nevyžaduje desítky nákupů —
+              stačí dostat zákazníka z <b>1× na 2×</b>. To je retenční priorita číslo jedna.<br><br>
+              <b>Doporučení:</b> Spustit A/B test win-back emailu 90 dní po prvním nákupu
+              (kontrolní skupina bez emailu). Pokud konverzní rate ≥ 5 %, automatizovat pro všechny.
+              Zaměřit se na zákazníky s košíkem nad 2 000 Kč (vyšší CLV potenciál).
+            </div>
+          </div>
+
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px 16px;border-left:4px solid #388e3c">
+            <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:8px">🔄 Retence vs akvizice: co se víc vyplatí?</div>
+            <div style="font-size:12px;color:#333;line-height:1.7">
+              Akviziční ratio multi-tabletů je 87 % → Chlorito je <b>vysoce závislé na stále nových zákaznících</b>.
+              S 50% marží a CAC (cost per acquisition) ~10 % PNO = ~200 Kč/zákazníka je akvizice dostupná,
+              ale <b>retence je 5–7× levnější</b>.<br><br>
+              <b>Doporučení:</b> Alokovat 10–15 % email/marketingového budgetu na retenční komunikaci.
+              Měřit retention revenue zvlášť. Cíl: zvýšit průměrný počet nákupů z 1.1× na 1.3× za 12 měsíců.
+            </div>
+          </div>
+
+        </div>
+
+        <div style="background:#f8f9fa;border:1.5px solid #e0e0e0;border-radius:8px;padding:12px 16px;font-size:12px;color:#555;line-height:1.7">
+          <b>Metodologie:</b> Reorder rate = zákazníci s 2+ nákupy téhož produktu / všichni zákazníci produktu.
+          Interval = průměrný počet dní mezi po sobě jdoucími nákupy téhož zákazníka × produkt.
+          Minimum: produkty s ≥ 15 zákazníky celkem. Základ: kombinovaná data 2025+2026.
+        </div>
+      </div>
+    </div>
+
+    <!-- TABULKA -->
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1b5e20,#388e3c);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        📋 Kompletní tabulka — top 40 retenční produkty
+      </div>
+      <div class="fx-card-body" style="padding:16px">
+        <div style="margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <input id="ret-filter" type="text" placeholder="Hledat produkt…" oninput="retFilter()"
+            style="padding:6px 12px;border:1.5px solid #a5d6a7;border-radius:8px;font-size:12px;width:220px">
+          <span style="font-size:11px;color:#888">Klikni na záhlaví pro řazení · <b>Silný</b> = ret.rate ≥ 20 % · <b>Rychlý</b> = interval &lt;90d + ret.≥10 %</span>
+        </div>
+        <div id="ret-tbl-wrap" style="overflow-x:auto"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
