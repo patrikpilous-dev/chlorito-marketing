@@ -665,6 +665,8 @@ const MJ_VOLUME   = [{"name": "Multi tablety 6v1 do bazénu 200g 5kg", "q25": 48
 const MJ_RECON    = {"order25": 17102127, "order26": 19944203, "prod25": 16873696, "prod26": 18949047, "ship25": 959851, "ship26": 1280589, "order_yoy": 16.6, "prod_yoy": 12.3, "ship_yoy": 33.4};       // order vs item level reconciliace
 const MJ_CSZ_TOP  = [{"size": "5 kg", "rev25": 2033245, "rev26": 3261661, "qty26": 3379, "delta": 1228416, "yoy": 60.4}, {"size": "30 l", "rev25": 1137887, "rev26": 1523239, "qty26": 1408, "delta": 385352, "yoy": 33.9}, {"size": "3 kg", "rev25": 563509, "rev26": 1072335, "qty26": 1955, "delta": 508826, "yoy": 90.3}, {"size": "1 kg", "rev25": 471707, "rev26": 815717, "qty26": 3957, "delta": 344010, "yoy": 72.9}, {"size": "10 kg", "rev25": 651546, "rev26": 714273, "qty26": 429, "delta": 62727, "yoy": 9.6}, {"size": "10 l", "rev25": 328894, "rev26": 383861, "qty26": 754, "delta": 54966, "yoy": 16.7}, {"size": "5 l", "rev25": 192165, "rev26": 356404, "qty26": 979, "delta": 164238, "yoy": 85.5}, {"size": "3 l", "rev25": 162852, "rev26": 324051, "qty26": 845, "delta": 161198, "yoy": 99.0}, {"size": "20 l", "rev25": 239012, "rev26": 323689, "qty26": 350, "delta": 84676, "yoy": 35.4}, {"size": "50 l", "rev25": 262317, "rev26": 268773, "qty26": 145, "delta": 6456, "yoy": 2.5}, {"size": "2 kg", "rev25": 150268, "rev26": 191812, "qty26": 402, "delta": 41543, "yoy": 27.6}, {"size": "50 kg", "rev25": 218658, "rev26": 171492, "qty26": 95, "delta": -47165, "yoy": -21.6}, {"size": "20 kg", "rev25": 185104, "rev26": 166534, "qty26": 49, "delta": -18570, "yoy": -10.0}, {"size": "1 l", "rev25": 74488, "rev26": 116250, "qty26": 814, "delta": 41762, "yoy": 56.1}, {"size": "30 kg", "rev25": 162388, "rev26": 100264, "qty26": 19, "delta": -62123, "yoy": -38.3}];     // velikosti chemie — nejprodávanější
 const MJ_CSZ_MOVED= [{"size": "5 kg", "rev25": 2033245, "rev26": 3261661, "qty26": 3379, "delta": 1228416, "yoy": 60.4}, {"size": "3 kg", "rev25": 563509, "rev26": 1072335, "qty26": 1955, "delta": 508826, "yoy": 90.3}, {"size": "30 l", "rev25": 1137887, "rev26": 1523239, "qty26": 1408, "delta": 385352, "yoy": 33.9}, {"size": "1 kg", "rev25": 471707, "rev26": 815717, "qty26": 3957, "delta": 344010, "yoy": 72.9}, {"size": "5 l", "rev25": 192165, "rev26": 356404, "qty26": 979, "delta": 164238, "yoy": 85.5}, {"size": "3 l", "rev25": 162852, "rev26": 324051, "qty26": 845, "delta": 161198, "yoy": 99.0}, {"size": "20 l", "rev25": 239012, "rev26": 323689, "qty26": 350, "delta": 84676, "yoy": 35.4}, {"size": "10 kg", "rev25": 651546, "rev26": 714273, "qty26": 429, "delta": 62727, "yoy": 9.6}, {"size": "10 l", "rev25": 328894, "rev26": 383861, "qty26": 754, "delta": 54966, "yoy": 16.7}, {"size": "1 l", "rev25": 74488, "rev26": 116250, "qty26": 814, "delta": 41762, "yoy": 56.1}, {"size": "2 kg", "rev25": 150268, "rev26": 191812, "qty26": 402, "delta": 41543, "yoy": 27.6}, {"size": "10 ks", "rev25": 30493, "rev26": 57197, "qty26": 2510, "delta": 26704, "yoy": 87.6}, {"size": "0.8 kg", "rev25": 5450, "rev26": 17021, "qty26": 28, "delta": 11571, "yoy": 212.3}, {"size": "2 l", "rev25": 67729, "rev26": 78793, "qty26": 262, "delta": 11064, "yoy": 16.3}, {"size": "1.5 kg", "rev25": 8948, "rev26": 18520, "qty26": 132, "delta": 9572, "yoy": 107.0}];   // velikosti chemie — největší posun
+const MJ_PROJ     = {"base_units": 7652, "base_rev": 4465319, "g_units_pct": 58.4, "g_rev_pct": 43.7, "g_conserv_pct": 16.6, "scen": [{"name": "Konzervativní", "note": "celkový růst obratu (+16.6 %)", "units": 8922, "rev": 5206562}, {"name": "Střední", "note": "průměr konzervativního a trendu chemie", "units": 10520, "rev": 5812207}, {"name": "Aktuální trend chemie", "note": "růst chemie z květ+čer (ks +58.4 %)", "units": 12118, "rev": 6417852}]};        // projekce čvc+srp chemie
+const MJ_PROJ_SZ  = [{"size": "1 kg", "units25": 1616, "units26": 2559, "rev26": 433587}, {"size": "5 kg", "units25": 1482, "units26": 2347, "rev26": 1891850}, {"size": "30 l", "units25": 780, "units26": 1235, "rev26": 1269305}, {"size": "10 ks", "units25": 565, "units26": 895, "rev26": 23104}, {"size": "3 kg", "units25": 509, "units26": 806, "rev26": 418804}, {"size": "5 l", "units25": 376, "units26": 595, "rev26": 180389}, {"size": "1 l", "units25": 352, "units26": 557, "rev26": 68922}, {"size": "10 l", "units25": 343, "units26": 543, "rev26": 254835}, {"size": "3 l", "units25": 208, "units26": 329, "rev26": 118310}, {"size": "10 kg", "units25": 193, "units26": 306, "rev26": 443898}];  // projekce po velikostech
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -2716,63 +2718,8 @@ function renderMJ(){
       </div>`;
   }
 
-  // ── Gain/loss (30 produktů, s 2025→2026 a "new" badge) ──
-  function glTable(arr, isGain){
-    const maxD=Math.max(...arr.map(x=>Math.abs(x.delta)));
-    const c=isGain?'#2e7d32':'#c62828';
-    let h='<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#f5f5f5">'+
-      '<th style="padding:5px 8px;text-align:left">Produkt</th>'+
-      '<th style="padding:5px 8px;text-align:right">2025</th>'+
-      '<th style="padding:5px 8px;text-align:right">2026</th>'+
-      '<th style="padding:5px 8px;text-align:right">Δ obrat</th></tr></thead><tbody>';
-    arr.forEach((p,i)=>{
-      const bw=Math.round(Math.abs(p.delta)/maxD*55);
-      const newB=p.new?' <span style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:8px;font-size:8.5px;padding:1px 5px;font-weight:700">NEW</span>':'';
-      h+=`<tr style="border-bottom:1px solid #f4f4f4;background:${i%2?'#fafafa':'#fff'}">
-        <td style="padding:5px 8px">${p.name}${newB}</td>
-        <td style="padding:5px 8px;text-align:right;color:#aaa;white-space:nowrap">${p.r25>0?fmtM(p.r25):'—'}</td>
-        <td style="padding:5px 8px;text-align:right;color:#666;white-space:nowrap">${fmtM(p.r26)}</td>
-        <td style="padding:5px 8px;text-align:right;white-space:nowrap;width:120px">
-          <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end">
-            <div style="width:${bw}px;height:6px;background:${c};border-radius:3px;min-width:2px"></div>
-            <b style="color:${c}">${p.delta>0?'+':''}${fmtM(p.delta)}</b>
-          </div></td></tr>`;
-    });
-    h+='</tbody></table>';
-    return h;
-  }
-  document.getElementById('mj-gains-wrap').innerHTML = glTable(MJ_GAINS, true);
-  document.getElementById('mj-losses-wrap').innerHTML = glTable(MJ_LOSSES, false);
-
-  // ── Top 30 dle množství (na objem) ──
-  const volEl=document.getElementById('mj-volume-wrap');
-  if(volEl){
-    let h='<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#e8f0fe">'+
-      '<th style="padding:6px 8px;text-align:left">#</th>'+
-      '<th style="padding:6px 8px;text-align:left">Produkt</th>'+
-      '<th style="padding:6px 8px;text-align:right">Ks 2025</th>'+
-      '<th style="padding:6px 8px;text-align:right">Ks 2026</th>'+
-      '<th style="padding:6px 8px;text-align:right">YoY ks</th>'+
-      '<th style="padding:6px 8px;text-align:right">Obrat 2026</th></tr></thead><tbody>';
-    const maxQ=MJ_VOLUME[0].q26;
-    MJ_VOLUME.forEach((p,i)=>{
-      const yoyQ = p.q25>0 ? ((p.q26/p.q25-1)*100) : null;
-      const yoyTxt = p.new ? '<span style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:8px;font-size:8.5px;padding:1px 5px;font-weight:700">NEW</span>' : (yoyQ>=0?'<span style="color:#1a7f37">+'+yoyQ.toFixed(0)+'%</span>':'<span style="color:#c62828">'+yoyQ.toFixed(0)+'%</span>');
-      const bw=Math.round(p.q26/maxQ*45);
-      h+=`<tr style="border-bottom:1px solid #f4f4f4;background:${i%2?'#fafafa':'#fff'}">
-        <td style="padding:5px 8px;color:#aaa">${i+1}</td>
-        <td style="padding:5px 8px">${p.name}</td>
-        <td style="padding:5px 8px;text-align:right;color:#aaa">${p.q25>0?p.q25.toLocaleString('cs-CZ'):'—'}</td>
-        <td style="padding:5px 8px;text-align:right">
-          <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end">
-            <div style="width:${bw}px;height:6px;background:#1565C0;border-radius:3px;min-width:2px"></div>
-            <b>${p.q26.toLocaleString('cs-CZ')}</b></div></td>
-        <td style="padding:5px 8px;text-align:right;font-weight:600">${yoyTxt}</td>
-        <td style="padding:5px 8px;text-align:right;color:#666">${fmtM(p.r26)}</td></tr>`;
-    });
-    h+='</tbody></table>';
-    volEl.innerHTML=h;
-  }
+  // ── Gain/loss + Volume: řaditelné, v Kč (viz mjRenderGL / mjRenderVol níže) ──
+  mjRenderGL('gains'); mjRenderGL('losses'); mjRenderVol();
 
   // ── Velikosti v Bazénové chemii (2 tabulky) ──
   function sizeTable(arr, sortLabel){
@@ -2805,6 +2752,8 @@ function renderMJ(){
   const cszMoved=document.getElementById('mj-csz-moved-wrap');
   if(cszTop) cszTop.innerHTML=sizeTable(MJ_CSZ_TOP,'rev');
   if(cszMoved) cszMoved.innerHTML=sizeTable(MJ_CSZ_MOVED,'delta');
+
+  mjRenderProj();
 }
 
 window.mjToggleCat = function(ci){
@@ -2815,6 +2764,101 @@ window.mjToggleCat = function(ci){
   rows.forEach(r=>r.style.display = open?'table-row':'none');
   if(arrow) arrow.textContent = open?'▾':'▸';
 };
+
+// ── Řaditelné tabulky v Kč ──
+const _fmtKc = v => Math.round(v).toLocaleString('cs-CZ')+' Kč';
+const _mjGLState = {gains:{col:'delta',asc:false}, losses:{col:'delta',asc:true}};
+let _mjVolState = {col:'q26', asc:false};
+function _arrow(active, asc){ return active ? (asc?' ▲':' ▼') : ' ⬍'; }
+
+function mjRenderGL(which){
+  const el=document.getElementById('mj-'+which+'-wrap'); if(!el) return;
+  const base = which==='gains'?MJ_GAINS:MJ_LOSSES;
+  const st=_mjGLState[which];
+  const arr=[...base].sort((a,b)=>{
+    if(st.col==='name') return st.asc? (''+a.name).localeCompare(b.name):(''+b.name).localeCompare(a.name);
+    return st.asc? a[st.col]-b[st.col] : b[st.col]-a[st.col];
+  });
+  const maxD=Math.max(...base.map(x=>Math.abs(x.delta)));
+  const c=which==='gains'?'#2e7d32':'#c62828';
+  const th=(lbl,col,al)=>`<th style="padding:5px 8px;text-align:${al};cursor:pointer;user-select:none;white-space:nowrap" onclick="mjSortGL('${which}','${col}')">${lbl}${_arrow(st.col===col,st.asc)}</th>`;
+  let h='<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#f5f5f5">'+
+    th('Produkt','name','left')+th('2025','r25','right')+th('2026','r26','right')+th('Δ obrat','delta','right')+'</tr></thead><tbody>';
+  arr.forEach((p,i)=>{
+    const bw=Math.round(Math.abs(p.delta)/maxD*45);
+    const newB=p.new?' <span style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:8px;font-size:8.5px;padding:1px 5px;font-weight:700">NEW</span>':'';
+    h+=`<tr style="border-bottom:1px solid #f4f4f4;background:${i%2?'#fafafa':'#fff'}">
+      <td style="padding:5px 8px">${p.name}${newB}</td>
+      <td style="padding:5px 8px;text-align:right;color:#aaa;white-space:nowrap">${p.r25>0?_fmtKc(p.r25):'—'}</td>
+      <td style="padding:5px 8px;text-align:right;color:#666;white-space:nowrap">${_fmtKc(p.r26)}</td>
+      <td style="padding:5px 8px;text-align:right;white-space:nowrap">
+        <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end">
+          <div style="width:${bw}px;height:6px;background:${c};border-radius:3px;min-width:2px"></div>
+          <b style="color:${c}">${p.delta>0?'+':''}${_fmtKc(p.delta)}</b></div></td></tr>`;
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+window.mjSortGL=function(which,col){ const st=_mjGLState[which]; if(st.col===col) st.asc=!st.asc; else {st.col=col; st.asc=(col==='name');} mjRenderGL(which); };
+
+function mjRenderVol(){
+  const el=document.getElementById('mj-volume-wrap'); if(!el) return;
+  const st=_mjVolState;
+  const withYoy=MJ_VOLUME.map(p=>({...p, yoyQ: p.q25>0?(p.q26/p.q25-1)*100:9999}));
+  const arr=withYoy.sort((a,b)=>{
+    if(st.col==='name') return st.asc?(''+a.name).localeCompare(b.name):(''+b.name).localeCompare(a.name);
+    return st.asc? a[st.col]-b[st.col] : b[st.col]-a[st.col];
+  });
+  const maxQ=Math.max(...MJ_VOLUME.map(x=>x.q26));
+  const th=(lbl,col,al)=>`<th style="padding:6px 8px;text-align:${al};cursor:pointer;user-select:none;white-space:nowrap" onclick="mjSortVol('${col}')">${lbl}${_arrow(st.col===col,st.asc)}</th>`;
+  let h='<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#e8f0fe">'+
+    th('Produkt','name','left')+th('Ks 2025','q25','right')+th('Ks 2026','q26','right')+th('YoY ks','yoyQ','right')+th('Obrat 2026','r26','right')+'</tr></thead><tbody>';
+  arr.forEach((p,i)=>{
+    const yoyTxt = p.new ? '<span style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:8px;font-size:8.5px;padding:1px 5px;font-weight:700">NEW</span>' : (p.yoyQ>=0?'<span style="color:#1a7f37">+'+p.yoyQ.toFixed(0)+'%</span>':'<span style="color:#c62828">'+p.yoyQ.toFixed(0)+'%</span>');
+    const bw=Math.round(p.q26/maxQ*40);
+    h+=`<tr style="border-bottom:1px solid #f4f4f4;background:${i%2?'#fafafa':'#fff'}">
+      <td style="padding:5px 8px">${p.name}</td>
+      <td style="padding:5px 8px;text-align:right;color:#aaa">${p.q25>0?p.q25.toLocaleString('cs-CZ'):'—'}</td>
+      <td style="padding:5px 8px;text-align:right">
+        <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end">
+          <div style="width:${bw}px;height:6px;background:#1565C0;border-radius:3px;min-width:2px"></div>
+          <b>${p.q26.toLocaleString('cs-CZ')}</b></div></td>
+      <td style="padding:5px 8px;text-align:right;font-weight:600">${yoyTxt}</td>
+      <td style="padding:5px 8px;text-align:right;color:#666">${_fmtKc(p.r26)}</td></tr>`;
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+window.mjSortVol=function(col){ const st=_mjVolState; if(st.col===col) st.asc=!st.asc; else {st.col=col; st.asc=(col==='name');} mjRenderVol(); };
+
+// ── Projekce čvc+srp chemie ──
+function mjRenderProj(){
+  const el=document.getElementById('mj-proj-wrap'); if(!el) return;
+  const p=MJ_PROJ;
+  const colr=['#90a4ae','#1565C0','#2e7d32'];
+  let cards='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">';
+  p.scen.forEach((s,i)=>{
+    cards+=`<div style="background:#f8f9fa;border-radius:10px;padding:14px 16px;border-top:4px solid ${colr[i]}">
+      <div style="font-size:12px;font-weight:700;color:${colr[i]}">${s.name}</div>
+      <div style="font-size:10px;color:#999;margin-bottom:8px">${s.note}</div>
+      <div style="font-size:26px;font-weight:800;color:${colr[i]}">${s.units.toLocaleString('cs-CZ')} ks</div>
+      <div style="font-size:13px;color:#555;margin-top:2px">${_fmtKc(s.rev)}</div></div>`;
+  });
+  cards+='</div>';
+  // tabulka po velikostech (trend)
+  let t='<div style="font-weight:700;font-size:12px;color:#444;margin:6px 0 8px">Projekce po velikostech (scénář trend chemie)</div>';
+  t+='<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#e8f5e9">'+
+     '<th style="padding:5px 8px;text-align:left">Velikost</th><th style="padding:5px 8px;text-align:right">Ks 2025 (čvc+srp)</th>'+
+     '<th style="padding:5px 8px;text-align:right">Projekce ks 2026</th><th style="padding:5px 8px;text-align:right">Projekce obrat</th></tr></thead><tbody>';
+  MJ_PROJ_SZ.forEach((s,i)=>{
+    t+=`<tr style="border-bottom:1px solid #f4f4f4;background:${i%2?'#fafafa':'#fff'}">
+      <td style="padding:5px 8px;font-weight:700;color:#2e7d32">${s.size}</td>
+      <td style="padding:5px 8px;text-align:right;color:#aaa">${s.units25.toLocaleString('cs-CZ')}</td>
+      <td style="padding:5px 8px;text-align:right;font-weight:700">${s.units26.toLocaleString('cs-CZ')}</td>
+      <td style="padding:5px 8px;text-align:right;color:#666">${_fmtKc(s.rev26)}</td></tr>`;
+  });
+  t+='</tbody></table>';
+  el.innerHTML=cards+t+`<div style="background:#fff8e1;border-left:4px solid #f9a825;border-radius:0 8px 8px 0;padding:10px 14px;font-size:11.5px;line-height:1.7;color:#333;margin-top:12px">
+    <b>Metoda:</b> skutečnost 2025 (čvc+srp, ${p.base_units.toLocaleString('cs-CZ')} ks / ${_fmtKc(p.base_rev)}) × růstový faktor z aktuální sezóny (květen+červen 2026: chemie <b>+${p.g_units_pct} % ks</b>, <b>+${p.g_rev_pct} % obrat</b>). Konzervativní scénář drží jen celkový růst obratu objednávek (+${p.g_conserv_pct} %). Predikce předpokládá, že meziroční tempo z jara vydrží i do léta.</div>`;
+}
 
 let _acqRendered = false;
 function renderAcq(){
@@ -3855,6 +3899,16 @@ function renderHourDow(){
             <div id="mj-csz-moved-wrap" style="overflow-x:auto"></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#00695C,#26a69a);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🔮 Predikce: kolik chemie prodáme v červenci + srpnu 2026
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <p style="font-size:12px;color:#666;margin-bottom:14px">Projekce množství a obratu Bazénové chemie pro letní špičku, postavená na <b>minulé sezóně (2025 čvc+srp)</b> a <b>aktuálním meziročním růstu</b> z jara 2026.</p>
+        <div id="mj-proj-wrap"></div>
       </div>
     </div>
 
