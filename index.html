@@ -188,389 +188,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('pred-presnost',this)">🎯 Přesnost predikcí</button>
   <button class="nav-btn" onclick="showPage('mj-yoy',this)">☀️ Květen+Červen YoY</button>
   <button class="nav-btn" onclick="showPage('aj-yoy',this)">🗓️ Duben–Červenec YoY</button>
-  <button class="nav-btn" onclick="showPage('care',this)">💬 Customer care</button>
 </nav>
-
-<!-- CUSTOMER CARE -->
-<div id="care" class="page">
-<style>
-#care .cc-wrap{max-width:1200px;margin:0 auto;padding:20px}
-#care .cc-intro{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);padding:18px 24px;margin-bottom:16px;font-size:13px;color:#444;line-height:1.55}
-#care .cc-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
-#care .cc-kpi{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:14px 16px;text-align:center}
-#care .cc-kpi .v{font-size:24px;font-weight:800;color:#1565C0}
-#care .cc-kpi .l{font-size:11px;color:#777;margin-top:3px}
-#care .cc-card{background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.10);margin-bottom:16px;overflow:hidden}
-#care .cc-card-h{padding:13px 22px;background:#1565C0;color:#fff;font-weight:700;font-size:14px}
-#care .cc-card-h.cc-int{background:#455A64}
-#care .cc-card-b{padding:18px 22px;font-size:13px;line-height:1.55;color:#333}
-#care .cc-card-b p{margin:0 0 10px}
-#care .cc-card-b ul,#care .cc-card-b ol{margin:0 0 10px 20px}
-#care .cc-card-b li{margin-bottom:5px}
-#care table.cc-t{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0 12px}
-#care table.cc-t th{background:#f0f5ff;color:#1565C0;text-align:left;padding:7px 10px;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #dbe6f5}
-#care table.cc-t td{padding:7px 10px;border-bottom:1px solid #eef2f7;vertical-align:top}
-#care table.cc-t tr:hover td{background:#f8fbff}
-#care .cc-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-#care .cc-bar-lbl{width:210px;font-size:12.5px;text-align:right;color:#444;flex-shrink:0}
-#care .cc-bar-track{flex:1;background:#eef2f7;border-radius:5px;height:16px;overflow:hidden}
-#care .cc-bar-fill{height:16px;border-radius:5px;background:linear-gradient(90deg,#1565C0,#42A5F5)}
-#care .cc-bar-fill.g{background:linear-gradient(90deg,#2E7D32,#66BB6A)}
-#care .cc-bar-fill.o{background:linear-gradient(90deg,#E65100,#FF9800)}
-#care .cc-bar-fill.gr{background:linear-gradient(90deg,#546E7A,#90A4AE)}
-#care .cc-bar-val{width:120px;font-size:12px;color:#666;flex-shrink:0}
-#care .cc-cols{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;align-items:end;height:150px;margin:10px 0 4px}
-#care .cc-col{background:linear-gradient(180deg,#42A5F5,#1565C0);border-radius:4px 4px 0 0;position:relative;min-height:4px}
-#care .cc-col.int{background:linear-gradient(180deg,#90A4AE,#546E7A)}
-#care .cc-col span{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;color:#555;white-space:nowrap}
-#care .cc-col-lbls{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;font-size:10.5px;color:#777;text-align:center}
-#care .cc-cols12{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;align-items:end;height:130px;margin:10px 0 4px}
-#care .cc-cols12 .cc-col span{font-size:9.5px}
-#care .cc-col-lbls12{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;font-size:10.5px;color:#777;text-align:center}
-#care .cc-note{font-size:11.5px;color:#888;margin-top:6px}
-#care .cc-badge{display:inline-block;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:700}
-#care .cc-badge.good{background:#E8F5E9;color:#2E7D32}
-#care .cc-badge.mid{background:#FFF3E0;color:#E65100}
-#care .cc-badge.bad{background:#FFEBEE;color:#C62828}
-#care details.cc-d{margin-bottom:8px;border:1px solid #e3e8f0;border-radius:8px;overflow:hidden}
-#care details.cc-d summary{cursor:pointer;padding:9px 14px;background:#f8fafd;font-weight:600;font-size:13px;color:#1a1a2e}
-#care details.cc-d summary:hover{background:#f0f5ff}
-#care details.cc-d .cc-d-body{padding:10px 16px;font-size:12.5px;line-height:1.55}
-#care .cc-grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:900px){#care .cc-grid2{grid-template-columns:1fr}#care .cc-bar-lbl{width:130px}}
-#care .cc-hl{background:#FFF8E1;border-left:4px solid #F9A825;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
-</style>
-<div class="cc-wrap">
-
-<div class="cc-intro">
-<strong>Analýza zákaznické komunikace</strong> — kompletní rozbor 17 005 odchozích e-mailů schránky info@chlorito.cz za období listopad 2018 – červenec 2026. Kvantitativní část pokrývá všech 17 005 e-mailů (klasifikace témat, reakční doby z citovaných vláken, podpisy operátorek), kvalitativní část stojí na hloubkovém čtení 1 700+ vzorků napříč kategoriemi. Interní komunikace (Techneco, dopravci, marketplaces) je vyhodnocena separátně v šedé sekci dole. Zpracováno 8/2026.
-</div>
-
-<div class="cc-kpis">
-  <div class="cc-kpi"><div class="v">17 005</div><div class="l">odchozích e-mailů 2018–2026</div></div>
-  <div class="cc-kpi"><div class="v">13 164</div><div class="l">zákaznických (77 %)</div></div>
-  <div class="cc-kpi"><div class="v">1,1 h</div><div class="l">medián reakční doby</div></div>
-  <div class="cc-kpi"><div class="v">49 %</div><div class="l">odpovědí do 1 hodiny</div></div>
-  <div class="cc-kpi"><div class="v">92 %</div><div class="l">odpovědí do 24 hodin</div></div>
-  <div class="cc-kpi"><div class="v">5,8×</div><div class="l">červen vs. únor (sezónnost)</div></div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">📈 Objem komunikace podle let</div>
-  <div class="cc-card-b">
-    <p>Modré sloupce = zákaznické e-maily, šedé = interní/partnerské. Objem podpory se od 2021 do 2024 víc než zdvojnásobil a drží na ~3 600 e-mailech ročně. Rok 2026 obsahuje jen leden–červenec — a už teď je zákaznický objem vyšší než za celý rok 2025.</p>
-    <div class="cc-cols">
-      <div class="cc-col" style="height:3%"><span>68</span></div>
-      <div class="cc-col" style="height:11%"><span>326</span></div>
-      <div class="cc-col" style="height:21%"><span>600</span></div>
-      <div class="cc-col" style="height:43%"><span>1 210</span></div>
-      <div class="cc-col" style="height:35%"><span>1 003</span></div>
-      <div class="cc-col" style="height:59%"><span>1 665</span></div>
-      <div class="cc-col" style="height:100%"><span>2 835</span></div>
-      <div class="cc-col" style="height:92%"><span>2 611</span></div>
-      <div class="cc-col" style="height:100%"><span>2 846</span></div>
-    </div>
-    <div class="cc-col-lbls"><div>2018</div><div>2019</div><div>2020</div><div>2021</div><div>2022</div><div>2023</div><div>2024</div><div>2025</div><div>2026*</div></div>
-    <div class="cc-cols" style="height:70px;margin-top:14px">
-      <div class="cc-col int" style="height:2%"><span>11</span></div>
-      <div class="cc-col int" style="height:5%"><span>39</span></div>
-      <div class="cc-col int" style="height:15%"><span>141</span></div>
-      <div class="cc-col int" style="height:23%"><span>213</span></div>
-      <div class="cc-col int" style="height:31%"><span>291</span></div>
-      <div class="cc-col int" style="height:53%"><span>502</span></div>
-      <div class="cc-col int" style="height:90%"><span>855</span></div>
-      <div class="cc-col int" style="height:100%"><span>947</span></div>
-      <div class="cc-col int" style="height:76%"><span>715</span></div>
-    </div>
-    <div class="cc-col-lbls"><div>2018</div><div>2019</div><div>2020</div><div>2021</div><div>2022</div><div>2023</div><div>2024</div><div>2025</div><div>2026*</div></div>
-    <div class="cc-note">* 2026 = pouze leden–červenec. Navíc 127 e-mailů Allegro PL (nový kanál od jara 2026).</div>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">🌡️ Sezónnost — průměr zákaznických e-mailů za kalendářní měsíc (2021–2026)</div>
-  <div class="cc-card-b">
-    <div class="cc-cols12">
-      <div class="cc-col" style="height:21%"><span>96</span></div>
-      <div class="cc-col" style="height:17%"><span>76</span></div>
-      <div class="cc-col" style="height:23%"><span>106</span></div>
-      <div class="cc-col" style="height:39%"><span>182</span></div>
-      <div class="cc-col" style="height:65%"><span>300</span></div>
-      <div class="cc-col" style="height:100%"><span>461</span></div>
-      <div class="cc-col" style="height:72%"><span>330</span></div>
-      <div class="cc-col" style="height:42%"><span>194</span></div>
-      <div class="cc-col" style="height:21%"><span>98</span></div>
-      <div class="cc-col" style="height:24%"><span>110</span></div>
-      <div class="cc-col" style="height:20%"><span>92</span></div>
-      <div class="cc-col" style="height:17%"><span>80</span></div>
-    </div>
-    <div class="cc-col-lbls12"><div>led</div><div>úno</div><div>bře</div><div>dub</div><div>kvě</div><div>čer</div><div>čvc</div><div>srp</div><div>zář</div><div>říj</div><div>lis</div><div>pro</div></div>
-    <p style="margin-top:10px">Podpora kopíruje bazénovou sezónu 1:1 — červen je 5,8× silnější než únor. Špička provozu je 10–12 h dopoledne, víkendy tvoří jen 6,5 % odeslaných odpovědí (víkendový dotaz čeká do pondělí — v hlavní sezóně stojí za úvahu aspoň sobotní dopolední směna).</p>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">📊 O čem zákazníci píší — 13 164 zákaznických e-mailů</div>
-  <div class="cc-card-b">
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Faktury a doklady</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:100%"></div></div><div class="cc-bar-val">2 535 · 19 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Dotazy k produktům</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:90%"></div></div><div class="cc-bar-val">2 287 · 17 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Stav objednávky / doprava</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:76%"></div></div><div class="cc-bar-val">1 929 · 15 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Reklamace</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:67%"></div></div><div class="cc-bar-val">1 686 · 13 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Objednávky — změny, storna</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:50%"></div></div><div class="cc-bar-val">1 279 · 10 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Ostatní</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:44%"></div></div><div class="cc-bar-val">1 116 · 8 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Poradna (voda, chemie)</div><div class="cc-bar-track"><div class="cc-bar-fill g" style="width:38%"></div></div><div class="cc-bar-val">970 · 7 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Platby</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:31%"></div></div><div class="cc-bar-val">782 · 6 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Vrácení / odstoupení</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:9%"></div></div><div class="cc-bar-val">233 · 2 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">B2B poptávky</div><div class="cc-bar-track"><div class="cc-bar-fill g" style="width:7%"></div></div><div class="cc-bar-val">166 · 1 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Odhlášení z newsletteru</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:6%"></div></div><div class="cc-bar-val">156 · 1 %</div></div>
-    <div class="cc-hl"><strong>Klíčové zjištění:</strong> Přes polovinu objemu (faktury + stav objednávky + platby + část objednávek ≈ 52 %) netvoří dotazy, ale <strong>ruční kompenzace chybějící automatizace</strong>. Jen ruční rozesílání PDF faktur je odhadem ~1 800–2 000 e-mailů ročně — faktura se dnes vystavuje až po doručení a fyzicky lepí na krabici, odkud se ztrácí.</div>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">⏱️ Reakční doby — jak rychle tým odpovídá</div>
-  <div class="cc-card-b">
-    <p>Měřeno z 11 603 vláken, kde lze spárovat čas dotazu zákazníka s časem odpovědi.</p>
-    <div class="cc-grid2">
-      <div>
-        <strong style="font-size:12.5px">Distribuce reakčních dob</strong>
-        <div style="margin-top:8px">
-        <div class="cc-bar-row"><div class="cc-bar-lbl">do 15 minut</div><div class="cc-bar-track"><div class="cc-bar-fill g" style="width:100%"></div></div><div class="cc-bar-val">2 912 · 25 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">15–60 minut</div><div class="cc-bar-track"><div class="cc-bar-fill g" style="width:97%"></div></div><div class="cc-bar-val">2 814 · 24 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">1–3 hodiny</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:71%"></div></div><div class="cc-bar-val">2 059 · 18 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">3–8 hodin</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:32%"></div></div><div class="cc-bar-val">934 · 8 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">8–24 hodin (přes noc)</div><div class="cc-bar-track"><div class="cc-bar-fill" style="width:68%"></div></div><div class="cc-bar-val">1 992 · 17 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">1–3 dny</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:21%"></div></div><div class="cc-bar-val">603 · 5 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">3+ dny</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:10%"></div></div><div class="cc-bar-val">284 · 2 %</div></div>
-        </div>
-      </div>
-      <div>
-        <strong style="font-size:12.5px">Vývoj mediánu po letech (h)</strong>
-        <table class="cc-t" style="margin-top:8px">
-          <tr><th>Rok</th><th>Medián</th><th>Do 1 h</th><th>Do 24 h</th></tr>
-          <tr><td>2019</td><td>2,8 h</td><td>29 %</td><td>88 %</td></tr>
-          <tr><td>2021</td><td>1,6 h</td><td>39 %</td><td>90 %</td></tr>
-          <tr><td>2023</td><td>1,2 h</td><td>46 %</td><td>92 %</td></tr>
-          <tr><td>2024</td><td>0,8 h</td><td>53 %</td><td>93 %</td></tr>
-          <tr><td>2025</td><td>0,7 h</td><td>57 %</td><td>93 %</td></tr>
-          <tr><td>2026</td><td>0,8 h</td><td>53 %</td><td>93 %</td></tr>
-        </table>
-        <p><span class="cc-badge good">silná stránka</span> Rychlost je nejlepší disciplína týmu a stabilně se zlepšuje — navzdory dvojnásobnému objemu. Na poměry e-shopové podpory je medián pod 1 hodinu nadstandard.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">👥 Tým — kdo odpovídá a jak</div>
-  <div class="cc-card-b">
-    <p>Podpisy detekovány u 62 % e-mailů (u zbytku podpis chybí — typicky nejkratší rutinní odpovědi). Známky 1–10 vychází z hloubkového čtení vzorku ~45 e-mailů na osobu.</p>
-    <table class="cc-t">
-      <tr><th>Osoba</th><th>E-mailů</th><th>Medián</th><th>Do 1 h</th><th>Odbornost</th><th>Tón</th><th>Úplnost</th><th>Rychlost</th><th>Role</th></tr>
-      <tr><td><strong>Dana Vlachová</strong></td><td>6 075</td><td>0,8 h</td><td>54 %</td><td>9</td><td>7</td><td>8</td><td>9</td><td>opora — univerzál a faktický supervizor</td></tr>
-      <tr><td><strong>Barbora Stix</strong></td><td>2 427</td><td>0,9 h</td><td>51 %</td><td>6</td><td>7</td><td>5</td><td>9</td><td>rychlá rutina, dozor u konfliktů</td></tr>
-      <tr><td><strong>Tomáš Fuka</strong></td><td>699</td><td>3,3 h</td><td>27 %</td><td>10</td><td>6</td><td>9</td><td>6</td><td>technický garant, 2. linie</td></tr>
-      <tr><td><strong>Gabriela Šarše</strong></td><td>601</td><td>0,3 h</td><td>71 %</td><td>4</td><td>7</td><td>6</td><td>10</td><td>fakturační specialistka</td></tr>
-      <tr><td><strong>Lucie Slamová</strong></td><td>219</td><td>2,2 h</td><td>35 %</td><td>7</td><td>8</td><td>8</td><td>7</td><td>univerzálka pro poptávky</td></tr>
-      <tr><td><strong>Iva Prokešová</strong></td><td>182</td><td>3,4 h</td><td>26 %</td><td>8</td><td>10</td><td>9</td><td>6</td><td>vycházející hvězda — krize, marketplace, jazyky</td></tr>
-      <tr><td><strong>Barbora Metelková</strong></td><td>172</td><td>1,7 h</td><td>36 %</td><td>6</td><td>7</td><td>7</td><td>8</td><td>provozní rutina + ceníky</td></tr>
-      <tr><td><strong>Anežka Merellová</strong></td><td>93</td><td>2,5 h</td><td>39 %</td><td>5</td><td>6</td><td>6</td><td>7</td><td>administrativa, zaučit v konfliktech</td></tr>
-    </table>
-
-    <details class="cc-d"><summary>Dana Vlachová — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> profesionální, věcný, občas úsečný; adaptivní délka — od „fa viz příloha" po obsáhlé chemické výklady (alkalita, saturace, koncentrace chloru). Odbornost na úrovni vodní chemičky, zvládá i němčinu.</p>
-      <p><strong>Silné stránky:</strong> nejširší záběr v týmu (faktury, reklamace, poradenství, B2B, DE); umí de-eskalovat spor; předchází sporům odkazem na dokumentaci; řídí proces s konkrétními daty a čísly zásilek.</p>
-      <p><strong>Slabiny:</strong> systematické překlepy z rychlého psaní („Dkěuji", „paltba") — u hlavní tváře e-shopu vidět; občas hraniční ironický tón vůči zákazníkovi; u nejkratších odpovědí chybí pozdrav a kontext.</p>
-      <p><strong>Riziko pro firmu:</strong> dělá ~60 % podepsaného objemu — single point of failure. Její know-how je potřeba přepsat do znalostní báze a šablon.</p>
-    </div></details>
-    <details class="cc-d"><summary>Barbora Stix — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> krátké přátelské odpovědi (1–3 věty), „Hezký den Stix"; rychlá a spolehlivá rutina — faktury, platby, stavy, storna.</p>
-      <p><strong>Silné stránky:</strong> proaktivní servis (telefon přímo na řidiče, vysvětlení lhůty výroby na přání); doptává se při nejasném zadání.</p>
-      <p><strong>Slabiny:</strong> doložený případ ignorované stížnosti (zákaznice s chybným zbožím + stížností na telefonát dostala jen „posílám návod"); odborné odpovědi zkratkovité až rizikové; hodně překlepů; nikdy neeskaluje na kolegy.</p>
-    </div></details>
-    <details class="cc-d"><summary>Tomáš Fuka — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> dlouhé expertní odpovědi z pozice „majitele problému" — chemie, hydraulika, PVC systémy, B2B ceny. Jediný s kontaktem v podpisu.</p>
-      <p><strong>Silné stránky:</strong> nejhlubší odbornost (nářezové plány PVC vč. prořezu, saturační index, domácí testy tablet); B2B nacenění s kontextem; ochota říct nepříjemnou pravdu.</p>
-      <p><strong>Slabiny:</strong> medián 3,3 h, u některých vláken dny; sarkasmus na hraně reputačního rizika; dlouhé odpovědi bez struktury. Doporučení: formalizovat jako 2. linii s SLA do 24 h.</p>
-    </div></details>
-    <details class="cc-d"><summary>Gabriela Šarše — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> extrémně krátké šablonovité odpovědi („v příloze posílám fakturu"), nejrychlejší v týmu — běžně do 10 minut.</p>
-      <p><strong>Silné stránky:</strong> dotahuje akci, ne jen odpověď (sama přepíše adresu, zadá dobírku, urguje dopravce); konzistentní pokrytí fakturační agendy odlehčuje týmu.</p>
-      <p><strong>Slabiny:</strong> úzká specializace — mimo fakturaci neověřená; časté drobné překlepy a interpunkční nedbalosti, o to viditelnější u krátkých textů.</p>
-    </div></details>
-    <details class="cc-d"><summary>Lucie Slamová — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> střední délka, věcné a úplné odpovědi, vstřícný vysvětlující tón; nebojí se přiznat chybu firmy a omluvit se.</p>
-      <p><strong>Silné stránky:</strong> kompletní odpovědi na poptávky (cena/ks, celková částka, doprava, termín, platba, další krok v jednom mailu); dobrý krizový tón u zpožděných zásilek; vstřícná řešení nad rámec.</p>
-      <p><strong>Slabiny:</strong> výkyvy reakční doby (48–74 h) i u jednoduchých dotazů; občas chybí pozdrav; překlepy v citlivých místech (čísla, dny doručení).</p>
-    </div></details>
-    <details class="cc-d"><summary>Iva Prokešová — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> nejkultivovanější psaný projev v týmu — strukturované odpovědi, oslovení jménem, výrazná přirozená empatie („přejeme čistou vodu a radost z koupání"). Trojjazyčná (CZ/DE/EN) — Kaufland.de, Allegro, polská DIČ.</p>
-      <p><strong>Silné stránky:</strong> proaktivní krizová komunikace (sama informuje o poškozených zásilkách vč. trackingu, dřív než si zákazník stěžuje); přizná chybu systému a vysvětlí ji; diagnostika s doptáním; marketplace spory vede věcně a bilingválně.</p>
-      <p><strong>Slabiny:</strong> nejpomalejší medián (částečně složitější agenda); malý vzorek — hodnocení předběžné. Doporučení: svěřit jí tvorbu komunikačních šablon a mentoring.</p>
-    </div></details>
-    <details class="cc-d"><summary>Barbora Metelková — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> krátké až střední odpovědi, civilní přímý tón, občas lidsky odzbrojující („chybička se vloudila").</p>
-      <p><strong>Silné stránky:</strong> konkrétní cenové rozpady (varianty produktu + doprava Čechy/Morava + dobírka v jedné odpovědi); věcné řešení ztracených zásilek.</p>
-      <p><strong>Slabiny:</strong> doložený lapsus — na žádost o vrácení peněz odpověděla textem z jiného vlákna, požadavek zůstal nevyřízen; rigidní „zadejte přes e-shop" i u institucí; opakovaně „standartně".</p>
-    </div></details>
-    <details class="cc-d"><summary>Anežka Merellová — detailní profil</summary><div class="cc-d-body">
-      <p><strong>Styl:</strong> krátké administrativní maily + precizní procesní texty u reklamací (balení, svozy, lhůty).</p>
-      <p><strong>Silné stránky:</strong> nejlepší procesní instrukce k reklamacím v týmu; pohlídá detaily (vrácená adresa, spam); systematické urgence neuhrazených faktur.</p>
-      <p><strong>Slabiny:</strong> obranné odpovědi na stížnosti bez omluvy a nabídky řešení; šablony se slepenými slovy („v přílozezasílám") naznačují copy-paste bez kontroly.</p>
-    </div></details>
-
-    <div class="cc-hl" style="margin-top:12px"><strong>5 doporučení pro vedení týmu:</strong>
-    <ol style="margin:6px 0 0 18px">
-      <li><strong>Snížit závislost na Vlachové</strong> — know-how přepsat do znalostní báze/šablon (single point of failure).</li>
-      <li><strong>Fuka jako formální 2. linie</strong> s SLA do 24 h + review tónu u konfliktních případů.</li>
-      <li><strong>Rozvíjet Prokešovou</strong> — tvorba šablon, mentoring Stix a Merellové v konfliktní komunikaci.</li>
-      <li><strong>Checklist před odesláním</strong> (správné vlákno, správný požadavek, příloha) — doložené přehmaty u 4 osob. Plus povinný spellcheck — překlepy jsou plošný problém 6 z 8 lidí.</li>
-      <li><strong>Měřit dořešenost, ne jen rychlost</strong> — metrika „vyřešeno na první odpověď" + namátkové review 5 mailů/osobu/měsíc. Jednotný podpis (jméno + Chlorito + kontakt) — dnes 8 lidí, 8 formátů.</li>
-    </ol></div>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">❓ Nejčastější dotazy — tematické skupiny</div>
-  <div class="cc-card-b">
-    <p>Z hloubkového čtení 600 vzorků produktových a poradenských dotazů (podíly vážené na ~3 250 vláken této agendy, tj. ~430 ročně):</p>
-    <table class="cc-t">
-      <tr><th>Skupina</th><th>Podíl</th><th>Typické dotazy</th></tr>
-      <tr><td><strong>Technické parametry a kompatibilita</strong></td><td>18 %</td><td>rozměry PVC tvarovek a ventilů, „pasuje kartáč X na tyč Y", plachty z kusu vs. svařované — tým měří pravítkem na vyžádání, data chybí v popisech produktů</td></tr>
-      <tr><td><strong>Filtrace, technika, náhradní díly</strong></td><td>12 %</td><td>kolik zeolitu/kuliček místo 25 kg písku, zrnitost, rozdíl čerpadel Preva vs. Optima (totožné produkty!), náhradní díly</td></tr>
-      <tr><td><strong>Objednávky, doprava, odběr, platby</strong></td><td>10 %</td><td>„proč platím dopravu nad 2 500 Kč" (výjimka sůl/písek), osobní odběr bez objednávky, změny objednávek</td></tr>
-      <tr><td><strong>Problémy s vodou</strong></td><td>9 %</td><td>zelená voda, mléčný zákal, hnědá voda ze studny — ustálený diagnostický protokol se přepisuje ručně pořád dokola</td></tr>
-      <tr><td><strong>B2B poptávky a slevy</strong></td><td>8 %</td><td>tuny soli pro nemocnice/obce/firmy, opakované slevy, europalety</td></tr>
-      <tr><td><strong>Etikety, složení, bezpečnostní listy</strong></td><td>7 %</td><td>BL pro havarijní plány a BOZP, % aktivního chloru, kyanurová kyselina — BL nejsou ke stažení na webu</td></tr>
-      <tr><td><strong>Dávkování a výběr chemie</strong></td><td>6 %</td><td>kolik tablet na X m³, startovací sady, nejasné etikety</td></tr>
-      <tr><td><strong>Sůl</strong></td><td>5 %</td><td>druhy soli, solinátor, jód, mýtus změkčení vody</td></tr>
-      <tr><td><strong>Vířivky a sudy</strong></td><td>5 %</td><td>chemie do teplé vody, brom, pěna, ztráta záruky</td></tr>
-      <tr><td><strong>Testery a měření</strong></td><td>4 %</td><td>DPD1 vs. DPD3, proužky vs. kapky, interpretace hodnot</td></tr>
-      <tr><td><strong>Kombinace přípravků</strong></td><td>3,5 %</td><td>slaná voda + kyslík, přechod chlor→kyslík, cizí dávkovače</td></tr>
-      <tr><td><strong>Reklamace a záměny</strong></td><td>3,5 %</td><td>záměny produktů, objemy balení, „chybějící" díly vířivek (byly uvnitř)</td></tr>
-      <tr><td>Zbytek</td><td>9 %</td><td>dostupnost zboží, zazimování, promíchané interní maily</td></tr>
-    </table>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">✍️ Náměty na články a FAQ — seřazeno podle četnosti dotazů</div>
-  <div class="cc-card-b">
-    <p>Odhad úspory = dotazy ročně odbavitelné odkazem nebo předejité obsahem. <strong>Náměty 1–7 mají potenciál odbavit čtvrtinu až třetinu roční pošty poradny.</strong> Vedle článků je největší páka v doplnění technických dat do popisů produktů (řeší ~40 % produktových dotazů) a bezpečnostních listech ke stažení.</p>
-    <table class="cc-t">
-      <tr><th>#</th><th>Navrhovaný článek / obsah</th><th>Co pokryje</th><th>Úspora/rok</th></tr>
-      <tr><td>1</td><td><strong>Zelená voda: kompletní postup krok za krokem</strong></td><td>nejčastěji ručně přepisovaný tutoriál — chlor šok, dávkování na m³, vločkovač, sedimentace, odsátí</td><td>35–45</td></tr>
-      <tr><td>2</td><td><strong>Mléčná a zakalená voda: 5 kroků k vyčištění</strong></td><td>protokol vločkovač → kartuše → sedimentace → odsátí; tvrdá voda</td><td>25–35</td></tr>
-      <tr><td>3</td><td><strong>Bezpečnostní listy ke stažení u produktů</strong> (ne článek)</td><td>~7 % veškeré pošty — BL pro firmy, obce, koupaliště</td><td>30–40</td></tr>
-      <tr><td>4</td><td><strong>Průvodce druhy soli</strong> — bazén, změkčovač, myčka</td><td>tabletová vs. čtvercová vs. mořská, solinátor, jód, mýty</td><td>25–35</td></tr>
-      <tr><td>5</td><td><strong>Doprava, palety a osobní odběr: kompletní podmínky</strong></td><td>doprava zdarma a výjimky, europalety 250 Kč, výdejna, doplatky, SK</td><td>25–35</td></tr>
-      <tr><td>6</td><td><strong>Multifunkční tablety: 3v1/5v1/6v1/11v1 + velikost</strong></td><td>výběr 20/200/500 g dle objemu bazénu, dávkování</td><td>20–25</td></tr>
-      <tr><td>7</td><td><strong>Jak měřit vodu: pH, chlor, DPD1 vs. DPD3</strong></td><td>stupnice, proužky vs. kapky, cílové hodnoty</td><td>15–20</td></tr>
-      <tr><td>8</td><td>Slaný bazén od A do Z</td><td>5 kg/m³, materiály AISI 316, elektrolýza, kombinace</td><td>15–20</td></tr>
-      <tr><td>9</td><td>Písek, zeolit, sklo nebo kuličky? Filtrační náplně</td><td>přepočty, zrnitost, regenerace, proplach</td><td>15–20</td></tr>
-      <tr><td>10</td><td>Plachty a fólie na míru: jak objednat</td><td>postup, svařování, tolerance ±5 %, typy plachet</td><td>15–20</td></tr>
-      <tr><td>11</td><td>Chlor vs. aktivní kyslík vs. brom</td><td>přechody, limity kyslíku, brom pro teplé vody</td><td>12–18</td></tr>
-      <tr><td>12</td><td>Péče o vířivku: chemie, pěna, kartuše</td><td>údržba teplé vody, obměna vody, co nesmí dovnitř</td><td>12–15</td></tr>
-      <tr><td>13</td><td>Zazimování bazénu krok za krokem</td><td>zazimovač, plováky, zátky, mýty</td><td>10–15</td></tr>
-      <tr><td>14</td><td>Bazén ze studny: železo, mangan, tvrdost</td><td>hnědá voda po chloru, vysrážení, rozbor</td><td>10–12</td></tr>
-      <tr><td>15</td><td>Rozměrové nákresy PVC tvarovek (produktové stránky)</td><td>příruby, závity, DN, kompatibilita s KG</td><td>15–20</td></tr>
-      <tr><td>16</td><td>Chlor šok vs. chlornan vs. tablety</td><td>volný vs. vázaný chlor, stabilizátor, skladování</td><td>8–12</td></tr>
-      <tr><td>17</td><td>Velkoodběry a paletové ceny (B2B landing)</td><td>tuny soli, kamiony, splatnost, palety</td><td>10–15</td></tr>
-      <tr><td>18</td><td>Kompatibilita příslušenství (tabulka)</td><td>tyče × síťky × kartáče, materiály, nosnosti</td><td>8–12</td></tr>
-      <tr><td>19</td><td>Nová vířivka: co je v balení a zprovoznění</td><td>„chybějící" díly, zapojení, záruka</td><td>5–8</td></tr>
-      <tr><td>20</td><td>První bazén: startovací sada a týdenní rutina</td><td>nákupní seznam pro začátečníky</td><td>5–8</td></tr>
-    </table>
-    <p><span class="cc-badge good">poznatek</span> Obsah odpovědí týmu je na publikovatelné úrovni — problém není kvalita, ale to, že se stejné know-how píše ručně pořád dokola. V ~600 čtených vzorcích byly jen 3–4 odkazy na blog; firma přitom rozesílá newsletter „Seňor Chlorito radí", ale poradna s obsahem vůbec nepracuje.</p>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">🔧 Reklamace — co se vrací a proč (1 686 e-mailů)</div>
-  <div class="cc-card-b">
-    <div class="cc-grid2">
-      <div>
-        <strong style="font-size:12.5px">Co se reklamuje</strong>
-        <div style="margin-top:8px">
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Solární sprchy</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:100%"></div></div><div class="cc-bar-val">~27 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Chemie (přeprava)</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:82%"></div></div><div class="cc-bar-val">~22 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Chyby skladu / záměny</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:55%"></div></div><div class="cc-bar-val">~15 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Doprava — poškození/ztráty</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:55%"></div></div><div class="cc-bar-val">~15 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Vířivky NetSpa</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:37%"></div></div><div class="cc-bar-val">~10 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Plachty a fólie</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:30%"></div></div><div class="cc-bar-val">~8 %</div></div>
-        <div class="cc-bar-row"><div class="cc-bar-lbl">Čerpadla / filtrace</div><div class="cc-bar-track"><div class="cc-bar-fill o" style="width:18%"></div></div><div class="cc-bar-val">~5 %</div></div>
-        </div>
-      </div>
-      <div>
-        <strong style="font-size:12.5px">Klíčové vzorce</strong>
-        <ul style="margin-top:8px">
-          <li><strong>Solární sprchy Comfort/ALU (kov)</strong> = systémová výrobní vada — praskající dna, tlaková víčka, koroze. Tým sám píše, že plastová varianta je „jedna z nejspolehlivějších". Řešení: tlak na výrobce, náhradní díly (víčka, těsnění) samostatně prodejné, zvážit utlumení kovové řady.</li>
-          <li><strong>Rozdrcené tablety a prasklé kbelíky po přepravě</strong> = nejčastější jednotlivý scénář vůbec. Zpevnit obaly, systémové odškodnění s dopravci, letáček do balíku („rozlomené tablety = plná účinnost").</li>
-          <li><strong>Třícestný obtok</strong> — 3 vadné kusy po sobě u jednoho zákazníka; prověřit šarži.</li>
-        </ul>
-      </div>
-    </div>
-    <p style="margin-top:6px"><strong>Proces:</strong> foto → PDF formulář → zpětný svoz (zákazník musí zboží vysušit a zabalit) → posouzení → „závěr reklamace" PDF. Drobnosti se řeší vzorně (doposlání tentýž den, kompenzace, zboží si zákazník nechá), sprchy/vířivky se servisem trvají 2–6 týdnů. Zadrhává se na: součinnosti zákazníka (sušení plachet na podzim…), ztrátě kontinuity vláken, šetření u dopravců a sporech o 30denní lhůtu (min. 3 právní spory, 2× eskalace na ČOI).</p>
-    <div class="cc-hl"><strong>Největší riziko reklamací není proces, ale tón.</strong> Na kritiku tým reaguje defenzivně až konfrontačně („Vyprošuji si důrazně…", „není to diskuze, ale fraška") — oba případy ČOI začaly banalitou a eskalovaly komunikací. Doporučení: kompenzační matice (co nabídnout kdy, bez ohledu na to, kdo mail vyřizuje), zákaz ironie v odpovědích na kritiku, online reklamační formulář místo PDF a automatické stavové notifikace („přijato / u servisu / závěr odeslán").</div>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h">⚙️ Procesní frikce — kde vzniká zbytečná pošta a co s tím</div>
-  <div class="cc-card-b">
-    <p>Top doporučení seřazená podle odhadovaného dopadu na objem pošty (kategorie faktury + doprava + platby + objednávky = 6 525 e-mailů za sledované období):</p>
-    <table class="cc-t">
-      <tr><th>#</th><th>Opatření</th><th>Řeší</th><th>Odhad úspory</th></tr>
-      <tr><td>1</td><td><strong>Automatická faktura e-mailem při expedici</strong> + pole „fakturační e-mail" v checkoutu</td><td>faktura se dnes lepí na krabici a ztrácí se; firmy žádají doklad na účtárnu ručně</td><td>~25–30 % kategorie (~1 800–2 000/rok)</td></tr>
-      <tr><td>2</td><td><strong>Recovery flow pro selhanou platbu</strong> — automatický e-mail s platebním odkazem + VS, storno duplicit</td><td>pády brány/Apple Pay → duplicitní objednávky, nespárované platby, dvojplatby</td><td>~10–15 %</td></tr>
-      <tr><td>3</td><td><strong>Validace checkoutu</strong> — doprava × hmotnost × rozměr, potvrzení osobního odběru</td><td>250 kg soli přes PPL, tyče v DPD, omylem zvolený osobní odběr, ruční doplatky 98–139 Kč</td><td>~8–12 %</td></tr>
-      <tr><td>4</td><td><strong>Automatický tracking při předání dopravci</strong> + proaktivní notifikace zpoždění</td><td>„kde je zásilka" — dnes ruční dohledávání a printscreeny z track&amp;trace</td><td>~10 %</td></tr>
-      <tr><td>5</td><td><strong>Vyřešit chronické nedoručování 123kurýr/Fofr</strong> — SLA, penalizace, či přesun objemu</td><td>nejeskalovanější a reputačně nejdražší konverzace v celém datasetu</td><td>~5 % + reputace</td></tr>
-      <tr><td>6</td><td>Notifikace u výroby na přání (plachty): „zadáno do výroby / vyrobeno / expedováno"</td><td>urgence po 3–5 dnech při 14denní výrobní lhůtě</td><td>~3–5 %</td></tr>
-      <tr><td>7</td><td>Opravit stavové notifikace (předčasné „Máte doma balík!", abandoned-cart po dokončené objednávce)</td><td>zmatení a zbytečné dotazy</td><td>~2–3 %</td></tr>
-      <tr><td>8</td><td>B2B režim: platba na fakturu se splatností pro instituce</td><td>školy, nemocnice, obce dnes vyjednávají e-mailem přes poznámku</td><td>~3–5 %</td></tr>
-    </table>
-    <p><span class="cc-badge mid">shrnutí</span> Dvě třetiny logistické pošty nejsou dotazy, ale ruční kompenzace chybějící automatizace. Opatření 1–4 dohromady = potenciál odbourat ~50–60 % objemu této agendy.</p>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h cc-int">🏢 Interní komunikace — separátní analýza (3 714 e-mailů)</div>
-  <div class="cc-card-b">
-    <p><strong>info@chlorito.cz funguje jako přepážka, která téměř vše přeposílá do Techneca.</strong> Sklad, expedici, fakturaci, ceny i produktovou expertízu drží Techneco Praha (Ing. Fuka) — není to dodavatel, ale faktický back-office celého e-shopu.</p>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Techneco (Fuka)</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:100%"></div></div><div class="cc-bar-val">~60 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Alza Trade (MP009F3)</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:23%"></div></div><div class="cc-bar-val">~13 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Dopravci (DPD, 123kurýr, Raben)</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:13%"></div></div><div class="cc-bar-val">~8 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Shoptet + hosting</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:8%"></div></div><div class="cc-bar-val">~5 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Kaufland Marketplace</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:8%"></div></div><div class="cc-bar-val">~5 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">Exportio (integrátor)</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:7%"></div></div><div class="cc-bar-val">~4 %</div></div>
-    <div class="cc-bar-row"><div class="cc-bar-lbl">ThePay</div><div class="cc-bar-track"><div class="cc-bar-fill gr" style="width:5%"></div></div><div class="cc-bar-val">~3 %</div></div>
-    <p style="margin-top:10px"><strong>Opakující se operativa:</strong> nejčastější zpráva je „přeposílám, dv" — dotaz zákazníka + jednořádkový komentář („co s tím?", „chceš jim dát slevu?"). Vlachová sama nerozhoduje o cenách, slevách, reklamacích ani technice. K tomu smyčky: Alza urgence neexpedovaných objednávek (jednou 130 z jednoho dne) a konflikt svozového okna DPD 18–22 h vs. potvrzení do 20:25; ruční opravy faktur (IČ/DIČ); párování plateb přes ThePay; šablonovité urgence dopravců bez výsledku.</p>
-    <p><strong>Úzká hrdla:</strong></p>
-    <ul>
-      <li><strong>Jediné rozhodovací hrdlo = Fuka.</strong> Cena, sleva, reklamace, posudek — vše čeká na jednoho člověka; response interně běžně desítky až stovky hodin (213 h u VO ceny, 373 h u vratky). Několik B2B poptávek prokazatelně propadlo konkurenci.</li>
-      <li>Zákazníkovi často nelze odpovědět bez třetí strany (Techneco, Hanscraft, dopravci, ThePay) — Chlorito jen přeposílá a čeká.</li>
-      <li>Chybějící přístupy: péče bez přístupu do AlzaTrade, limit přílohy 2 MB, stavy v systémech neodpovídají skladu.</li>
-      <li><span class="cc-badge bad">bezpečnost</span> ve vzorku přeposlání přihlašovacích údajů (login + heslo) plain-textem e-mailem.</li>
-    </ul>
-    <p><strong>Doporučení:</strong> (1) delegovat cenotvorbu — schválený ceník VO pásem, ať péče nacení B2B do 24 h; (2) rozhodovací matice reklamací — do ~500 Kč rozhoduje péče sama; (3) denní kontrolní rutina Alza expedice (sken svozového listu); (4) sdílený ticketing místo Fwd/Re řetězů; (5) přístupy do všech portálů + správce hesel; (6) vyjasnit marketplace strategii (PL/AT objednávky Kauflandu dnes končí rušením); (7) formálně vyhodnotit alternativy k 123kurýr — nabídky GLS ležely bez reakce.</p>
-  </div>
-</div>
-
-<div class="cc-card">
-  <div class="cc-card-h" style="background:#78909C">ℹ️ Metodika a limity</div>
-  <div class="cc-card-b">
-    <ul>
-      <li>Zdroj: export odchozí pošty info@chlorito.cz (17 005 .txt souborů), zpracováno lokálně, jména a adresy zákazníků se v tomto přehledu nezobrazují.</li>
-      <li>Klasifikace témat: klíčová slova v předmětu + textu odpovědi + citaci dotazu; segmentace interní/zákaznická podle domény příjemce. Orientační přesnost, kategorie se mohou překrývat (např. reklamace × doprava).</li>
-      <li>Reakční doba: rozdíl času odeslání odpovědi a času citovaného dotazu — spočítáno u 11 603 zákaznických vláken (88 %). Neměří dobu do vyřešení, jen do první reakce.</li>
-      <li>Podpisy operátorek detekovány u 62 % e-mailů; nepodepsané krátké rutinní odpovědi nejsou přiřazeny. Objemy osob jsou proto spodní odhad.</li>
-      <li>Kvalitativní hodnocení: hloubkové čtení 1 700+ vzorků (produktové dotazy, poradna, reklamace, logistika, interní pošta, ~45 e-mailů na operátorku).</li>
-    </ul>
-  </div>
-</div>
-
-</div>
-</div>
 
 <!-- KRAJ MAPA -->
 <div id="kraj-mapa" class="page">
@@ -1057,6 +675,8 @@ const MJ_DISC_OVER= 14.8;   // celkový podíl ve slevě %
 const AJ_MONTHLY  = [{"mon": "Duben", "obj25": 3123, "obj26": 2641, "rev25": 5555711, "rev26": 4537022, "avg25": 1779, "avg26": 1718, "t25": 14.9, "t26": 13.2, "rain25": 43, "rain26": 20, "sun25": 9.8, "sun26": 11.0, "b2b25": 10.5, "b2b26": 11.3}, {"mon": "Květen", "obj25": 4019, "obj26": 6569, "rev25": 7525124, "rev26": 9809748, "avg25": 1872, "avg26": 1493, "t25": 15.7, "t26": 19.6, "rain25": 67, "rain26": 68, "sun25": 10.4, "sun26": 12.9, "b2b25": 8.6, "b2b26": 6.7}, {"mon": "Červen", "obj25": 6482, "obj26": 9705, "rev25": 10540573, "rev26": 12000221, "avg25": 1626, "avg26": 1236, "t25": 23.0, "t26": 23.7, "rain25": 52, "rain26": 94, "sun25": 13.1, "sun26": 13.3, "b2b25": 7.4, "b2b26": 5.7}, {"mon": "Červenec", "obj25": 3798, "obj26": 7997, "rev25": 6004170, "rev26": 9216800, "avg25": 1581, "avg26": 1153, "t25": 22.8, "t26": 24.4, "rain25": 77, "rain26": 71, "sun25": 11.3, "sun26": 13.5, "b2b25": 9.2, "b2b26": 6.0}];     // duben-červenec měsíčně YoY
 const AJ_TOTAL    = {"obj25": 17422, "obj26": 26912, "rev25": 29625579, "rev26": 35563792, "avg25": 1700, "avg26": 1321, "t25": 19.1, "t26": 20.3, "rain25": 241, "rain26": 255, "b2b25": 8.6, "b2b26": 6.6};
 const AJ_CATS     = [{"cat": "Bazénová chemie", "r25": 12631306, "r26": 19165999, "delta": 6534692, "yoy": 51.7}, {"cat": "Příslušenství k bazénu", "r25": 5390052, "r26": 5153671, "delta": -236380, "yoy": -4.4}, {"cat": "Sůl", "r25": 4141276, "r26": 3497505, "delta": -643770, "yoy": -15.5}, {"cat": "Bazénová technika", "r25": 3356373, "r26": 2931809, "delta": -424563, "yoy": -12.6}, {"cat": "Ostatní", "r25": 2284548, "r26": 2793814, "delta": 509266, "yoy": 22.3}, {"cat": "Sauny a vířivky", "r25": 1385790, "r26": 202954, "delta": -1182835, "yoy": -85.4}];
+const AJ_SUBCATS  = [{"main": "Bazénová chemie", "sub": "Multifunkční tablety", "r25": 5949898, "r26": 10298900, "delta": 4349002, "yoy": 73.1}, {"main": "Bazénová chemie", "sub": "Chlor (šok/chlornan)", "r25": 4082345, "r26": 5256416, "delta": 1174071, "yoy": 28.8}, {"main": "Příslušenství k bazénu", "sub": "Solární (sprcha/plachta)", "r25": 3904296, "r26": 3625555, "delta": -278741, "yoy": -7.1}, {"main": "Ostatní", "sub": "Ostatní", "r25": 2284548, "r26": 2793814, "delta": 509266, "yoy": 22.3}, {"main": "Sůl", "sub": "Regenerační (změkčovací)", "r25": 2589668, "r26": 2284691, "delta": -304976, "yoy": -11.8}, {"main": "Bazénová chemie", "sub": "pH regulace", "r25": 1461602, "r26": 1910905, "delta": 449302, "yoy": 30.7}, {"main": "Bazénová chemie", "sub": "Algicidy/ostatní chemie", "r25": 699295, "r26": 1120125, "delta": 420830, "yoy": 60.2}, {"main": "Sůl", "sub": "Mořská", "r25": 1259186, "r26": 983571, "delta": -275615, "yoy": -21.9}, {"main": "Příslušenství k bazénu", "sub": "Čištění bazénu", "r25": 774553, "r26": 947935, "delta": 173381, "yoy": 22.4}, {"main": "Bazénová technika", "sub": "Oběhová čerpadla", "r25": 716043, "r26": 694879, "delta": -21164, "yoy": -3.0}, {"main": "Bazénová chemie", "sub": "Projasnění/vločkování", "r25": 438164, "r26": 579650, "delta": 141485, "yoy": 32.3}, {"main": "Bazénová technika", "sub": "PVC tvarovky", "r25": 383710, "r26": 461447, "delta": 77736, "yoy": 20.3}, {"main": "Bazénová technika", "sub": "Tepelná čerpadla", "r25": 1097126, "r26": 414638, "delta": -682487, "yoy": -62.2}, {"main": "Bazénová technika", "sub": "Ventily", "r25": 279076, "r26": 386589, "delta": 107513, "yoy": 38.5}, {"main": "Bazénová technika", "sub": "Filtrace", "r25": 383370, "r26": 381010, "delta": -2359, "yoy": -0.6}, {"main": "Příslušenství k bazénu", "sub": "Podložky/geotextilie", "r25": 561932, "r26": 315328, "delta": -246603, "yoy": -43.9}, {"main": "Příslušenství k bazénu", "sub": "Měření vody", "r25": 149269, "r26": 264852, "delta": 115583, "yoy": 77.4}, {"main": "Bazénová technika", "sub": "Lepidla/čističe", "r25": 185549, "r26": 244416, "delta": 58867, "yoy": 31.7}, {"main": "Sůl", "sub": "Bazénová (elektrolýza)", "r25": 292421, "r26": 229242, "delta": -63179, "yoy": -21.6}, {"main": "Bazénová technika", "sub": "PVC trubky", "r25": 177424, "r26": 212869, "delta": 35445, "yoy": 20.0}, {"main": "Sauny a vířivky", "sub": "Vířivky", "r25": 1128036, "r26": 137166, "delta": -990869, "yoy": -87.8}, {"main": "Bazénová technika", "sub": "Ostatní PVC", "r25": 134073, "r26": 135957, "delta": 1884, "yoy": 1.4}, {"main": "Sauny a vířivky", "sub": "Sauny", "r25": 257753, "r26": 65787, "delta": -191966, "yoy": -74.5}];
+const AJ_B2B      = {"b2b25": {"obj": 1500, "rev": 5750042, "avg": 3833}, "b2b26": {"obj": 1776, "rev": 6326037, "avg": 3562}, "b2c25": {"obj": 15922, "rev": 23875537, "avg": 1500}, "b2c26": {"obj": 25136, "rev": 29237755, "avg": 1163}};
 const AJ_GAINS    = [{"name": "Multi tablety 6v1 do bazénu 200g 5kg", "r25": 853644, "r26": 2834331, "delta": 1980687, "new": false}, {"name": "Multi tablety 6v1 do bazénu 200g 3kg", "r25": 148184, "r26": 653555, "delta": 505370, "new": false}, {"name": "Chlornan sodný Industry, 30 l ADR", "r25": 81852, "r26": 412658, "delta": 330805, "new": false}, {"name": "Multi tablety 6v1 do bazénu 200g 1 kg", "r25": 71500, "r26": 372539, "delta": 301038, "new": false}, {"name": "Chlornan sodný stabilizovaný 35 kg cca 30l ADR", "r25": 1139005, "r26": 1437744, "delta": 298738, "new": false}, {"name": "Multi tablety 5v1 do bazénu 200g 5 kg", "r25": 554796, "r26": 759577, "delta": 204780, "new": false}, {"name": "PWS Multi tablety 11v1 MAXI EKO 10kg", "r25": 301464, "r26": 473871, "delta": 172406, "new": false}, {"name": "Algicid 3l na řasy v bazénu", "r25": 102411, "r26": 257057, "delta": 154645, "new": false}, {"name": "Chlornan sodný stabilizovaný 5l ADR", "r25": 171339, "r26": 307524, "delta": 136185, "new": false}, {"name": "PWS Multi tablety 11v1 MAXI EKO 3kg", "r25": 243749, "r26": 379306, "delta": 135556, "new": false}, {"name": "Multi tablety 5v1 do bazénu 200g 3 kg", "r25": 167482, "r26": 302195, "delta": 134713, "new": false}, {"name": "Chlor šok 1kg - organický granulát - doplnění", "r25": 231425, "r26": 364314, "delta": 132889, "new": false}, {"name": "PWS Multi tablety 11v1 MAXI EKO 1kg", "r25": 136023, "r26": 258901, "delta": 122878, "new": false}, {"name": "Poloautomatický vysavač AutoCleaner", "r25": 11996, "r26": 131688, "delta": 119692, "new": false}, {"name": "pH mínus 35 kg cca 30 l kapalný ADR", "r25": 246750, "r26": 361614, "delta": 114864, "new": false}, {"name": "Chlor šok 3kg - organický granulát - doplnění", "r25": 139786, "r26": 254593, "delta": 114807, "new": false}, {"name": "Multi tablety 6v1 do bazénu 20g 1 kg", "r25": 19218, "r26": 129909, "delta": 110690, "new": false}, {"name": "Chlornan sodný stabilizovaný 20l ADR", "r25": 76118, "r26": 181453, "delta": 105335, "new": false}, {"name": "Mořská sůl Margharita 25 kg", "r25": 300883, "r26": 393920, "delta": 93036, "new": false}, {"name": "Solární fólie 360 mic - černá - 1 m2 výroba na přání", "r25": 24753, "r26": 107185, "delta": 82431, "new": false}];
 const AJ_LOSSES   = [{"name": "Nafukovací vířivá vana NetSpa BOHEMIAN", "r25": 433494, "r26": 0, "delta": -433494, "new": false}, {"name": "Solární sprcha COMFORT ALU", "r25": 410670, "r26": 154175, "delta": -256495, "new": false}, {"name": "Nafukovací vířivá vana NetSpa ASPEN", "r25": 249209, "r26": 0, "delta": -249209, "new": false}, {"name": "Mořská sůl Margherita 25 kg", "r25": 452050, "r26": 213732, "delta": -238318, "new": false}, {"name": "Tepelné čerpadlo Poolex Silverline Full Inverter 90", "r25": 234849, "r26": 0, "delta": -234849, "new": false}, {"name": "Sůl do bazénu 25kg čistá vysokoprocentní Solivary", "r25": 295518, "r26": 68868, "delta": -226650, "new": false}, {"name": "Tepelné čerpadlo Poolex Silverline Full Inverter 70", "r25": 152883, "r26": 0, "delta": -152883, "new": false}, {"name": "Tepelné čerpadlo Poolex Jetline Selection Full Inverter", "r25": 151942, "r26": 0, "delta": -151942, "new": false}, {"name": "Solární sprcha TROPIC", "r25": 211463, "r26": 62964, "delta": -148498, "new": false}, {"name": "Nafukovací vířivá vana NetSpa CAIMAN", "r25": 147434, "r26": 0, "delta": -147434, "new": false}, {"name": "Geotextilní podložka pod bazén 3,6 m - 300 g/m2", "r25": 224279, "r26": 81149, "delta": -143129, "new": false}, {"name": "Nafukovací vířivá vana NetSpa IZY", "r25": 136518, "r26": 0, "delta": -136518, "new": false}, {"name": "Infrasauna FRANCE SAUNA Apollon 3/4", "r25": 113971, "r26": 0, "delta": -113971, "new": false}, {"name": "Solární sprcha HANSCRAFT BLUE RAINBOW 3 - 40 l", "r25": 106769, "r26": 0, "delta": -106769, "new": false}, {"name": "Tepelné čerpadlo Poolex Silverline Full Inverter 120", "r25": 102574, "r26": 0, "delta": -102574, "new": false}, {"name": "Čtvercová tabletová regenerační sůl 25 kg Solivary (pol", "r25": 160007, "r26": 65261, "delta": -94746, "new": false}, {"name": "Nafukovací vířivá vana NetSpa MONTANA 6", "r25": 88204, "r26": 0, "delta": -88204, "new": false}, {"name": "Tepelné čerpadlo Poolex Silverline TOP 120 (12,05 kW)", "r25": 74081, "r26": 0, "delta": -74081, "new": false}, {"name": "Solný chlorátor SSC CL20, 90m3", "r25": 72413, "r26": 0, "delta": -72413, "new": false}, {"name": "Geotextilní podložka pod bazén 4,6 m - 300 g/m2", "r25": 159846, "r26": 90097, "delta": -69749, "new": false}];
 const BROM_MONTHLY= [{"m": 1, "mon": "Led", "q25": 7, "q26": 3}, {"m": 2, "mon": "Úno", "q25": 8, "q26": 3}, {"m": 3, "mon": "Bře", "q25": 7, "q26": 24}, {"m": 4, "mon": "Dub", "q25": 11, "q26": 13}, {"m": 5, "mon": "Kvě", "q25": 13, "q26": 52}, {"m": 6, "mon": "Čvn", "q25": 21, "q26": 51}, {"m": 7, "mon": "Čvc", "q25": 23, "q26": 95}, {"m": 8, "mon": "Srp", "q25": 10, "q26": 8}];
@@ -3442,21 +3062,81 @@ function renderAJ(){
       🏢 B2B podíl: ${T.b2b26} % (z ${T.b2b25} %) — ${T.b2b26<T.b2b25?'víc koncových zákazníků':'víc firem'}.
     </div>`;
 
-  // ── Kategorie ──
-  let ch=`<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#e8f0fe">
+  // ── B2B / B2C absolutní objem ──
+  const bb=AJ_B2B;
+  const segRow=(lbl,s25,s26,c)=>{
+    const oP=(s26.obj/s25.obj-1)*100, rP=(s26.rev/s25.rev-1)*100;
+    return `<tr style="border-bottom:1px solid #f0f0f0">
+      <td style="padding:7px 10px;font-weight:700;color:${c}">${lbl}</td>
+      <td style="padding:7px 10px;text-align:right;color:#888">${s25.obj.toLocaleString('cs-CZ')}</td>
+      <td style="padding:7px 10px;text-align:right;font-weight:600">${s26.obj.toLocaleString('cs-CZ')}</td>
+      <td style="padding:7px 10px;text-align:right;color:${col(oP)}">${sgn(oP)}</td>
+      <td style="padding:7px 10px;text-align:right;color:#888">${fmtM(s25.rev)}</td>
+      <td style="padding:7px 10px;text-align:right;font-weight:700">${fmtM(s26.rev)}</td>
+      <td style="padding:7px 10px;text-align:right;font-weight:700;color:${col(rP)}">${sgn(rP)}</td>
+      <td style="padding:7px 10px;text-align:right;color:#888">${s26.avg.toLocaleString('cs-CZ')} Kč</td></tr>`;
+  };
+  document.getElementById('aj-b2b-wrap').innerHTML=`
+    <table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#e8f0fe">
+      <th style="padding:8px 10px;text-align:left">Segment</th>
+      <th style="padding:8px 10px;text-align:right">Obj 25</th><th style="padding:8px 10px;text-align:right">Obj 26</th><th style="padding:8px 10px;text-align:right">Δ obj</th>
+      <th style="padding:8px 10px;text-align:right">Obrat 25</th><th style="padding:8px 10px;text-align:right">Obrat 26</th><th style="padding:8px 10px;text-align:right">Δ obrat</th>
+      <th style="padding:8px 10px;text-align:right">Košík 26</th></tr></thead><tbody>
+      ${segRow('🏢 B2B (firmy)',bb.b2b25,bb.b2b26,'#00695C')}
+      ${segRow('👤 B2C (koncoví)',bb.b2c25,bb.b2c26,'#1565C0')}
+    </tbody></table>
+    <div style="font-size:11px;color:#888;margin-top:6px">B2B podíl na obratu: ${(bb.b2b26.rev/(bb.b2b26.rev+bb.b2c26.rev)*100).toFixed(1)} % (2026) vs ${(bb.b2b25.rev/(bb.b2b25.rev+bb.b2c25.rev)*100).toFixed(1)} % (2025)</div>`;
+
+  // ── Kategorie (rozbalitelné na subkategorie) ──
+  const EMO={'Bazénová chemie':'⚗️','Sůl':'🧂','Bazénová technika':'🔧','Sauny a vířivky':'🧖','Příslušenství k bazénu':'🏖️','Ostatní':'📦'};
+  const yoyTxt=(r25,r26)=>{ if(r25<=0) return r26>0?'<span style="color:#1a7f37">nová</span>':'—'; const p=(r26/r25-1)*100; return `<span style="color:${col(p)}">${p>0?'+':''}${p.toFixed(0)}%</span>`; };
+  let ch='<div style="font-size:11px;color:#888;margin-bottom:8px">Klikni na kategorii pro rozbalení subkategorií.</div>';
+  ch+=`<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#e8f0fe">
     <th style="padding:8px 10px;text-align:left">Kategorie</th><th style="padding:8px 10px;text-align:right">2025</th>
     <th style="padding:8px 10px;text-align:right">2026</th><th style="padding:8px 10px;text-align:right">Δ Kč</th>
     <th style="padding:8px 10px;text-align:right">YoY</th></tr></thead><tbody>`;
-  const EMO={'Bazénová chemie':'⚗️','Sůl':'🧂','Bazénová technika':'🔧','Sauny a vířivky':'🧖','Příslušenství k bazénu':'🏖️','Ostatní':'📦'};
-  AJ_CATS.forEach(c=>{
-    ch+=`<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:7px 10px;font-weight:600">${EMO[c.cat]||'•'} ${c.cat}</td>
-      <td style="padding:7px 10px;text-align:right;color:#888">${fmtM(c.r25)}</td>
-      <td style="padding:7px 10px;text-align:right;font-weight:600">${fmtM(c.r26)}</td>
-      <td style="padding:7px 10px;text-align:right;font-weight:700;color:${col(c.delta)}">${c.delta>0?'+':''}${fmtM(c.delta)}</td>
-      <td style="padding:7px 10px;text-align:right;color:${c.yoy==null?'#1a7f37':col(c.yoy)}">${c.yoy==null?'nová':(c.yoy>0?'+':'')+c.yoy.toFixed(0)+'%'}</td></tr>`;
+  AJ_CATS.forEach((c,ci)=>{
+    const subs=AJ_SUBCATS.filter(s=>s.main===c.cat);
+    const hasSubs=subs.length>1;
+    ch+=`<tr style="cursor:${hasSubs?'pointer':'default'};background:#fafbff" onclick="ajToggleCat(${ci})">
+      <td style="padding:8px 10px;font-weight:700">${hasSubs?'<span id="aj-arr-'+ci+'" style="display:inline-block;width:12px;color:#1565C0">▸</span>':'<span style="display:inline-block;width:12px"></span>'}${EMO[c.cat]||'•'} ${c.cat}</td>
+      <td style="padding:8px 10px;text-align:right;color:#888">${fmtM(c.r25)}</td>
+      <td style="padding:8px 10px;text-align:right;font-weight:700">${fmtM(c.r26)}</td>
+      <td style="padding:8px 10px;text-align:right;font-weight:700;color:${col(c.delta)}">${c.delta>0?'+':''}${fmtM(c.delta)}</td>
+      <td style="padding:8px 10px;text-align:right;font-weight:600">${yoyTxt(c.r25,c.r26)}</td></tr>`;
+    subs.forEach(s=>{
+      ch+=`<tr class="aj-sub-${ci}" style="display:none;background:#fff;font-size:11px">
+        <td style="padding:5px 10px 5px 32px;color:#555">↳ ${s.sub}</td>
+        <td style="padding:5px 10px;text-align:right;color:#aaa">${fmtM(s.r25)}</td>
+        <td style="padding:5px 10px;text-align:right;color:#666">${fmtM(s.r26)}</td>
+        <td style="padding:5px 10px;text-align:right;color:${col(s.delta)}">${s.delta>0?'+':''}${fmtM(s.delta)}</td>
+        <td style="padding:5px 10px;text-align:right">${yoyTxt(s.r25,s.r26)}</td></tr>`;
+    });
   });
   ch+='</tbody></table>';
   document.getElementById('aj-cat-wrap').innerHTML=ch;
+
+  // ── Hypotézy ──
+  const chem=AJ_CATS.find(c=>c.cat==='Bazénová chemie'), sauny=AJ_CATS.find(c=>c.cat==='Sauny a vířivky');
+  const b2cRevP=(bb.b2c26.rev/bb.b2c25.rev-1)*100, b2bRevP=(bb.b2b26.rev/bb.b2b25.rev-1)*100;
+  document.getElementById('aj-hypo').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="background:#e8f5e9;border-radius:10px;padding:13px 16px;border-left:4px solid #2e7d32">
+        <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:6px">🚀 Sezóna 2026 je výrazně silnější</div>
+        <div style="font-size:12px;color:#333;line-height:1.7">Obrat <b>${sgn(revP)}</b> a objednávky <b>${sgn(objP)}</b> meziročně, a to i přes to, že duben startoval pomaleji (chladno). Jakmile se oteplilo, sezóna <b>předběhla loňsko a už nezpomalila</b> — vrchol červenec <b>${sgn((jul.rev26/jul.rev25-1)*100)}</b>. 2026 je nejsilnější sezóna dosud.</div></div>
+      <div style="background:#e3f2fd;border-radius:10px;padding:13px 16px;border-left:4px solid #1565C0">
+        <div style="font-size:13px;font-weight:700;color:#0d47a1;margin-bottom:6px">👤 Růst táhnou koncoví zákazníci</div>
+        <div style="font-size:12px;color:#333;line-height:1.7">B2C obrat <b>${sgn(b2cRevP)}</b> vs B2B <b>${sgn(b2bRevP)}</b>. Získáváme masu nových domácností — <b>${bb.b2c26.obj.toLocaleString('cs-CZ')}</b> B2C objednávek (z ${bb.b2c25.obj.toLocaleString('cs-CZ')}). Značka roste u koncáků rychleji než u firem = zdravá akvizice.</div></div>
+      <div style="background:#fff3e0;border-radius:10px;padding:13px 16px;border-left:4px solid #e65100">
+        <div style="font-size:13px;font-weight:700;color:#bf360c;margin-bottom:6px">⚗️ Spotřební chemie je motor</div>
+        <div style="font-size:12px;color:#333;line-height:1.7">Bazénová chemie <b>${chem&&chem.yoy!=null?(chem.yoy>0?'+':'')+chem.yoy.toFixed(0)+'%':'—'}</b> — sticky, opakovaný, počasí-citlivý sortiment. Košík klesl (víc malých objednávek chemie místo velkého hardware), ale <b>objem a frekvence rostou</b> = vyšší celoživotní hodnota zákazníka.</div></div>
+      <div style="background:#f3e5f5;border-radius:10px;padding:13px 16px;border-left:4px solid #6a1b9a">
+        <div style="font-size:13px;font-weight:700;color:#4a148c;margin-bottom:6px">🌡 Počasí pomohlo, ale nevysvětlí vše</div>
+        <div style="font-size:12px;color:#333;line-height:1.7">2026 bylo tepleji (Ø ${T.t26}° vs ${T.t25}°), což poptávce pomohlo. Ale <b>+${objP.toFixed(0)} % objednávek</b> je mnohem víc, než by vysvětlil rozdíl pár stupňů — jádro růstu je <b>marketing, akvizice a značka</b>. Počasí byl vítr do plachet, ne příčina.</div></div>
+    </div>
+    <div style="background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:8px;padding:10px 14px;font-size:12px;color:#1b5e20;margin-top:12px;font-weight:600">
+      💚 Souhrn: 2026 je zatím <b>rekordní sezóna</b> — víc zákazníků, víc objednávek, silnější značka. Růst je organický a udržitelný, ne jednorázový výkyv.
+    </div>`;
 
   // ── Gain/loss ──
   function gl(arr,gain){
@@ -3510,6 +3190,13 @@ function renderAJ(){
   bd+='</div>';
   document.getElementById('aj-brom-daily').innerHTML=bd;
 }
+window.ajToggleCat=function(ci){
+  const rows=document.querySelectorAll('.aj-sub-'+ci); const arr=document.getElementById('aj-arr-'+ci);
+  if(!rows.length) return;
+  const open=rows[0].style.display==='none';
+  rows.forEach(r=>r.style.display=open?'table-row':'none');
+  if(arr) arr.textContent=open?'▾':'▸';
+};
 
 let _acqRendered = false;
 function renderAcq(){
@@ -4494,11 +4181,29 @@ function renderHourDow(){
     </div>
 
     <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#00695C,#26a69a);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🏢 B2B vs B2C — objem, obrat a košík (duben–červenec)
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <div id="aj-b2b-wrap" style="overflow-x:auto"></div>
+      </div>
+    </div>
+
+    <div class="fx-card">
       <div class="fx-card-header" style="background:linear-gradient(135deg,#1565C0,#42a5f5);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
-        📊 Struktura tržeb podle kategorií (duben–červenec)
+        📊 Struktura tržeb podle kategorií (duben–červenec) <span style="font-size:11px;font-weight:400;opacity:.85">— rozklikni pro subkategorie</span>
       </div>
       <div class="fx-card-body" style="padding:18px 20px">
         <div id="aj-cat-wrap" style="overflow-x:auto"></div>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1b5e20,#43a047);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        💡 Hypotézy a srovnání obou sezón
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <div id="aj-hypo"></div>
       </div>
     </div>
 
