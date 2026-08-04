@@ -188,6 +188,7 @@ tbody td{padding:10px 14px;vertical-align:middle}
   <button class="nav-btn" onclick="showPage('pred-presnost',this)">🎯 Přesnost predikcí</button>
   <button class="nav-btn" onclick="showPage('mj-yoy',this)">☀️ Květen+Červen YoY</button>
   <button class="nav-btn" onclick="showPage('aj-yoy',this)">🗓️ Duben–Červenec YoY</button>
+  <button class="nav-btn" onclick="showPage('cc-care',this)">📨 Customer care</button>
 </nav>
 
 <!-- KRAJ MAPA -->
@@ -682,6 +683,7 @@ const AJ_LOSSES   = [{"name": "Nafukovací vířivá vana NetSpa BOHEMIAN", "r25
 const BROM_MONTHLY= [{"m": 1, "mon": "Led", "q25": 7, "q26": 3}, {"m": 2, "mon": "Úno", "q25": 8, "q26": 3}, {"m": 3, "mon": "Bře", "q25": 7, "q26": 24}, {"m": 4, "mon": "Dub", "q25": 11, "q26": 13}, {"m": 5, "mon": "Kvě", "q25": 13, "q26": 52}, {"m": 6, "mon": "Čvn", "q25": 21, "q26": 51}, {"m": 7, "mon": "Čvc", "q25": 23, "q26": 95}, {"m": 8, "mon": "Srp", "q25": 10, "q26": 8}];
 const BROM_DAILY  = [{"day": "01.08.", "q": 5}, {"day": "02.07.", "q": 1}, {"day": "02.08.", "q": 3}, {"day": "03.07.", "q": 2}, {"day": "07.07.", "q": 2}, {"day": "08.07.", "q": 4}, {"day": "09.07.", "q": 3}, {"day": "10.07.", "q": 2}, {"day": "12.07.", "q": 2}, {"day": "13.07.", "q": 2}, {"day": "14.07.", "q": 3}, {"day": "16.07.", "q": 1}, {"day": "18.07.", "q": 1}, {"day": "21.07.", "q": 1}, {"day": "22.07.", "q": 2}, {"day": "25.07.", "q": 1}, {"day": "26.07.", "q": 6}, {"day": "27.07.", "q": 9}, {"day": "28.07.", "q": 8}, {"day": "29.07.", "q": 21}, {"day": "30.07.", "q": 13}, {"day": "31.07.", "q": 11}];
 const BROM_KPI    = {"q25_tot": 144, "q26_tot": 249, "rev25": 133043, "rev26": 217575, "jul25": 23, "jul26": 95, "peak_day": "29.07.", "peak_q": 21};
+const CC          = {"total_cust": 13164, "cat_year": [{"cat": "Faktury a doklady", "key": "faktura-doklady", "total": 2535, "years": {"2018": 7, "2019": 73, "2020": 107, "2021": 205, "2022": 192, "2023": 410, "2024": 601, "2025": 517, "2026": 423}}, {"cat": "Dotazy k produktům", "key": "dotaz-produkt", "total": 2287, "years": {"2018": 8, "2019": 33, "2020": 53, "2021": 85, "2022": 91, "2023": 132, "2024": 606, "2025": 666, "2026": 613}}, {"cat": "Stav objednávky / doprava", "key": "stav-objednavky-doprava", "total": 1929, "years": {"2018": 5, "2019": 46, "2020": 61, "2021": 149, "2022": 104, "2023": 250, "2024": 335, "2025": 410, "2026": 569}}, {"cat": "Reklamace", "key": "reklamace", "total": 1686, "years": {"2018": 1, "2019": 31, "2020": 74, "2021": 349, "2022": 172, "2023": 199, "2024": 286, "2025": 257, "2026": 317}}, {"cat": "Objednávky — změny, storna", "key": "objednavka-obecne", "total": 1279, "years": {"2018": 11, "2019": 27, "2020": 61, "2021": 102, "2022": 111, "2023": 172, "2024": 314, "2025": 208, "2026": 273}}, {"cat": "Ostatní", "key": "ostatni", "total": 1116, "years": {"2018": 19, "2019": 40, "2020": 106, "2021": 120, "2022": 124, "2023": 191, "2024": 165, "2025": 188, "2026": 163}}, {"cat": "Poradna (voda, chemie)", "key": "poradna-bazen", "total": 970, "years": {"2018": 4, "2019": 50, "2020": 77, "2021": 114, "2022": 112, "2023": 133, "2024": 180, "2025": 155, "2026": 145}}, {"cat": "Platby", "key": "platba", "total": 782, "years": {"2018": 5, "2019": 7, "2020": 28, "2021": 40, "2022": 42, "2023": 110, "2024": 287, "2025": 126, "2026": 137}}, {"cat": "Vrácení / odstoupení", "key": "vraceni-odstoupeni", "total": 233, "years": {"2018": 3, "2019": 7, "2020": 9, "2021": 17, "2022": 18, "2023": 29, "2024": 26, "2025": 47, "2026": 77}}, {"cat": "B2B poptávky", "key": "b2b-poptavka", "total": 166, "years": {"2018": 5, "2019": 8, "2020": 18, "2021": 21, "2022": 24, "2023": 26, "2024": 27, "2025": 23, "2026": 14}}, {"cat": "Odhlášení z newsletteru", "key": "odhlaseni-newsletter", "total": 156, "years": {"2018": 0, "2019": 1, "2020": 3, "2021": 6, "2022": 7, "2023": 6, "2024": 5, "2025": 13, "2026": 115}}, {"cat": "Reakce na marketing", "key": "marketing-reply", "total": 25, "years": {"2018": 0, "2019": 3, "2020": 3, "2021": 2, "2022": 6, "2023": 7, "2024": 3, "2025": 1, "2026": 0}}], "resp": [{"b": "do 15 min", "n": 2917}, {"b": "15–60 min", "n": 2814}, {"b": "1–3 h", "n": 2059}, {"b": "3–8 h", "n": 934}, {"b": "8–24 h", "n": 1992}, {"b": "1–3 dny", "n": 603}, {"b": "3+ dny", "n": 284}], "median_resp": 1.05, "hour": [1, 0, 0, 2, 3, 0, 31, 465, 584, 1117, 1948, 1788, 1527, 1358, 1378, 1128, 743, 345, 194, 177, 202, 119, 48, 6], "wday": [2983, 2670, 2401, 2357, 1899, 178, 676], "agents": [{"agent": "Dana Vlachová", "n": 5622, "med_resp": 0.78}, {"agent": "Barbora Stix", "n": 2330, "med_resp": 0.95}, {"agent": "Tomáš Fuka", "n": 623, "med_resp": 3.3}, {"agent": "Šarše", "n": 598, "med_resp": 0.32}, {"agent": "Lucie Slamová", "n": 215, "med_resp": 2.18}, {"agent": "Barbora Metelková", "n": 168, "med_resp": 1.7}, {"agent": "Anežka Merellová", "n": 93, "med_resp": 2.52}, {"agent": "Iva Prokešová", "n": 53, "med_resp": 3.38}], "phrases": [{"cat": "Faktury a doklady", "key": "faktura-doklady", "items": [{"p": "zaslání faktury", "n": 387}, {"p": "bazénová chemie", "n": 368}, {"p": "chemie příslušenství", "n": 362}, {"p": "vaše objednávka", "n": 273}, {"p": "příslušenství objednávka", "n": 260}, {"p": "objednávka byla", "n": 241}, {"p": "byla přijata", "n": 240}, {"p": "faktura objednávku", "n": 149}]}, {"cat": "Dotazy k produktům", "key": "dotaz-produkt", "items": [{"p": "dotaz produktu", "n": 2819}, {"p": "info dotaz", "n": 1256}, {"p": "bazénová chemie", "n": 1225}, {"p": "chemie příslušenství", "n": 1220}, {"p": "produktu jméno", "n": 730}, {"p": "příslušenství dotaz", "n": 649}, {"p": "url https", "n": 581}, {"p": "produktu 2025", "n": 552}]}, {"cat": "Stav objednávky / doprava", "key": "stav-objednavky-doprava", "items": [{"p": "bazénová chemie", "n": 289}, {"p": "chemie příslušenství", "n": 283}, {"p": "vaše objednávka", "n": 221}, {"p": "dotaz produktu", "n": 179}, {"p": "señor hlásí", "n": 153}, {"p": "máte doma", "n": 124}, {"p": "doma balík", "n": 124}, {"p": "příslušenství objednávka", "n": 119}]}, {"cat": "Reklamace", "key": "reklamace", "items": [{"p": "reklamace solární", "n": 190}, {"p": "závěr reklamace", "n": 180}, {"p": "solární sprchy", "n": 177}, {"p": "faktura objednávku", "n": 116}, {"p": "původní mail", "n": 103}, {"p": "reklamace obj", "n": 86}, {"p": "původní zpráva", "n": 80}, {"p": "reklamace objednávky", "n": 64}]}, {"cat": "Poradna (voda, chemie)", "key": "poradna-bazen", "items": [{"p": "bazénová chemie", "n": 107}, {"p": "chemie příslušenství", "n": 97}, {"p": "regenerační sůl", "n": 53}, {"p": "posypová sůl", "n": 46}, {"p": "příslušenství objednávka", "n": 42}, {"p": "cenovou nabídku", "n": 40}, {"p": "vaši objednávku", "n": 36}, {"p": "vážený zákazníku", "n": 35}]}, {"cat": "Platby", "key": "platba", "items": [{"p": "platební údaje", "n": 207}, {"p": "údaje objednávce", "n": 198}, {"p": "bazénová chemie", "n": 132}, {"p": "chemie příslušenství", "n": 129}, {"p": "příslušenství objednávka", "n": 95}, {"p": "původní mail", "n": 47}, {"p": "vaše objednávka", "n": 43}, {"p": "objednávka byla", "n": 41}]}, {"cat": "Vrácení / odstoupení", "key": "vraceni-odstoupeni", "items": [{"p": "odstoupení smlouvy", "n": 42}, {"p": "vaše objednávka", "n": 23}, {"p": "bazénová chemie", "n": 14}, {"p": "chemie příslušenství", "n": 14}, {"p": "připravena odeslání", "n": 14}, {"p": "señor hlásí", "n": 13}, {"p": "máte doma", "n": 13}, {"p": "doma balík", "n": 13}]}], "samples": [{"cat": "Reklamace", "key": "reklamace", "items": [{"subject": "Dotaz", "customer": "Dobrý den, Děkuji za radu. Kartuše je zajímavá, ale lze použít i v případě, že bazén není vybaven skimmerem? Ještě teď o víkendu zkusím pořádně ručním vysavačem mimo filtr do odpadu, resp. na zahradu, odpad - jímka je dosti daleko. Předpokládám, že přípravek (vločkovač..) není \"závadný\" a v bazénu se dá i přes výskyt vloček koupat? Letos poprvé za 5let se", "reply": "Pokud není bazén vybaven skimmerem, doporučuji použít shlukovač, aplikace kartuše je v takovém případě technologicky standardně neproveditelná. Vyvločkované nečistoty jsou spíše hlavně senzorický problém, nikoliv primárně zdraví ohrožující, na druhou stranu je to stav, kdy nečistoty zůstávají dále v bazénové vodě a mohou druhotně podporovat nežádoucí mikrobiální oživení a zhoršení kvality bazénové vody. Přeji Vám též", "resp": 0.23, "agent": "Dana", "year": "2024"}, {"subject": "😍 Naše bestsellery za měsíc duben", "customer": "Jasne, ja nerikam ze se material nejak trepi, to ne, spis narazim na to ze mi neprijde realna jeho vydrz v exterieru (stale stridani teplot, dest, chlad, slunecni zareni, povetrnostni podminky, UV atd). Pokud se poskozeni materialu ktere skutecne vzhledem k subtilnosti ocekavam objevi behem zakonne lhuty, vratite mi v ramci reklamace penize? Jak rikam uprimne b", "reply": "V případě reklamace zboží postupujeme vždy v souladu s platnou legislativou, z čehož mimo jiné plyne, že výsledek konkrétního reklamačního řízení nemohu žádným způsobem předjímat. Děkuji za pochopení Vlachová", "resp": 0.08, "agent": "—", "year": "2022"}, {"subject": "[obj. číslo] - reklamace solární sprchy", "customer": "Dobrý den, Rozbor vody z vodárny se dělá každý den a zapisuje se do tabulky, která se archyvuje, ne jenom tvrdost, ale spousta dalších hodnot. To jestli dělám něco zbytečně, nebo ne, nechte na mně, cítím se poškozený a chci do budoucna ochránit i jiné zákazníky, kteří by si na vašich stránkách něco objednali. Je zvláštní, že když jsem si sprchu objedná", "reply": "Dobrý den, na základě dohody o narovnání mezi servisem dovozce a proběhne výměna vnitřních rozvodu zcela zdarma. Toto je vstřícný krok, který bylo velmi složité vyjednat. Sprcha bude po opravě zaslána na Vaši adresu. Děkuji S pozdravem a přáním hezkého dne Tomáš Fuka", "resp": 21.65, "agent": "Tomáš", "year": "2025"}]}, {"cat": "Dotazy k produktům", "key": "dotaz-produkt", "items": [{"subject": "Jaká éčka v potravinách škodí nejvíce? - Úvod | ASKLEPION s.r.o.", "customer": "Dobrý den ! Děkuji za odpověď . Vzhledem k tomu, ze se věnuji několik let jako poradce zdravého životního stylu a dopadu různých látek a věci na zdraví , vím i o nanotechnologii. Jednak ohledně vámi napsané rozboru soli, legislativu a dopadu na zdraví ….. absolutně není uvedeno, ze naše legislativa mela podstatně přísnější podmínky než nastavila stupidní EU pro", "reply": "V příloze zasílám fotografii produktu jemné soli Solivary. V popisu na obrázku je v druhém řádku uvedeno, že obsahuje protihrudkující látku E535. Znovu opakuji, že tato látka je legislativně povolenou přídatnou látkou a nepředstavuje zdravotní riziko. https://www.ferpotravina.cz/seznam-ecek/E535 Děkuji za pochopení Ing. Dana Vlachová", "resp": 2.65, "agent": "Dana", "year": "2021"}, {"subject": "Dotaz", "customer": "Dobrý den, Ještě prosím o radu, lze dodat solární plachtu na míru? Koukám, že máte např. Solární plachta kód 377, ovál 5,50 x 3,70 m - fólie 180 mic modrá, potřeboval bych cca 4,6x2,8m (ovál). Jaká by byla cena? Nebo lze plachtu 5,50x3,70 ustříhnout? Děkuji. S pozdravem / Best Regards / Mit freundlichen Grüßen Jaroslav Nedbal business directo", "reply": "Dobrý den, ano, solární plachtu je možné tvarovat nůžkami, netřepí se. V odkazu níže naleznete veškeré plachty (solární i zazimovací(, které vyrábíme na přání: https://www.chlorito.cz/vyhledavani/?string=v%C3%BDroba+na+p%C5%99%C3%A1n%C3%AD Cena bude spočítána po zadání rozměru. Dkěuji Dana Vlachová", "resp": 0.62, "agent": "Dana", "year": "2024"}, {"subject": "🤩 Tyto informace ocení každý majitel vířivky", "customer": "Omlouvám se, odesílám přílohou fotografie ještě jednou. Snad už to bude v pořádku. Předem děkuji S pozdravem Martin Malý Velké náměstí 3, [PSČ] Prachatice www.prachatice.eu tel.: +420 [obj. číslo] fax: +420 [obj. číslo] ------ Původní zpráva ------ Od: [e-mail] Komu: \"Martin Malý\" <[e-mail]Odesláno: 02.05.2022 14:02:59", "reply": "Děkuji. Jak je vířivka stará? Tedy ve smyslu - jak dlouho ji provozujete? Jak často provádítě šokové nachlorování v rámci čištění vnitřních rozvodů vířivky? Tento krok je poměrně důležitý, aby skutečně došlo k odstraněnní nežádoucích biofilnů či povlaků z do vody vnesených nečistot (mastnota z kosmetických tělových přípravků apod) i z povrchů vnitřních rozvodů vířivky. Druhá věc: Výsledky rozboru vody neukazují na žá", "resp": 0.82, "agent": "—", "year": "2022"}]}, {"cat": "Stav objednávky / doprava", "key": "stav-objednavky-doprava", "items": [{"subject": "⭐ Sůl nad zlato, aneb základní údržba bazénu", "customer": "Dobrý den přeji, udělala jsem objednávku na \"chemii\" a sůl, e-shop mi napsal 2 x dopravné, jednou na \"chemii a jednou na sůl. Proč??. Jednalo se o jednu objednávku a u stejného dodavatele, tomu nerozumím já, bohužel. Děkuji předem za vysvětlení a přeji Hezký den Jirková St. -----Original Message----- From: [e-mail] [mailto:[e-mail]]", "reply": "Je to proto, že v takovém případě při rozdělení objednávky mezi dva přepravce platíte celkově za dopravu méně, než kdyby celou zásilku přepravoval jen přepravce bazénové chemie. Sůl není z pohledu silniční přepravy nebezpečná látka, většina přípravků bazénové chemie ale bohužel ano. Děkuji Chlorito", "resp": 3.92, "agent": "—", "year": "2022"}, {"subject": "⭐ Sůl nad zlato, aneb základní údržba bazénu", "customer": "Dobrý den přeji, děkuji mnohokráte za zásilku i zasílání informací o Vašich produktech. Nedá mi však abych Vám nenapsala svoji nemilou zkušenost. Původně jsem chtěla objednat i mořskou sůl, ale poté, co jsem zjistila, že je nutné platit dvoje poštovné jsem od tohoto úmyslu upustila. Škoda, mohla jsem být spokojená já a vy mít dalšího více jak spokojeného", "reply": "Dobrý den, děkujiza Vaše vyjádření. Nerozumím výrazu \"dvoje poštovné\"- co máte na mysli? Děkuji Chlorito", "resp": 11.08, "agent": "—", "year": "2022"}, {"subject": "🤩 Tyto informace ocení každý majitel vířivky", "customer": "Vážený dodavateli, při osobním vyzvednutí si své objednávky v předminulém týdnu mi bylo po vzájemné konzultaci s příjemnou dámou doporučeno abych se se svým dotazem zeptal písemně Vašeho odborníka přes chemii a čištění vířivek. Jsem vlastníkem laminátové vířivé vany provozované v interiéru o objemu 1 m3. Vystřídal jsem několik způsobů chemické úpravy vody, ale", "reply": "Děkuji za podrobné info, zašlete, prosím, fotografie, jak voda před a po zhoršení kvality vypadá. Děkuji Vlachová", "resp": 12.25, "agent": "—", "year": "2022"}]}, {"cat": "Poradna (voda, chemie)", "key": "poradna-bazen", "items": [{"subject": "Dotaz", "customer": "Dobrý den, Ručním vysavačem* nejprve přes filtraci (chybně řekl bych?) Poté přepnutím ventilu do odpadu - zde drobné zlepšení... Vločky jsou tak velikosti 2-3mm (viditelné) sediment na dně spíše povlak shluk vloček, nevím zdali půjde vyfotit. Právě že jsem koukal, že poloautomaty vyžadují min. 6000l/h, tak dotaz směřoval zdali je něco k použití se stáv", "reply": "Dobrý den, pokud vysáváte nečistoty přes filtrační lože, může se část při průchodu filtračním ložem rozbít na malé částice a vracet zpět. Pokud je to možné, je lépe vysát je přímo do odpadu. Máte na mysli tyto modely námi nabízených trojúhelníkových vysavačů - viz odkaz? https://www.chlorito.cz/vyhledavani/?string=triangle Ve všech produktech s odakzu se jedná o hlavice ručních vysavačů, které samy o sobě usnadňují č", "resp": 18.38, "agent": "Dana", "year": "2024"}, {"subject": "Una tableta týdně. Señor Chlorito přísahá 🐬", "customer": "Dobrý den, vše pro bazén odebírám již jen od Vás ( jste nejlepší )- mé objednávky v prodejně vyzvedává syn; občas se z pracovních důvodů nedaleko vyskytuje. Je nutné, abych vždy předem na Vašem e-shopu požadované objednala, nebo běžné prostředky ( chloršok, tablety, Ph ap. ) lze zakoupit bez předchozí objednávky ? S díky a přáním krásných prázdnin Lenka P", "reply": "Dobrý den, [oslovení], děkuji za Vaše vlídná slova. Na výdejním místě Vás rádi obsloužíme i bez předchozí objednávky, na místě je možné platit hotově nebo kartou. Běžné zboží je standardně skladem, méně obvyklé produkty- např. tepelná čerpadla, některé typy solárních sprch apod. - mají uvedenu na eshopu skladovou dostupnost Externí sklad - tam je třeba objednávku předem zadat. Ještě jednou děkuji a těší mne, že jst", "resp": 0.2, "agent": "Dana", "year": "2026"}, {"subject": "🐬 Seňor Chlorito radí: díl 6. - to nejlepší, co vám nesmí chybět", "customer": "Hezký den, Žádnou stížnost jsem neposílal, jak jste pochopila, uměl jsem si poradit, byť za cenu 2x zbytečného filtrování bazénu s chloršokem + vločkovačem. Bohužel až následně jsem totiž přišel na to, že stanovení PH loňským testerem a letošním se liší o 0,6 stupňů ¨(6,8 / 7,4), takže musím jen zpochybnit vaší větu \" Reagenční činidlo v tomto testeru je sta", "reply": "Rozumím tomu, co píšete, jen tam nevidím nic o odběru vzorku, jeho homogenizaci, provedení stanovení, odečtení výsledků, skladování reagenčních činidel apod. To není vůbec míněno ve zlém, ale je poměrně jednoduché konstatovat, že něco nefunguje správně, aniž by byly známy všechny okolnosti. K výroku o stabilitě činidla mne vedou následující skutečnosti: - reagenční činidla pro stanovení hodnoty pH z různých let máme", "resp": 0.17, "agent": "Dana", "year": "2021"}]}, {"cat": "Faktury a doklady", "key": "faktura-doklady", "items": [{"subject": "FW: oprava", "customer": "Dobrý den, Opravit adresu, naleznete v příloze. S pozdravem Miroslava NOVOTNÁ Receptionist ATALIAN M: [telefon] www.atalian.cz -----Original Message----- From: [e-mail] <[e-mail]Sent: Tuesday, July 14, 2020 1:21 PM To: Marek Šubr <[e-mail]Cc: Faktury CZ ATAL <[e-mail]", "reply": "Dobrý den, neberte, prosím, na mail níže zřetel, byl Vám odeslán omylem, jedná se o komunikaci s jiným zákazníkem. Děkuji za pochopení Vlachová", "resp": 0.35, "agent": "—", "year": "2020"}, {"subject": "[EXT] objednávka Tabletová sůl 25 kg Soliwary", "customer": "Dobrý den, Posílám PrintSC požadavku na objednávku zadaný v našem systému (předběžné DD 14.03.2024) Až budu mít vygenerované číslo objednávky, pošlu ho, abyste mohli uvést na fakturu. Adresa dodání Distribuční centrum Kozomín MAKRO Cash & Carry ČR s.r.o. Jaroslava Ďoubalová Kozomín 504 [PSČ] Kozomín Předem děkuji S pozdravem", "reply": "Dobrý den, zadanou objednávku posílám v příloze, poprosím o kontrolu údaju. S odesláním počkáme na Vaše číslo objednávky. hezký den Stix", "resp": 18.08, "agent": "Barbora", "year": "2024"}, {"subject": "[EXT] objednávka Tabletová sůl 25 kg Soliwary", "customer": "Dobrý den, V příloze posílám objednávku [obj. číslo] S pozdravem Jaroslava Ďoubalová Financial Officer Financial Department MAKRO Cash & Carry ČR s.r.o. Postal Address Jeremiášova 1249/7, Praha 5, [PSČ] Czech Republic Mobile +420 [obj. číslo] / E-Mail [e-mail] -----Original Message----- From: [e-mail]", "reply": "Cc: [e-mail] Dobrý den, v příloze posílám fakturu za odeslané zboží. Hezký den Metelková", "resp": 0.28, "agent": "Barbora", "year": "2020"}]}, {"cat": "Vrácení / odstoupení", "key": "vraceni-odstoupeni", "items": [{"subject": "[Chlorito] Objednávka [obj. číslo]", "customer": "Jak můžete mluvit a o vyšších koncentracích chloru, když je to přesně naopak - chloru je ve vodě minimum a dle vašeho vzorkovníku není možné určit hodnotu pH.!!! A ať by byla hodnota chloru jakkoliv vysoká, nemá to mít vliv na určení hodnoty pH. A o postupech ošetření vody mě nemusíte poučovat, znám je dobře a o rady jsem vás nežádala. Žádala jsem o vráce", "reply": "Dobrý den, děkujeme za informaci a omlouváme se za komplikace. Rozhodně Vás kolegyně neměla poučovat či vysvětlovat, to je od ní minimálně lehkovážné. Měla Vám hned vyjít vstříc a nic více neřešit, tak jak jsem učinil já, když jsem zjistil, jaký máte problém. Ještě jednou se omlouvám. Děkuji S pozdravem a přáním hezkého dne Tomáš Fuka", "resp": 8.27, "agent": "Tomáš", "year": "2026"}, {"subject": "[Bazénová chemie a příslušenství | Chlorito.cz] Objednávka [obj. číslo]", "customer": "Dobrý den, děkuji tedy za vysvětlení a asi se nedá dělat nic jiného, než jej akceptovat. Nicméně svou trubku jsem uchytil jiným způsobem, neboť nevěřím, že nějaký plast dlouhodobě vydrží pnutí 6 mm aniž by dříve nebo později praskl. A to i kdyby přežil samotné nasazení na trubku. Navíc protékající voda vytváří trvalé vibrace. S pozdravem Miroslav Rabas Dne 1", "reply": "Děkuji. Neevidujeme s Vámi popsaným problémem žádnou reklamci či připomínku zákazníka. Svorky jsou robustní a plní svůj účel. Pokud jste se přesto rozhodl zboží nevyužít, můžete nám je do 14 dnů od obdržení zaslat zpět spolu s vyplněným formulářem pro odstoupení od smlouvy - viz příloha. Následně Vám samozřejmě vrátím zpět částku za zboží. Děkuji a přeji pěkný den Ing. Dana Vlachová", "resp": 0.6, "agent": "Dana", "year": "2025"}, {"subject": "Vaše [obj. číslo] připravena k odeslání", "customer": "Dobrý den, dle tel.dotstu posílám odkaz na filtr a potřeboval bych rozměry.Dekuji https://www.chlorito.cz/kartusovy-filtr-premium-zap-skim-hruby-zav--1ks/ Prosím o zaslání adresy,na kterou poslat zpět ty ventily. Děkuji S pozdravem Ladislav Fréhar ____________ Původní zpráva: ___________ Od: [e-mail] Komu: [e-mail]", "reply": "Dobrý den, adresa pro vrácení zboží je Podnikatelská 565, praha [PSČ] Běchovice. Rozměr kartušobvého filtru \" průměr jhe 14,5cm, výška je 18cm bez závitu, zívit je vysoký 1,6cm Průměr závitu vnitřní 5cm, vnější 5,5cm. Hezký den Stix", "resp": 89.98, "agent": "Barbora", "year": "2025"}]}], "markers": {"greet_pct": 81.4, "thank_pct": 66.5, "sorry_pct": 8.0, "sign_pct": 36.7, "formal_pct": 22.5, "reklam_sorry_pct": 19.0, "n": 13132}, "years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"]};             // customer care data
 
 // ─── NAVIGACE ───
 function showPage(id, btn){
@@ -696,6 +698,7 @@ function showPage(id, btn){
   if(id==='pred-presnost') renderBacktest();
   if(id==='mj-yoy') renderMJ();
   if(id==='aj-yoy') renderAJ();
+  if(id==='cc-care') renderCC();
 }
 
 // ─── TOGGLE HISTORICKÁ DATA ───
@@ -3198,6 +3201,130 @@ window.ajToggleCat=function(ci){
   if(arr) arr.textContent=open?'▾':'▸';
 };
 
+// ═══════════════════════════════════════════
+// ─── CUSTOMER CARE ───
+// ═══════════════════════════════════════════
+let _ccDone=false;
+function renderCC(){
+  if(_ccDone) return; _ccDone=true;
+  if(!CC || !CC.cat_year){ document.getElementById('cc-catyear-wrap').innerHTML='<p style="color:#aaa">Data nedostupná.</p>'; return; }
+  const M=CC.markers;
+
+  // ── KPI ──
+  document.getElementById('cc-kpi-wrap').innerHTML=`
+    <div style="flex:1;min-width:150px;background:#f8f9fa;border-radius:10px;padding:14px 18px;border:1.5px solid #e8edf3">
+      <div style="font-size:10px;color:#888;text-transform:uppercase">Zákaznických e-mailů</div>
+      <div style="font-size:22px;font-weight:800;margin:3px 0">${CC.total_cust.toLocaleString('cs-CZ')}</div>
+      <div style="font-size:11px;color:#888">2018–2026, klasifikováno</div></div>
+    <div style="flex:1;min-width:150px;background:#e8f5e9;border-radius:10px;padding:14px 18px;border:1.5px solid #a5d6a7">
+      <div style="font-size:10px;color:#555;text-transform:uppercase">Medián doby odezvy</div>
+      <div style="font-size:22px;font-weight:800;margin:3px 0;color:#2e7d32">${CC.median_resp} h</div>
+      <div style="font-size:11px;color:#888">${CC.resp[0].n.toLocaleString('cs-CZ')} do 15 min</div></div>
+    <div style="flex:1;min-width:150px;background:#fff3e0;border-radius:10px;padding:14px 18px;border:1.5px solid #ffcc80">
+      <div style="font-size:10px;color:#888;text-transform:uppercase">Pozdrav v odpovědi</div>
+      <div style="font-size:22px;font-weight:800;margin:3px 0;color:#e65100">${M.greet_pct} %</div>
+      <div style="font-size:11px;color:#888">rozloučení ${M.sign_pct} %</div></div>
+    <div style="flex:1;min-width:150px;background:#fce4ec;border-radius:10px;padding:14px 18px;border:1.5px solid #ef9a9a">
+      <div style="font-size:10px;color:#c62828;text-transform:uppercase;font-weight:700">Omluva u reklamací</div>
+      <div style="font-size:22px;font-weight:800;margin:3px 0;color:#c62828">${M.reklam_sorry_pct} %</div>
+      <div style="font-size:11px;color:#c62828">jen 1 z 5 → prostor ke zlepšení</div></div>`;
+
+  // ── 1) KATEGORIE × ROK (heatmapa) ──
+  const YEARS=CC.years;
+  let maxCell=0; CC.cat_year.forEach(c=>YEARS.forEach(y=>{ if(c.years[y]>maxCell) maxCell=c.years[y]; }));
+  let h=`<table style="border-collapse:collapse;font-size:11px;width:100%;min-width:640px"><thead><tr style="background:#e8f0fe">
+    <th style="padding:6px 8px;text-align:left;position:sticky;left:0;background:#e8f0fe">Kategorie</th>`;
+  YEARS.forEach(y=>h+=`<th style="padding:6px 6px;text-align:center">${y}</th>`);
+  h+=`<th style="padding:6px 8px;text-align:right">Celkem</th></tr></thead><tbody>`;
+  CC.cat_year.forEach(c=>{
+    h+=`<tr><td style="padding:5px 8px;font-weight:600;position:sticky;left:0;background:#fff">${c.cat}</td>`;
+    YEARS.forEach(y=>{
+      const v=c.years[y]||0; const pct=maxCell?v/maxCell:0;
+      const bg=v?`rgba(21,101,192,${(0.08+pct*0.82).toFixed(2)})`:'#fafafa';
+      const tc=pct>0.55?'#fff':'#333';
+      h+=`<td style="padding:5px 4px;text-align:center;background:${bg};color:${tc};font-variant-numeric:tabular-nums">${v||''}</td>`;
+    });
+    h+=`<td style="padding:5px 8px;text-align:right;font-weight:700">${c.total.toLocaleString('cs-CZ')}</td></tr>`;
+  });
+  h+='</tbody></table>';
+  document.getElementById('cc-catyear-wrap').innerHTML=h;
+  // interpretace růstu
+  const dp=CC.cat_year.find(c=>c.key==='dotaz-produkt');
+  const rek=CC.cat_year.find(c=>c.key==='reklamace');
+  document.getElementById('cc-catyear-note').innerHTML=`<div style="background:#f0f7ff;border-left:4px solid #1565C0;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#444;line-height:1.6;margin-top:10px">
+    📈 <b>Dotazy k produktům</b> strmě rostou (${dp?dp.years['2024']:''} → ${dp?dp.years['2025']:''} → ${dp?dp.years['2026']:''} za posl. roky) — odpovídá růstu tržeb, ale i chybějícím informacím v popisech produktů. <b>Reklamace</b> zůstávají stabilní (~${rek?rek.years['2026']:''}/rok) i přes +50 % objednávek = <b>relativně klesající reklamovost</b>, dobrý signál kvality.</div>`;
+
+  // ── doba odezvy (bar) ──
+  const maxR=Math.max(...CC.resp.map(x=>x.n));
+  let rb='<div style="display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:8px">';
+  CC.resp.forEach((x,i)=>{
+    const hh=Math.round(x.n/maxR*95); const c=i<=2?'#2e7d32':i<=4?'#f9a825':'#c62828';
+    rb+=`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="font-size:9px;color:#888">${x.n.toLocaleString('cs-CZ')}</div>
+      <div title="${x.b}: ${x.n}" style="width:100%;height:${hh}px;min-height:2px;background:${c};border-radius:3px 3px 0 0"></div>
+      <div style="font-size:8.5px;color:#888;text-align:center">${x.b}</div></div>`;
+  });
+  rb+='</div>';
+  document.getElementById('cc-resp-wrap').innerHTML=rb;
+
+  // ── agenti ──
+  let ag='<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#e8f0fe"><th style="padding:6px 10px;text-align:left">Operátorka</th><th style="padding:6px 10px;text-align:right">Vyřízeno</th><th style="padding:6px 10px;text-align:right">Medián odezvy</th></tr></thead><tbody>';
+  const maxA=Math.max(...CC.agents.map(a=>a.n));
+  CC.agents.forEach(a=>{
+    const bw=Math.round(a.n/maxA*70);
+    ag+=`<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:6px 10px;font-weight:600">${a.agent}</td>
+      <td style="padding:6px 10px;text-align:right"><div style="display:flex;align-items:center;gap:6px;justify-content:flex-end"><div style="width:${bw}px;height:6px;background:#1565C0;border-radius:3px;min-width:2px"></div><b>${a.n.toLocaleString('cs-CZ')}</b></div></td>
+      <td style="padding:6px 10px;text-align:right;color:${a.med_resp!=null&&a.med_resp<=2?'#2e7d32':'#e65100'}">${a.med_resp!=null?a.med_resp+' h':'—'}</td></tr>`;
+  });
+  ag+='</tbody></table>';
+  document.getElementById('cc-agents-wrap').innerHTML=ag;
+
+  // ── 2) FRÁZE ──
+  let ph='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px">';
+  CC.phrases.forEach(cat=>{
+    if(!cat.items.length) return;
+    ph+=`<div style="background:#f8f9fa;border-radius:8px;padding:11px 13px;border:1px solid #e8e8e8">
+      <div style="font-size:11px;font-weight:700;color:#1565C0;margin-bottom:6px">${cat.cat}</div>`;
+    cat.items.slice(0,6).forEach(x=>{
+      ph+=`<div style="font-size:11px;color:#444;display:flex;justify-content:space-between;padding:2px 0"><span>${x.p}</span><span style="color:#aaa">${x.n}×</span></div>`;
+    });
+    ph+='</div>';
+  });
+  ph+='</div>';
+  document.getElementById('cc-phrases-wrap').innerHTML=ph;
+
+  // ── 2b) UKÁZKY MAILŮ (anonymizované) ──
+  let sm='';
+  CC.samples.forEach(cat=>{
+    if(!cat.items.length) return;
+    sm+=`<div style="font-weight:700;font-size:13px;color:#444;margin:16px 0 8px">${cat.cat}</div>`;
+    cat.items.forEach(it=>{
+      const rc=it.resp!=null?(it.resp<=1?'#2e7d32':it.resp<=8?'#e65100':'#c62828'):'#999';
+      sm+=`<div style="border:1px solid #e8e8e8;border-radius:10px;padding:12px 14px;margin-bottom:10px;background:#fff">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+          <span style="font-size:11px;font-weight:700;color:#555">${it.subject||'(bez předmětu)'}</span>
+          <span style="font-size:10px;color:${rc}">odezva ${it.resp!=null?it.resp+' h':'—'} · ${it.agent} · ${it.year}</span></div>
+        <div style="background:#f4f6fb;border-radius:8px;padding:8px 11px;font-size:12px;color:#333;line-height:1.6;margin-bottom:6px"><b style="color:#1565C0">👤 Zákazník:</b> ${it.customer}…</div>
+        <div style="background:#eef7f0;border-radius:8px;padding:8px 11px;font-size:12px;color:#333;line-height:1.6"><b style="color:#2e7d32">💬 Operátorka:</b> ${it.reply}…</div>
+      </div>`;
+    });
+  });
+  document.getElementById('cc-samples-wrap').innerHTML=sm;
+
+  // ── 3) ZDVOŘILOST / BEST PRACTICE ──
+  const bar=(label,pct,good)=>{
+    const c=pct>=good?'#2e7d32':pct>=good*0.7?'#f9a825':'#c62828';
+    return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${label}</span><b style="color:${c}">${pct} %</b></div>
+      <div style="height:8px;background:#eee;border-radius:4px;overflow:hidden"><div style="width:${pct}%;height:8px;background:${c}"></div></div></div>`;
+  };
+  document.getElementById('cc-markers-wrap').innerHTML=
+    bar('Pozdrav („Dobrý den…")',M.greet_pct,95)+
+    bar('Poděkování',M.thank_pct,60)+
+    bar('Rozloučení („Hezký den / S pozdravem")',M.sign_pct,80)+
+    bar('Omluva/empatie u REKLAMACÍ',M.reklam_sorry_pct,60)+
+    bar('Vykání (Vám/Vás)',M.formal_pct,50);
+}
+
 let _acqRendered = false;
 function renderAcq(){
   if(_acqRendered) return;
@@ -4160,6 +4287,100 @@ function renderHourDow(){
       <div class="fx-card-body" style="padding:16px">
         <p style="font-size:12px;color:#666;margin-bottom:10px">Každý den 2026: co předpověděl každý model a jaká byla realita. <b>Odch.</b> = (predikce/realita − 1). Zelená do ±15 %, oranžová do ±30 %, červená nad. Klikni na záhlaví pro řazení. Žlutě podbarvené = svátek.</p>
         <div id="bt-tbl-wrap" style="overflow-x:auto;max-height:600px;overflow-y:auto"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CUSTOMER CARE ══ -->
+<div id="cc-care" class="page">
+  <div class="fx-section">
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#37474f,#607d8b);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        📨 Customer care — analýza zákaznické komunikace
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <div id="cc-kpi-wrap" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px"></div>
+        <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:8px">O čem zákazníci píší — kategorie × rok</div>
+        <div style="overflow-x:auto"><div id="cc-catyear-wrap"></div></div>
+        <div id="cc-catyear-note"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px">
+          <div><div style="font-weight:700;font-size:13px;color:#444;margin-bottom:8px">Doba odezvy (rychlost odpovědi)</div><div id="cc-resp-wrap"></div></div>
+          <div><div style="font-weight:700;font-size:13px;color:#444;margin-bottom:8px">Operátorky — objem a rychlost</div><div id="cc-agents-wrap"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#1565C0,#42a5f5);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🔤 Typické obraty a fráze podle kategorie
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px"><div id="cc-phrases-wrap"></div></div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#00695C,#26a69a);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        ✉️ Ukázky mailů (anonymizované) — korpus komunikace
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <p style="font-size:12px;color:#666;margin-bottom:12px">Reálné dotazy zákazníků a odpovědi operátorek. Osobní údaje (jména, e-maily, telefony, čísla objednávek, PSČ) jsou <b>anonymizované</b> → <span style="color:#888">[jméno], [e-mail], [telefon], [obj. číslo], [PSČ]</span>.</p>
+        <div id="cc-samples-wrap"></div>
+      </div>
+    </div>
+
+    <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🎓 Hodnocení jako školitel customer care — zdvořilost a best-practices
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:10px">Zdvořilostní markery (podíl odpovědí)</div>
+            <div id="cc-markers-wrap"></div>
+          </div>
+          <div>
+            <div style="background:#e8f5e9;border-radius:10px;padding:13px 16px;border-left:4px solid #2e7d32;margin-bottom:12px">
+              <div style="font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:6px">✅ Co funguje výborně</div>
+              <div style="font-size:12px;color:#333;line-height:1.7">
+                <b>Rychlost je špička</b> — medián odezvy ~1 h, přes 2 900 odpovědí do 15 minut. To je nadstandard, který si zákazníci pamatují.<br>
+                <b>Odbornost poradny</b> — u problémů s vodou má tým ustálený diagnostický protokol (protiotázky, foto, postup). Konzistentní a věcné.
+              </div>
+            </div>
+            <div style="background:#fce4ec;border-radius:10px;padding:13px 16px;border-left:4px solid #c62828">
+              <div style="font-size:13px;font-weight:700;color:#880e4f;margin-bottom:6px">⚠️ Kde ztrácíme body</div>
+              <div style="font-size:12px;color:#333;line-height:1.7">
+                <b>Empatie u reklamací</b> — jen ~19 % odpovědí na reklamaci obsahuje omluvu/uznání. To je největší mezera: naštvaný zákazník potřebuje nejdřív slyšet „mrzí nás to".<br>
+                <b>Rozloučení chybí v ~63 %</b> odpovědí — mail končí uprostřed, působí odseknutě.<br>
+                <b>Pozdrav chybí u ~19 %</b> — základ zdvořilosti.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-weight:700;font-size:13px;color:#4a148c;margin:20px 0 10px">📋 Konkrétní seznam na zlepšení (tréninkový plán)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#c62828">1. Empatie u reklamací je priorita č. 1.</b> Každou odpověď na reklamaci začínat uznáním: „Mrzí nás, že… omlouváme se za způsobené potíže." Cíl: z 19 % na 80 %+. Nachystat 3 empatické otevírací věty.
+          </div>
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#e65100">2. Jednotný podpisový blok.</b> Každý mail zakončit „S pozdravem / Hezký den, <jméno> — Chlorito.cz". Nastavit do šablony e-mailu, ať se to nemusí psát ručně.
+          </div>
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#1565C0">3. Pozdrav vždy.</b> Otevírat „Dobrý den, [oslovení]". Drobnost, ale u 1 z 5 mailů chybí.
+          </div>
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#00695C">4. Knihovna šablon (snippetů).</b> Tým píše ručně stále stejné texty (dvojí doprava, diagnostika zelené vody, Eur-palety, BL). Udělat kniházku hotových odpovědí → rychlejší a konzistentní.
+          </div>
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#6a1b9a">5. Ořezat dlouhý ocas odezvy.</b> Většina je rychlá, ale ~900 mailů čeká přes 24 h. Zavést SLA (např. 100 % do 8 h v sezóně) a hlídat neodpovězené.
+          </div>
+          <div style="background:#f8f9fa;border-radius:8px;padding:12px 15px;border:1px solid #e8e8e8;font-size:12px;line-height:1.7;color:#333">
+            <b style="color:#2e7d32">6. Řešit příčinu, ne jen dotaz.</b> Prudce rostou dotazy k produktům — protože v popisech chybí rozměry, gramáže, BL. Doplnit info na web = méně ticketů (self-service). Deflekce podpory.
+          </div>
+        </div>
+        <div style="background:#ede7f6;border:1.5px solid #b39ddb;border-radius:8px;padding:11px 15px;font-size:12px;color:#4a148c;margin-top:14px;line-height:1.7">
+          <b>Shrnutí školitele:</b> Tým je <b>rychlý a odborný</b> — to je nejtěžší část a tu máte. Chybí <b>měkké dovednosti u negativních situací</b> (omluva, zakončení) a <b>systemizace</b> (šablony, self-service). Tři levné kroky s největším dopadem: empatická otevírací věta u reklamací, jednotný podpis, knihovna šablon.
+        </div>
       </div>
     </div>
   </div>
