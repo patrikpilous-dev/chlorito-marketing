@@ -4388,6 +4388,118 @@ function renderHourDow(){
     </div>
 
     <div class="fx-card">
+      <div class="fx-card-header" style="background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
+        🛒 Co doplnit na produktové karty — top 29 produktů podle dotazů
+      </div>
+      <div class="fx-card-body" style="padding:18px 20px">
+        <style>
+          #cc-prod-sec table.ccp{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 14px}
+          #cc-prod-sec table.ccp th{background:#e3f2fd;color:#0d47a1;text-align:left;padding:6px 9px;font-size:11px;text-transform:uppercase}
+          #cc-prod-sec table.ccp td{padding:6px 9px;border-bottom:1px solid #f0f2f6;vertical-align:top}
+          #cc-prod-sec details{margin-bottom:8px;border:1px solid #e3e8f0;border-radius:8px;overflow:hidden}
+          #cc-prod-sec details summary{cursor:pointer;padding:9px 14px;background:#f8fafd;font-weight:700;font-size:13px}
+          #cc-prod-sec details summary:hover{background:#f0f5ff}
+          #cc-prod-sec details .db{padding:10px 16px;font-size:12.5px;line-height:1.6}
+          #cc-prod-sec .warnbox{background:#ffebee;border-left:4px solid #c62828;border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;font-size:12.5px;line-height:1.65}
+          #cc-prod-sec .recbox{background:#fff8e1;border-left:4px solid #f9a825;border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;font-size:12.5px;line-height:1.65}
+        </style>
+        <div id="cc-prod-sec">
+        <p style="font-size:12px;color:#666;margin-bottom:10px">Hloubková analýza: z citovaných vláken vytaženy URL produktů (6 805 e-mailů s odkazem), sloučeny varianty balení a duplikáty → u top 29 produktových rodin (~2 400 zákaznických dotazů) přečteno, <b>co přesně se lidé ptají, co tým odpovídá a co z toho patří na kartu</b>, aby dotaz vůbec nevznikl. Kompletní detail po produktech: <code>projects\chlorito\customer-care\findings\produkty-*.md</code></p>
+
+        <div class="warnbox"><b>Chyby na webu odhalené dotazy zákazníků (k okamžité opravě):</b>
+          <ol style="margin:6px 0 0 18px">
+            <li><b>pH plus — chybná etiketa:</b> část šarží má vytištěno „sníží hodnotu pH" (potvrzená tisková chyba). Přelepit + první věta popisu „slouží ke ZVÝŠENÍ pH".</li>
+            <li><b>Testovací proužky 5v1:</b> v českém překladu stupnice prohozen řádek chlor × brom. Řešit s dodavatelem + dočasné upozornění na kartě.</li>
+            <li><b>Mořská sůl:</b> duplicitní karty se stejným popisem a různou cenou + dvojí psaní „Margharita/Margherita" v názvech i URL — sloučit, přesměrovat.</li>
+            <li><b>Košík × doprava:</b> 2 doložené případy, kdy košík ukázal dopravu zdarma, která neplatila (PVC trubky; plachta obj. 2026017619) — audit nastavení dopravy v Shoptetu.</li>
+            <li><b>Solární plachty:</b> cenová inkonzistence barev (modrá 180 mic dražší než černá 200 mic; opraveno po dotazu) — projít celou řadu.</li>
+            <li><b>NetSpa Bohemian:</b> český návod neuvádí umístění filtru (v cizojazyčném je).</li>
+            <li><b>Naviják:</b> matoucí údaj „3×2,15 m" — zasunuté tyče reálně měří min. 4,3 m; přepsat popis.</li>
+            <li><b>Čerpadla Preva vs. Optima:</b> totožné produkty pod dvěma názvy — zákazníci se ptají na rozdíl.</li>
+            <li><b>Chlor šok:</b> obal bez data výroby/spotřeby (předmět reklamace „zvětralý produkt").</li>
+          </ol>
+        </div>
+
+        <div style="font-weight:700;font-size:13px;color:#444;margin-bottom:6px">Top produkty: nejčastější dotaz → nejdůležitější doplnění karty</div>
+        <div style="overflow-x:auto">
+        <table class="ccp">
+          <tr><th>Produkt / rodina</th><th>Dotazů</th><th>Nejčastější dotaz</th><th>Nejdůležitější doplnění karty</th></tr>
+          <tr><td>Tabletová regenerační sůl</td><td>220</td><td>vhodnost do myčky/změkčovače, norma</td><td>parametr ČSN EN 973 typ A + FAQ + box eurpaleta (výměna / 250 Kč)</td></tr>
+          <tr><td>Chlornan sodný</td><td>205</td><td>lze jako chlor šok? dávkování?</td><td>FAQ šok 200 ml/10 m³ + parametr 12 % hm. + vysvětlení „ADR" v názvu</td></tr>
+          <tr><td>PVC tvarovky</td><td>179</td><td>závity v palcích — kolik je to mm?</td><td>tabulka závitů (palce+typ+mm) + hotové „sestavy" s nákupním seznamem</td></tr>
+          <tr><td>Multi tablety 6v1</td><td>169</td><td>20 g vs. 200 g na můj bazén</td><td>dávkovací tabulka + srovnání 5v1/6v1/11v1 + FAQ filtrační kuličky</td></tr>
+          <tr><td>pH mínus</td><td>147</td><td>proč platím dopravu, když je „zdarma"?</td><td>box logiky dopravy zdarma u ceny (prokazatelně stojí objednávky)</td></tr>
+          <tr><td>Solární plachty</td><td>118</td><td>jaký rozměr? lze stříhat?</td><td>průvodce výběrem + box „splasknuté bublinky z chemie ≠ vada" + tolerance ±5 %</td></tr>
+          <tr><td>PVC trubky</td><td>118</td><td>cena za metr, nebo za kus?</td><td>„cena za 1 běžný metr" pod cenu + box dopravy dle délky nářezu</td></tr>
+          <tr><td>Solární fólie na míru</td><td>109</td><td>jak zadat rozměry? kdy dorazí?</td><td>návod ke konfigurátoru („m² ≠ kusy") + box výroba 2–14 dní, nelze stornovat</td></tr>
+          <tr><td>Chlor šok</td><td>102</td><td>zelená voda — co a v jakém pořadí?</td><td>číslovaný postup (pH → šok → vločkovač → vysát) sdílený na 4 kartách</td></tr>
+          <tr><td>Navijáky plachet</td><td>93</td><td>výška tyče od země? jsou tam popruhy?</td><td>kótovaný nákres (tyč 40 cm, kolo 62 cm) + „obsah balení: tyč + 8 popruhů"</td></tr>
+          <tr><td>Kapkový tester pH/Cl</td><td>84</td><td>jak číst stupnici? na kolik měření?</td><td>parametry (mg/l, ~120 stanovení, měří i brom) + výklad barev</td></tr>
+          <tr><td>Posypová sůl</td><td>84</td><td>B2B poptávky, zrnitost, BL</td><td>parametr zrnitost 0,2–6 mm + BL ke stažení + sekce „Pro obce a firmy"</td></tr>
+          <tr><td>Solární sprcha Comfort</td><td>76</td><td>netěsnosti, tvrdá voda, zazimování</td><td>výstražný box kvalita plnící vody (nejčastější zdroj eskalovaných reklamací)</td></tr>
+          <tr><td>Čtvercová regen. sůl</td><td>69</td><td>norma? rozdíl vs. tabletová?</td><td>parametr ČSN EN 973 + FAQ „rozdíl je jen tvar a cena"</td></tr>
+          <tr><td>Multi tablety 11v1</td><td>68</td><td>proč jsou levnější než 6v1?</td><td>FAQ původ surovin (ekonomická řada) + parametr 5 ks/kg, jen MAXI</td></tr>
+          <tr><td>Algicid</td><td>68</td><td>lze do slané vody? nahradí chlor?</td><td>FAQ blok (slaná ano / chlor nenahradí / OXY ano) + zápis „100 ml na 10 m³"</td></tr>
+          <tr><td>pH plus</td><td>60</td><td>etiketa říká „sníží" — chyba?</td><td>oprava etikety + FAQ „zákal po aplikaci je normální jev + postup"</td></tr>
+          <tr><td>Multi tablety 5v1</td><td>60</td><td>MINI vs. MAXI? vejde se do plováku?</td><td>štítky „MINI do 15 m³ / MAXI od 15 m³" + parametr Ø tablety 3 cm</td></tr>
+          <tr><td>Vločkovač</td><td>59</td><td>přesný postup? etiketa mate</td><td>číslovaný návod (recirkulace 3–4 h → sedimentace → vysát do odpadu)</td></tr>
+          <tr><td>Mořská sůl Margherita</td><td>55</td><td>musím mít solinátor?</td><td>box „bez solinátoru sůl nefunguje + riziko koroze" (třetina dotazů)</td></tr>
+          <tr><td>Zazimovač + plachty</td><td>52</td><td>formulář plachty na míru — „13 ks?"</td><td>vysvětlení „ks v košíku = m²" + přesah plachty +30 cm na stranu</td></tr>
+          <tr><td>Sprchy — ostatní modely</td><td>46</td><td>rozteč kotvení? náhradní díly?</td><td>tabulka parametrů per model + PDF manuál ke stažení + FAQ díly Hanscraft</td></tr>
+          <tr><td>Zeolit</td><td>44</td><td>zrnitost? kolik místo písku?</td><td>převodní box „25 kg písku ≈ 20 kg zeolitu" + „před spuštěním proprat!"</td></tr>
+          <tr><td>Projasňovač</td><td>43</td><td>na etiketě je „Vločkovač"?!</td><td>box „registrovaný název PWS Vločkovač Al-Super" + srovnání s vločkovačem</td></tr>
+          <tr><td>Testovací proužky</td><td>42</td><td>kolik proužků v balení?</td><td>parametr 50 ks (triviální fix) + oprava stupnice Cl/Br</td></tr>
+          <tr><td>Alkalita plus</td><td>42</td><td>nahradí pH plus? kolik dávkovat?</td><td>tabulka „+10 mg/l = 160–180 g/10 m³, cíl 80–120 mg/l" + prolinkovat testery</td></tr>
+          <tr><td>OXY chemie</td><td>40</td><td>co vše potřebuji na bezchlorový provoz?</td><td>checklist „OXY + aktivátor/algicid + plovák" + „tablety nikdy do skimmeru"</td></tr>
+          <tr><td>Odstraňovač zákalu</td><td>39</td><td>jak použít? etiketa „Stop zákalu"?</td><td>postup s časy (až 48 h) + box o etiketě + parametr 1 kartuše / 30 m³</td></tr>
+          <tr><td>Vířivky NetSpa</td><td>38</td><td>podložka/kryt k modelu? kde je filtr?</td><td>sekce „Příslušenství k modelu" + oprava CZ návodu + box umístění</td></tr>
+        </table>
+        </div>
+
+        <details><summary>Detail: sůl, chlornan, pH chemie (8 rodin)</summary><div class="db">
+          <p><b>Regenerační soli (tabletová 220 + čtvercová 69):</b> dominují dotazy na normu a vhodnost do myčky/změkčovače/reverzní osmózy — odpověď je vždy ČSN EN 973 typ A; mezi variantami (Solivary, SuperTab, čtverce) není rozdíl v kvalitě, jen tvar a cena. Druhý blok: zmatek doprava zdarma vs. „pouze osobní odběr" a eurpalety. Na karty: norma do parametrů, FAQ rozdílů, box eurpaleta, prolinkování variant, sekce „Pro firmy a obce" (splatnost 30 dní pro instituce).</p>
+          <p><b>Chlornan sodný (205):</b> šoková chlorace 200 ml/10 m³, koncentrace 12 % hm., skladovat max. sezónu (aktivní chlor klesá), „ADR" v názvu je jen přepravní kód, není na pitnou vodu.</p>
+          <p><b>pH mínus (147):</b> hlavní frikce = logika dopravy zdarma (produkt s dopravou zdarma se nepočítá do limitu 2 500 Kč pro zbytek košíku — min. jeden zákazník kvůli tomu prokazatelně odešel ke konkurenci). Dále složení (směs kyselin > 30 %, BL ke stažení), vhodnost pro dávkovače a slané bazény (ano), „poloprázdný" obal 35 kg ≈ 30 l je normální.</p>
+          <p><b>pH plus (60):</b> chybná etiketa („sníží"), zákal po aplikaci je normální jev (postup: srovnat pH → nachlorovat → vločkovač → vysát), účinná látka NaOH.</p>
+          <p><b>Mořská sůl (55):</b> třetina dotazů „musím mít solinátor?" — bez něj sůl nic neošetří a hrozí koroze; funguje se všemi značkami solinátorů.</p>
+          <p><b>Chlor šok (102):</b> postup na zelenou vodu (pH 7–7,2 → šok 1 kg/10 m³ + kartáč → vločkovač → sedimentace → odsátí do odpadu → prevence algicid 1× týdně) se přepisuje e-mailem pořád dokola — dát jako číslovaný blok na karty chlor šoku, algicidu, vločkovače i projasňovače.</p>
+        </div></details>
+
+        <details><summary>Detail: tablety, pomocná chemie, testery (12 rodin)</summary><div class="db">
+          <p><b>Tablety (6v1 169, 11v1 68, 5v1 60):</b> největší zdroj dotazů i chybných objednávek = volba MINI 20 g vs. MAXI 200 g (MAXI od ~15 m³, do vířivek vždy MINI, tablety nedělit) a „proč jsou 11v1 levnější" (ekonomická řada, část surovin mimo EU, jen 200 g, 5 ks/kg). Rozlomené tablety po přepravě neztrácí účinnost (kusy do plováku, drobky rozpustit ve vědru). Na karty: štítky MINI/MAXI, dávkovací tabulky vč. objemů nad 30 m³, srovnávací tabulka řad, BL ke stažení.</p>
+          <p><b>Vločkovač (59) + Projasňovač (43) + Odstraňovač zákalu (39):</b> systémový problém — registrovaný název na etiketě (PWS Vločkovač Al-Super, PWS Stop zákalu) neodpovídá názvu na e-shopu → opakované falešné reklamace „poslali jste špatné zboží". Box „Co najdete na etiketě" + zmínka v potvrzení objednávky. Postupy aplikace (recirkulace 3–4 h, sedimentace přes noc, vysát do odpadu ručním vysavačem, ne robotem; kartuše až 48 h, 1 ks/30 m³, nutný skimmer) jako číslované návody.</p>
+          <p><b>Algicid (68):</b> slaná voda ano, chlor nenahradí (jen prevence řas), s OXY lze i místo aktivátoru, do biotopů ne; sjednotit zápis dávkování „100 ml na 10 m³ (10 000 l)".</p>
+          <p><b>Alkalita plus (42):</b> stabilizuje pH (cíl 80–120 mg/l), pH plus nenahradí (zvýší max. na ~8,5); +10 mg/l = 160–180 g/10 m³; složení NaHCO₃; prolinkovat testery, které alkalitu měří (zákazníci je nenacházejí).</p>
+          <p><b>OXY chemie (40):</b> checklist bezchlorového provozu (OXY + aktivátor nebo algicid + plovák), tablety nikdy do skimmeru, nepěnivý aktivátor pro vířivky/protiproud, tester na kyslík netřeba, v horku vyšší spotřeba.</p>
+          <p><b>Testery (kapkový 84, proužky 42):</b> chybí základní čísla na kartě — jednotky (mg/l), vydatnost ~120 stanovení, počet proužků 50 ks. Výklad barev (fialová = vysoké pH, žlutá = nízké, hodnotit proti bílému podkladu) je nejčastější poradenský dotaz. Provozní hodnoty: chlor 0,6–1 mg/l, pH 7–7,2.</p>
+        </div></details>
+
+        <details><summary>Detail: příslušenství, PVC, plachty, sprchy, vířivky (9 rodin)</summary><div class="db">
+          <p><b>PVC tvarovky (179) + trubky (118):</b> nejčastější dotaz = převod palcových závitů na mm (tým „měří pravítkem") a skládání sestav (ventil pod skimmer, napojení na hadici 32/38 mm, na KG potrubí). Na karty: tabulka závitů, max. teplota PVC-U 45–50 °C, hotové sestavy s nákupním seznamem. U trubek: „cena za 1 běžný metr" (kusy 5 m s nátrubkem, nářez v celých metrech zdarma), box dopravy (1 m DPD / 2–3 m Fofr 139 Kč / 4–6 m individuálně / bez dopravy zdarma / ne do boxů).</p>
+          <p><b>Plachty konfekční (118) + fólie na míru (109):</b> průvodce výběrem rozměru s přesahem, stříhat lze (netřepí se), tolerance ±5 % do parametrů (už vyvolala reklamaci), splasknuté bublinky vlivem chemie nejsou vada — sundat při šokové chloraci (dnes se to zákazník dozví až při zamítnuté reklamaci). U výroby na míru: návod ke konfigurátoru („m² v košíku ≠ počet kusů, fólie přijde v jednom kuse"), box výroba 2–14 dní + nelze stornovat, svár není izolační.</p>
+          <p><b>Navijáky (93):</b> polovinu dotazů vyřeší kótovaný nákres (výška tyče 40 cm, horní hrana kola 62 cm, 3dílná teleskopická tyč, max. šíře plachty 6 m, hmotnost 12/13 kg) + „obsah balení: tyč + 8 popruhů, plachta ne".</p>
+          <p><b>Solární sprchy (Comfort 76 + ostatní 46):</b> nejčastější zdroj eskalovaných reklamací je tvrdá/železitá voda → inkrusty → zamítnutí; karta o tom mlčí a zákazníci to oprávněně kritizují. Výstražný box + FAQ zazimování (vypustit, demontovat, nezámrzné uskladnění) + tabulka parametrů (objem 40 l, připojení ¾″, rozteč kotvení 12,5×12,5 cm u Tropicu) + PDF manuály na kartu + FAQ náhradní díly Hanscraft → dovozce.</p>
+          <p><b>Zeolit (44):</b> převod 25 kg písku ≈ 20 kg zeolitu, zrnitost dle štítku filtrace (písek 0,4–1,2 mm → zeolit 0,5–1 mm), před spuštěním důkladně proprat zpětným proplachem (jinak zákal), regenerace není nutná.</p>
+          <p><b>Vířivky NetSpa (38):</b> sekce „Příslušenství k modelu" (kryt, podložka, kartuše vč. antibakteriální), oprava CZ návodu (filtr je uvnitř čerpací jednotky), box umístění (rovná plocha 500 kg/m², ne přímé slunce; pokles tlaku po ochlazení není závada), napojení pískové filtrace/ohřevu = ztráta záruky.</p>
+        </div></details>
+
+        <div class="recbox"><b>Průřezová doporučení pro celý katalog:</b>
+          <ol style="margin:6px 0 0 18px">
+            <li><b>Tvrdá čísla do parametrů</b> — závity (palce + mm), rozměry, hmotnosti, počty kusů, vydatnost. Nejčastější typ dotazu; dnes se měří „pravítkem" na vyžádání.</li>
+            <li><b>Řádek „Obsah balení"</b> jako povinná součást každé karty.</li>
+            <li><b>Jednotný box logiky dopravy</b> u ceny (soli, velká balení chemie, trubky, zeolit) — tři kolidující režimy dopravy zdarma jsou zdroj zmatku č. 1 a prokazatelně stojí objednávky.</li>
+            <li><b>Bezpečnostní listy ke stažení</b> na každé kartě chemie a solí.</li>
+            <li><b>Box „Co najdete na etiketě"</b> u PWS řady (registrovaný ≠ obchodní název).</li>
+            <li><b>Štítky MINI/MAXI</b> na tabletách + dávkování jednotně „na 10 m³ (10 000 l)".</li>
+            <li><b>Výroba na přání:</b> výrazný box (2–14 dní, nelze stornovat) + zopakovat v potvrzovacím e-mailu.</li>
+            <li><b>Podmínky záruky viditelně předem</b> (kvalita plnící vody u sprch, chemie × bublinky plachet, zásahy do vířivek) — dnes se je zákazník dozvídá až při zamítnuté reklamaci.</li>
+          </ol>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fx-card">
       <div class="fx-card-header" style="background:linear-gradient(135deg,#37474f,#607d8b);color:#fff;font-size:14px;font-weight:700;padding:14px 20px">
         🔧 Co se nejvíc reklamuje + hlavní zjištění (z původní CC analýzy)
       </div>
